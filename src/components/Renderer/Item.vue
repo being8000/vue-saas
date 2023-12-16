@@ -28,7 +28,7 @@ const vDom = ref()
 const emits = defineEmits(['updatefromChild'])
 const uid = `${props.level}_${props.index || 0}`
 // 初始化 操作类示例，并统一加入数组
-const com = new ConcreteComponent(JSON.parse(JSON.stringify(props)))
+const com = new ConcreteComponent(props)
 com.uid = uid
 com.parentId = props.parentId
 com.level = props.level || 0
@@ -100,14 +100,14 @@ onMounted(() => {
 onBeforeUnmount(() => {
   sassApp.unmounted(com)
   console.log('unmounted')
-  const node = JSON.parse(JSON.stringify(children.value))
+  const node = children.value
   emits('updatefromChild', props.index, node)
   // console.log(getCurrentInstance(), vDom.value)
 })
 // 组件重新渲染时候出发
 onUpdated(() => {
   console.log('updated')
-  const node = JSON.parse(JSON.stringify(children.value))
+  const node = children.value
   com.node.children = node
   emits('updatefromChild', props.index, node)
 })

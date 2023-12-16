@@ -1,0 +1,97 @@
+<script setup lang="ts">
+import { ref, shallowRef, getCurrentInstance, Fragment, h, VNode, VNodeArrayChildren, VNodeProps, onMounted, onUpdated, onUnmounted, onBeforeMount, onBeforeUpdate, onBeforeUnmount, onErrorCaptured, onRenderTracked, onRenderTriggered, onActivated, onDeactivated, onServerPrefetch } from 'vue'
+import SassRenderer from '@/components/SassRenderer.vue'
+import { Node } from './core/types/ComponentNode';
+onMounted(() => {
+  console.log('onMounted')
+})
+onUpdated(() => {
+  console.log('onUpdated')
+})
+onUnmounted(() => {
+  console.log('onUnmounted')
+})
+onBeforeMount(() => {
+  console.log('onBeforeMount')
+})
+onBeforeUpdate(() => {
+  console.log('onBeforeUpdate')
+})
+onBeforeUnmount(() => {
+  console.log('onBeforeUnmount')
+})
+onErrorCaptured(() => {
+  console.log('onErrorCaptured')
+})
+onRenderTracked(() => {
+  console.log('onRenderTracked')
+})
+onRenderTriggered(() => {
+  console.log('onRenderTriggered')
+})
+onActivated(() => {
+  console.log('onActivated')
+})
+onDeactivated(() => {
+  console.log('onDeactivated')
+})
+onServerPrefetch(() => {
+  console.log('onServerPrefetch')
+})
+const data = ref<Node>({
+  tag: 'div',
+  attrs: {
+  },
+  children: [
+    {
+      tag: 'div',
+      attrs: {
+        class: 'flex'
+      }, children: [
+        {
+          tag: 'div',
+          attrs: {
+
+          },
+          children: []
+        }, {
+          tag: 'div',
+          attrs: {
+
+          },
+          children: []
+        }
+      ]
+    }, {
+      tag: 'div',
+      attrs: {
+        class: 'bg-yellow'
+      },
+      children: []
+    }
+  ]
+})
+</script>
+
+<template>
+  <div class=" text-black">
+    <SassRenderer :data="data" />
+  </div>
+</template>
+
+<style scoped>
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
+}
+</style>

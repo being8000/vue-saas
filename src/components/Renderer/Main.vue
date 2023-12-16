@@ -9,8 +9,8 @@
 </template>
 <script setup lang="ts">
 import RenderItem from './Item.vue'
-import { ConcreteComponent, sassApp } from '@/core/types/index'
-import { computed, onMounted, ref, onRenderTracked, onUpdated } from 'vue';
+import { sassApp } from '@/core/types/index'
+import { onMounted, ref, onRenderTracked, onUpdated } from 'vue';
 import { RendererProps } from '@/core/types/ComponentNode';
 const props = defineProps<RendererProps>()
 const item = ref(props.data)

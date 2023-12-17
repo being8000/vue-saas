@@ -8,6 +8,7 @@ interface BaseNode {
   id?: Symbol;
   dom?: HTMLElement;
   children: Node[];
+  nodeId?: string;
   [key: string]: any;
 }
 
@@ -23,6 +24,7 @@ class NodeFactory implements FactoryAPI {
       tag: "div",
       attrs: {},
       children: [],
+      nodeId: new Date().getTime() + Math.random().toString().slice(2),
     };
   }
 }

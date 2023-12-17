@@ -2,7 +2,12 @@
  * 参照设计模式中的命令模式，试图通过结合命令模式来实现历史记录，撤回等功能
  */
 import { Component, ConcreteComponent, sassApp } from "@/core/types/index";
-import { nodeFactory } from "./ComponentNode";
+import { Node, nodeFactory } from "./ComponentNode";
+import { debounce } from "../utils";
+const f = (f: any) => {
+  f();
+};
+const df = debounce(f, 200);
 export class CommandHistory {
   private history: Command[] = [];
   push(c: Command) {
@@ -14,17 +19,17 @@ export class CommandHistory {
   }
 
   executeCommand(c: Command) {
+    console.log("execute", c);
     if (c.execute()) {
       this.history.push(c);
     }
-    // 实时更新子Node防止被污染
-    sassApp.updateComponentsTree();
   }
   undo() {
-    const c = this.history.pop();
-    c?.undo();
-    // 实时更新子Node防止被污染
-    sassApp.updateComponentsTree();
+    df(() => {
+      const c = this.history.pop();
+      c?.undo();
+      console.log("undo", c);
+    });
   }
 }
 
@@ -37,20 +42,24 @@ export abstract class Command {
   abstract undo(): void;
 }
 
-export class AddChildNodeCommand extends Command {
-  constructor(com: Component, saveHistory: boolean = true) {
+export class AddNeighborNodeCommand extends Command {
+  node?: Node;
+  constructor(com: Component) {
     super();
-    this.saveHistory = saveHistory;
     this.component = com;
   }
   undo(): void {
-    const com = this.component;
+    const com = sassApp.coms.find((el) => el.node.nodeId == this.node?.nodeId);
     if (com) {
-      const parent = sassApp.findById(com.parentId);
-      if (parent) {
-        parent.node.children.pop();
-        sassApp.emitNodesUpdate(parent, parent.node.children);
-      }
+      const command = new DeleteCommand(com);
+      command.execute();
+      // const parent = sassApp.findById(com.parentId);
+      // if (parent) {
+      //   parent.node.children = (parent.node.children as Node[]).filter(
+      //     (el) => el["nodeId"] == this.node?.nodeId
+      //   );
+      //   sassApp.emitNodesUpdate(parent, parent.node.children);
+      // }
     }
   }
   execute(): boolean {
@@ -58,7 +67,10 @@ export class AddChildNodeCommand extends Command {
     if (com) {
       const parent = sassApp.findById(com.parentId);
       if (parent) {
-        parent.node.children.push(nodeFactory.getEmptyContainer());
+        const node = nodeFactory.getEmptyContainer();
+        this.node = node;
+        console.log(node, parent.node.children);
+        parent.node.children.push(node);
         sassApp.emitNodesUpdate(parent, parent.node.children);
       }
     }
@@ -66,14 +78,13 @@ export class AddChildNodeCommand extends Command {
   }
 }
 
-export class AddNeighborCommand extends Command {
+export class CopyAndAppendCommand extends Command {
   constructor(com: Component, saveHistory: boolean = true) {
     super();
     this.saveHistory = saveHistory;
     this.component = com;
   }
   undo(): void {
-    console.log("undo", this.component);
     const command = new DeleteCommand(this.component);
     command.execute();
   }
@@ -106,7 +117,7 @@ export class DeleteCommand extends Command {
   }
   undo(): void {
     console.log("undo", this.component);
-    const command = new AddNeighborCommand(this.component);
+    const command = new CopyAndAppendCommand(this.component);
     command.execute();
   }
   execute(): boolean {
@@ -117,7 +128,7 @@ export class DeleteCommand extends Command {
     }
     const index = sassApp.coms.findIndex((ele) => ele.uid == c.uid);
     if (index >= 0) {
-      sassApp.coms = sassApp.coms.filter((el) => el.uid != c.uid);
+      sassApp.coms.splice(index, 1);
       const parent = sassApp.findById(c.parentId);
       let neighborComponents = sassApp.getSameParentComponents(c.parentId);
       if (parent) {

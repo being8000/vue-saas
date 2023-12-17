@@ -1,11 +1,13 @@
 import { ComponentPublicInstance, ref, Ref } from "vue";
 import {
-  AddChildNodeCommand,
+  CopyAndAppendCommand,
   Command,
   CommandHistory,
   DeleteCommand,
+  AddNeighborNodeCommand,
 } from "./Command";
 import { Node } from "./ComponentNode";
+import { debounce } from "../utils";
 
 // enum ComponentType {
 //   MainContainer = "1",
@@ -67,13 +69,21 @@ class SassApplication {
     this.history.executeCommand(new DeleteCommand(c));
   }
   insert(c: Component | undefined): void {
-    if (!c) {
-      return;
+    if (c) {
+      this.history.executeCommand(new AddNeighborNodeCommand(c));
     }
-    this.history.executeCommand(new AddChildNodeCommand(c));
+  }
+  copy(c: Component): void {
+    this.history.executeCommand(new CopyAndAppendCommand(c));
   }
   unmounted(c: Component) {
-    this.coms = this.coms.filter((el) => el.uid != c.uid);
+    console.log("unmounted");
+    const index = this.coms.findIndex((el) => el.uid == c.uid);
+    if (index > -1) {
+      // only splice array when item is found
+      this.coms.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    this.debounceUpdate();
   }
   getChildren(): Component[] {
     throw new Error("Method not implemented.");
@@ -83,11 +93,12 @@ class SassApplication {
 
     return c;
   }
+  debounceUpdate = debounce(this.updateComponentsTree, 100);
   findLatestById(uid: number | string) {
     const c = this.coms.find((el) => el.uid == uid);
     if (c != undefined) {
       // 获取最新子节点，防止被污染
-      const latestNode = this.getLatestChildrenNode(c.uid, c.node);
+      const latestNode = this.getLatestChildrenNode(c, c.node);
       c.node = latestNode;
     }
     return c;
@@ -97,28 +108,43 @@ class SassApplication {
   }
   // 由于Node是树形形式存储在各个组件之中，所以当你对子组件修改的时候无法更新所有的父组件中的Node已存在的值
   // 这个方法用于根据Component 的 uid 去获取罪行的Node值并更新。
-  getLatestChildrenNode(uid: string | number, node: Node): Node {
-    const com = this.findById(uid);
+  getLatestChildrenNode(com: Component, node: Node): Node {
+    // const index = this.coms.findIndex((el) => el.uid == uid);
     if (com) {
       node.attrs = node.attrs;
       node.tag = node.tag;
       const chidrendComponets = this.getSameParentComponents(com.uid);
       const nodeChildren = chidrendComponets.map((el) => {
-        const node = this.getLatestChildrenNode(el.uid, el.node);
-        el.node = node;
-        return node;
+        const node = el.node;
+        let newNode: Node = {
+          attrs: node.attrs,
+          tag: node.tag,
+          children: [],
+        };
+        newNode = this.getLatestChildrenNode(el, newNode);
+        return newNode;
       });
       node.children = nodeChildren;
+      com.node = node;
     }
     return node;
   }
 
   // 全局更新Components中被污染的 node值
   updateComponentsTree() {
-    const root = this.coms.find((el) => el.level == 1);
+    const root = sassApp.coms.find((el) => el.level == 1);
     if (root) {
-      this.getLatestChildrenNode(root.uid, root.node);
+      const node = root.node;
+      let newNode: Node = {
+        attrs: node.attrs,
+        tag: node.tag,
+        children: [],
+      };
+      newNode = sassApp.getLatestChildrenNode(root, newNode);
+      console.log("root", root.node, newNode);
+      root.node = newNode;
     }
+    return root;
   }
   emitNodesUpdate(c: Component, nodes: Node[]) {
     // 更新虚拟components 中节点的

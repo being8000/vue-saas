@@ -1,5 +1,12 @@
 <template>
-  <div class="render-dashboard">
+  <div class="sass-renderer">
+    <!-- 如果是个空数组则显示新增按钮 -->
+    <div class="w-full text-center bg-coolGray">
+      <button
+        @click="undo"
+        class="b-1 bg-cyan w-auto h-10 m-auto px-3"
+      >Undo</button>
+    </div>
     <section
       style="border: 1px solid black; border-top: none; border-bottom: none;"
       class=" w-2xl m-auto b-r b-l b-balck b-2 shadow-inset"
@@ -9,13 +16,7 @@
         :instance="instance"
       />
     </section>
-    <!-- 如果是个空数组则显示新增按钮 -->
-    <div class="w-full text-center bg-coolGray">
-      <button
-        @click="undo"
-        class="b-1 bg-cyan w-auto h-10 m-auto px-3"
-      >Undo</button>
-    </div>
+
   </div>
 </template>
 <script setup lang="ts">
@@ -46,5 +47,13 @@ onRenderTracked(() => {
 <style >
 .sass-renderer .selected {
   border: 1px solid red;
+}
+
+.sass-renderer .L1:has(:hover) {
+  border: 1px dashed blue;
+}
+
+.sass-renderer .last:hover {
+  border: 1px dashed red;
 }
 </style>

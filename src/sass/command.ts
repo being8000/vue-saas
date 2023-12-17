@@ -45,8 +45,7 @@ export class CopyCommand implements Command {
   }
   execute(): boolean {
     this.copyDom = this.component.clone();
-    this.copyDom.index = this.component.index;
-    console.log("component.copyDom", this.copyDom);
+    this.copyDom.index = this.component.index + 1;
     this.component.parent?.addChild(this.copyDom);
     return true;
   }

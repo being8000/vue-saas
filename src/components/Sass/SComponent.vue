@@ -2,8 +2,11 @@
   <component
     :is="instance.tag"
     v-bind="attrs"
-    @mouseover.stop="onMouseover"
-    @mouseleave.stop="onMouseleave"
+    @mouseenter.stop.prevent="onMouseEnter"
+    @mouseleave.stop.prevent="onMouseleave"
+    :class="['sass-item', `L${instance.level}`, {
+      last: instance.children.length <= 0
+    }]"
   >
     <SComponent
       v-for="(item) in children"
@@ -14,6 +17,7 @@
       <div class=" text-black text-2">index:{{ instance.index }} ,</div>
       <div class=" text-black text-2">uid:{{ instance.uid }} ,</div>
       <div class=" text-black text-2">parent: {{ instance.pid }}</div>
+      <div class=" text-black text-2">level: {{ instance.level }}</div>
     </div>
     <div>
       <button
@@ -42,7 +46,7 @@
 </template>
 <script setup lang="ts">
 import { sassApp } from '@/sass';
-import { SComponentProps } from '@/sass/components';
+import { SComponentProps, VueComponentData } from '@/sass/components';
 import { onBeforeUnmount, onMounted, onUpdated, reactive, ref, shallowRef } from 'vue';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()
@@ -64,15 +68,21 @@ const copy = () => {
 // Vue功能逻辑代码
 const children = ref(instance.children)
 const attrs = shallowRef(instance.attrs)
-instance.setRef(children)
-const I = reactive({
-  hovering: false,
-  selected: false
+// 绑定响应式对象到 Sass组件上。 Children用于父组件更新子组件的CRUD
+
+instance.setRefChildren(children)
+
+// 绑定内部状态，这个值只用来SassComponent 更新内部值之后同步当前组件触发渲染
+const data = reactive<VueComponentData>({
+  selected: false,
+  hovering: false
 })
-
-
-const onMouseover = () => {
-  I.hovering = true
+instance.setRefData(data)
+const onMouseEnter = () => {
+  if (instance.children.length <= 0) {
+    data.hovering = true
+    console.log(instance, true)
+  }
   // if (vDom.value) {
   //   drawer.push({
   //     el: vDom.value,
@@ -84,7 +94,10 @@ const onMouseover = () => {
 }
 
 const onMouseleave = () => {
-  I.hovering = false
+  if (instance.children.length <= 0) {
+    data.hovering = false
+    console.log(instance, false)
+  }
   // drawer.pop();
 }
 

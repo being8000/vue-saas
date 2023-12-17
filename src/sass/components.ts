@@ -1,4 +1,4 @@
-import { ref, Ref } from "vue";
+import { reactive, ReactiveEffect, ref, Ref, UnwrapNestedRefs } from "vue";
 import { sassApp } from ".";
 
 export enum ComponentType {
@@ -19,6 +19,12 @@ export type SComponentProps = {
 export type RendererPannelProps = {
   data: PlainNode;
 };
+
+export type VueComponentData = {
+  selected?: boolean;
+  onfocusin?: boolean;
+  hovering?: boolean;
+};
 export interface Component {
   type: ComponentType; //组件类型
   uid: number; // 组件ID
@@ -33,12 +39,14 @@ export interface Component {
   onFocusin?: boolean; // 是否有子元素被选中
   parent?: Component;
   refChildren: Ref<any>; // 绑定Vue组件中动态响应的变量，用于促发更新
+  refData: UnwrapNestedRefs<VueComponentData>;
   clone(): Component;
   removeChild(c: Component): Component[] | undefined;
   appendChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
   getChildById(uid: Component["uid"]): Component | undefined;
-  setRef(ref: Ref<any>): void;
+  setRefChildren(ref: Ref<any>): void;
+  setRefData(ref: UnwrapNestedRefs<VueComponentData>): void;
   sync(): void;
 }
 export const autoIncreaseID = (function () {
@@ -63,6 +71,7 @@ export class SassComponent implements Component {
   onFocusin?: boolean | undefined;
   parent?: Component;
   refChildren: Ref<any> = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
+  refData: UnwrapNestedRefs<VueComponentData> = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
   constructor(com: Partial<Component>) {
     this.type = com.type || ComponentType.Container;
     this.uid = autoIncreaseID();
@@ -122,8 +131,11 @@ export class SassComponent implements Component {
   clone(): Component {
     return new SassComponent(this);
   }
-  setRef(ref: Ref<any>): void {
+  setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;
+  }
+  setRefData(ref: UnwrapNestedRefs<VueComponentData>): void {
+    this.refData = ref;
   }
   getChildById(uid: Component["uid"]) {
     return this.children.find((el) => (el.uid = uid));

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUpdated, onUnmounted, onBeforeMount, onBeforeUpdate, onBeforeUnmount, onErrorCaptured, onRenderTracked, onRenderTriggered, onActivated, onDeactivated, onServerPrefetch } from 'vue'
-import SassRenderer from '@/components/SassRenderer.vue'
-import { Node } from './core/types/ComponentNode';
+// import SassRenderer from '@/components/SassRenderer.vue'
+import SassRenderer from '@/components/Sass/RendererPannel.vue'
+import { ComponentType, PlainNode } from './sass/components';
 onMounted(() => {
   console.log('onMounted')
 })
@@ -38,34 +39,39 @@ onDeactivated(() => {
 onServerPrefetch(() => {
   console.log('onServerPrefetch')
 })
-const data = ref<Node>({
+const data = ref<PlainNode>({
   tag: 'div',
+  type: ComponentType.Container,
   attrs: {
   },
   children: [
     {
+      type: ComponentType.Container,
       tag: 'div',
       attrs: {
         class: 'flex'
-      }, children: [
-        {
-          tag: 'div',
-          attrs: {
-
-          },
-          children: []
-        }, {
-          tag: 'div',
-          attrs: {
-
-          },
-          children: []
-        }
-      ]
-    }, {
+      },
+      children: [{
+        type: ComponentType.Container,
+        tag: 'div',
+        attrs: {
+          class: 'flex'
+        },
+        children: []
+      }, {
+        type: ComponentType.Container,
+        tag: 'div',
+        attrs: {
+          class: 'flex'
+        },
+        children: []
+      }]
+    },
+    {
+      type: ComponentType.Container,
       tag: 'div',
       attrs: {
-        class: 'bg-yellow'
+        class: 'flex'
       },
       children: []
     }

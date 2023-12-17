@@ -38,7 +38,7 @@ export const autoIncreaseID = (function () {
  * @param {boolean} immediate
  * @return {*}
  */
-function debounce<T>(func: any, wait: any, immediate: any) {
+export function debounce(func: any, wait: number, immediate: boolean = true) {
   let timeout: any, _args: any, context: any, timestamp: any, result: any;
 
   const later = function () {
@@ -58,7 +58,7 @@ function debounce<T>(func: any, wait: any, immediate: any) {
     }
   };
 
-  return function (...args: any) {
+  return function (this: any, ...args: any) {
     context = this;
     _args = args;
     timestamp = +new Date();

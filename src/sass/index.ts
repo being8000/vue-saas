@@ -1,4 +1,4 @@
-import { AddChildCommand, CopyCommand, DeleteCommand } from "./Command";
+import { AddChildCommand, CopyCommand, DeleteCommand } from "./command";
 import { Component, PlainNode, SassComponent } from "./components";
 import { CommandHistory } from "./history";
 

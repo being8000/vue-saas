@@ -1,5 +1,4 @@
-import { reactive, ReactiveEffect, ref, Ref, UnwrapNestedRefs } from "vue";
-import { sassApp } from ".";
+import { reactive, ref, Ref, UnwrapNestedRefs } from "vue";
 
 export enum ComponentType {
   Container = 0, // 容器，可以添加子容器

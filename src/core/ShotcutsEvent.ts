@@ -19,7 +19,7 @@ export class ShorcutsEvent {
 
   private keyupEvent(that: ShorcutsEvent) {
     return (e: KeyboardEvent) => {
-      that.keyup(e, that);
+      that.keyup(e);
     };
   }
 
@@ -36,7 +36,7 @@ export class ShorcutsEvent {
       e.preventDefault();
     }
   }
-  private keyup(e: KeyboardEvent, that: ShorcutsEvent) {
+  private keyup(e: KeyboardEvent) {
     if (e.defaultPrevented) {
       return;
     }
@@ -67,12 +67,3 @@ export class ShorcutsEvent {
     delete this.events[key];
   }
 }
-
-const eventController = new ShorcutsEvent();
-eventController.addEvent("Control+Shift+A", () => {
-  console.log("Control+Shift+A");
-});
-eventController.addEvent("Shift+B", () => {
-  console.log("Shift+B");
-});
-eventController.enable();

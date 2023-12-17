@@ -13,7 +13,7 @@
     >
       <RenderItem
         ref="vDom"
-        :instance="instance"
+        :instance="children"
       />
     </section>
 
@@ -26,7 +26,10 @@ import { RendererPannelProps } from '@/sass/components';
 import { sassApp } from '@/sass/index';
 const props = defineProps<RendererPannelProps>()
 const instance = sassApp.mount(props.data)
-console.log(instance)
+
+
+const children = ref(instance)
+instance.setRefChildren(children)
 const vDom = ref()
 // 初始化 操作类示例，并统一加入数组
 

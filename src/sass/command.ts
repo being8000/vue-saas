@@ -2,7 +2,6 @@
  * 参照设计模式中的命令模式，试图通过结合命令模式来实现历史记录，撤回等功能
  */
 
-import { sassApp } from ".";
 import { Component, ComponentType, SassComponent } from "./components";
 
 export interface Command {

@@ -102,20 +102,17 @@ export class SassComponent implements Component {
     return c.parent?.children;
   }
   addChild(c: Component): Component[] | undefined {
-    let index = c.index || c.children.length;
     c.level = this.level + 1;
     c.pid = this.uid;
     c.parent = this;
-    c.index = index;
-    console.log(this.children);
-    this.children.splice(index, 0, c);
-    console.log(this.children);
+    c.index = c.children.length + 2;
+    this.children.splice(c.index, 0, c);
     this.sync();
     return this.children;
   }
   appendChild(c: Component): Component[] | undefined {
     if (c.parent) {
-      let index = c.index || c.parent.children.length;
+      let index = c.index || c.parent.children.length + 2;
       c.parent.children.splice(index, 0, c.clone());
       c.parent.sync();
     }

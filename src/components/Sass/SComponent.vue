@@ -4,8 +4,10 @@
     v-bind="attrs"
     @mouseenter.stop.prevent="onMouseEnter"
     @mouseleave.stop.prevent="onMouseleave"
+    @click.stop.prevent="onClick"
     :class="['sass-item', `L${instance.level}`, {
-      last: instance.children.length <= 0
+      last: instance.children.length <= 0,
+      selected: data.selected
     }]"
   >
     <SComponent
@@ -30,14 +32,13 @@
       <button
         @click="addChild"
         class="bg-blue b-none p-1 rounded inline-block "
-        v-if="instance.level > 0"
       >
         AddChild
       </button>
       <button
         @click="copy"
-        class="bg-yellow b-none p-1 rounded inline-block "
         v-if="instance.level > 0"
+        class="bg-yellow b-none p-1 rounded inline-block "
       >
         Copy
       </button>
@@ -81,26 +82,17 @@ instance.setRefData(data)
 const onMouseEnter = () => {
   if (instance.children.length <= 0) {
     data.hovering = true
-    console.log(instance, true)
   }
-  // if (vDom.value) {
-  //   drawer.push({
-  //     el: vDom.value,
-  //     id: ID,
-  //     level: instance.level || 0,
-  //     isLast: isLastNode.value
-  //   })
-  // }
 }
 
 const onMouseleave = () => {
   if (instance.children.length <= 0) {
     data.hovering = false
-    console.log(instance, false)
   }
-  // drawer.pop();
 }
-
+const onClick = () => {
+  console.log(instance, 'click')
+}
 onMounted(() => {
 })
 onBeforeUnmount(() => {

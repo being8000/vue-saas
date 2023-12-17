@@ -104,14 +104,15 @@ export class SassComponent implements Component {
     c.level = this.level + 1;
     c.pid = this.uid;
     c.parent = this;
-    c.index = c.children.length + 2;
+    c.index = this.children.length + 1;
     this.children.splice(c.index, 0, c);
     this.sync();
     return this.children;
   }
+  // 没用到
   appendChild(c: Component): Component[] | undefined {
     if (c.parent) {
-      let index = c.index || c.parent.children.length + 2;
+      let index = c.parent.children.length;
       c.parent.children.splice(index, 0, c.clone());
       c.parent.sync();
     }

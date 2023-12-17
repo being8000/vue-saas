@@ -8,4 +8,13 @@
 3. added component delete feature
 4. added "add neighbor" and "delete" features history storage and undo feature
 
+### 2023-12-27
 
+1. change design pattern to composition patter.
+2. revamp code, refactor all code
+3. fixed history operation bugs
+4. added copy feature
+### TODO
+
+1. develop component select feature
+2. develop component toolbar. 

@@ -2,12 +2,23 @@
  * 参照设计模式中的命令模式，试图通过结合命令模式来实现历史记录，撤回等功能
  */
 
-import { Component, ComponentType, SassComponent } from "./components";
+import { Component, SassComponent } from "./components";
 
 export interface Command {
   component: Component;
   execute(...[]): boolean;
   undo(): void;
+}
+export class SelectComponentCommand implements Command {
+  component: Component;
+  lastComponent?: Component;
+  constructor(com: Component) {
+    this.component = com;
+  }
+  undo(): void {}
+  execute(): boolean {
+    return false;
+  }
 }
 
 export class AddChildCommand implements Command {
@@ -21,12 +32,7 @@ export class AddChildCommand implements Command {
     command.execute();
   }
   execute(): boolean {
-    this.addedCom = new SassComponent({
-      tag: "div",
-      type: ComponentType.Container,
-      attrs: {},
-      children: [],
-    });
+    this.addedCom = new SassComponent({});
     this.component.addChild(this.addedCom);
     return true;
   }
@@ -43,7 +49,8 @@ export class CopyCommand implements Command {
     command.execute();
   }
   execute(): boolean {
-    this.copyDom = this.component.clone();
+    this.copyDom = SassComponent.NEW({ ...this.component });
+    this.copyDom.parent = this.component.parent;
     this.copyDom.index = (this.component.parent?.children.length || 0) + 1;
     this.component.parent?.addChild(this.copyDom);
     return true;

@@ -9,6 +9,7 @@ specifiers:
   '@unocss/transformer-variant-group': ^0.57.7
   '@vitejs/plugin-vue': ^4.5.0
   primevue: ^3.42.0
+  sass: ^1.69.5
   typescript: ^5.2.2
   unocss: ^0.57.7
   unplugin-icons: ^0.18.0
@@ -29,9 +30,10 @@ devDependencies:
   '@unocss/transformer-directives': 0.57.7
   '@unocss/transformer-variant-group': 0.57.7
   '@vitejs/plugin-vue': 4.5.0_vite@5.0.4+vue@3.3.9
+  sass: 1.69.5
   typescript: 5.3.2
   unocss: 0.57.7_vite@5.0.4
-  vite: 5.0.4_@types+node@20.10.1
+  vite: 5.0.4_nz3ho7tqkfnzus3ub54ltin474
   vue-tsc: 1.8.24_typescript@5.3.2
 
 packages:
@@ -772,7 +774,7 @@ packages:
       '@unocss/core': 0.57.7
       '@unocss/reset': 0.57.7
       '@unocss/vite': 0.57.7_vite@5.0.4
-      vite: 5.0.4_@types+node@20.10.1
+      vite: 5.0.4_nz3ho7tqkfnzus3ub54ltin474
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -968,7 +970,7 @@ packages:
       chokidar: 3.5.3
       fast-glob: 3.3.2
       magic-string: 0.30.5
-      vite: 5.0.4_@types+node@20.10.1
+      vite: 5.0.4_nz3ho7tqkfnzus3ub54ltin474
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -980,7 +982,7 @@ packages:
       vite: ^4.0.0 || ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.4_@types+node@20.10.1
+      vite: 5.0.4_nz3ho7tqkfnzus3ub54ltin474
       vue: 3.3.9_typescript@5.3.2
     dev: true
 
@@ -1424,6 +1426,10 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: false
 
+  /immutable/4.3.4:
+    resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
+    dev: true
+
   /is-binary-path/2.1.0:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
     engines: {node: '>=8'}
@@ -1760,6 +1766,16 @@ packages:
       queue-microtask: 1.2.3
     dev: true
 
+  /sass/1.69.5:
+    resolution: {integrity: sha512-qg2+UCJibLr2LCVOt3OlPhr/dqVHWOa9XtZf2OjbLs/T4VPSJ00udtgJxH3neXZm+QqX8B+3cU7RaLqp1iVfcQ==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.4
+      source-map-js: 1.0.2
+    dev: true
+
   /semver/6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
@@ -1892,7 +1908,7 @@ packages:
       '@unocss/transformer-directives': 0.57.7
       '@unocss/transformer-variant-group': 0.57.7
       '@unocss/vite': 0.57.7_vite@5.0.4
-      vite: 5.0.4_@types+node@20.10.1
+      vite: 5.0.4_nz3ho7tqkfnzus3ub54ltin474
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -1949,7 +1965,7 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite/5.0.4_@types+node@20.10.1:
+  /vite/5.0.4_nz3ho7tqkfnzus3ub54ltin474:
     resolution: {integrity: sha512-RzAr8LSvM8lmhB4tQ5OPcBhpjOZRZjuxv9zO5UcxeoY2bd3kP3Ticd40Qma9/BqZ8JS96Ll/jeBX9u+LJZrhVg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -1981,6 +1997,7 @@ packages:
       esbuild: 0.19.8
       postcss: 8.4.31
       rollup: 4.6.0
+      sass: 1.69.5
     optionalDependencies:
       fsevents: 2.3.3
     dev: true

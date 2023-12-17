@@ -4,6 +4,9 @@ import { CommandHistory } from "./history";
 
 class SassApplication {
   data?: Component;
+  selections: Component[] = []; // 存储选中的组件列表，为后续使用
+  activedComponent?: Component;
+  focused: boolean = false; // 当前是否有节点被选中 , 暂时为用到
   history: CommandHistory = new CommandHistory();
   constructor() {}
   // 将存对象，递归遍历生成实例
@@ -11,13 +14,11 @@ class SassApplication {
     const instance = SassApplication.New(data);
     if (parent) {
       instance.level = (parent.level || 0) + 1;
-      instance.ancestors = [...(parent.ancestors || []), parent.uid];
       instance.pid = parent.uid;
       instance.index = index || 0;
       instance.parent = parent;
     } else {
-      instance.level = 0;
-      instance.ancestors = [];
+      instance.level = 1;
       instance.pid = 0;
     }
     instance.children = [];
@@ -38,14 +39,34 @@ class SassApplication {
     com.type = node.type;
     return com;
   }
-  delete(com: Component) {
-    this.history.executeCommand(new DeleteCommand(com));
+  delete() {
+    if (this.activedComponent) {
+      this.history.executeCommand(new DeleteCommand(this.activedComponent));
+    }
   }
-  addChild(com: Component) {
-    this.history.executeCommand(new AddChildCommand(com));
+  addChild() {
+    if (this.activedComponent) {
+      this.history.executeCommand(new AddChildCommand(this.activedComponent));
+    }
   }
-  copy(com: Component) {
-    this.history.executeCommand(new CopyCommand(com));
+  copy() {
+    if (this.activedComponent) {
+      this.history.executeCommand(new CopyCommand(this.activedComponent));
+    }
+  }
+  select(com: Component) {
+    // 用样式获取 2 级选中或着2级含选中的Dom节点
+    // 用来计算BoundingRect 用于 floatingbar的定位显示
+    //TODO
+    // const l2Selected = document.querySelector(
+    //   ".sass-item:not(.L1):has(.selected), .sass-item:not(.L1).selected"
+    // );
+
+    if (this.activedComponent) {
+      this.activedComponent.toggleSelect();
+    }
+    com.toggleSelect();
+    this.activedComponent = com;
   }
 }
 

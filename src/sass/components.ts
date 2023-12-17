@@ -31,7 +31,6 @@ export interface Component {
   tag: string; // 组件名字
   level: number;
   index: number;
-  ancestors: Array<Component["uid"]>;
   attrs?: Record<string, string | boolean | undefined>; // 组件属性
   children: Component[]; // 子组件
   selected?: boolean; // 是否被选中
@@ -47,6 +46,7 @@ export interface Component {
   setRefChildren(ref: Ref<any>): void;
   setRefData(ref: UnwrapNestedRefs<VueComponentData>): void;
   sync(): void;
+  toggleSelect(): void;
 }
 export const autoIncreaseID = (function () {
   let id = 0;
@@ -63,7 +63,6 @@ export class SassComponent implements Component {
   tag: string;
   level: number;
   index: number;
-  ancestors: Array<Component["uid"]>;
   attrs: Record<string, string | boolean | undefined>;
   children: Component[];
   selected?: boolean | undefined;
@@ -71,27 +70,44 @@ export class SassComponent implements Component {
   parent?: Component;
   refChildren: Ref<any> = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
   refData: UnwrapNestedRefs<VueComponentData> = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
-  constructor(com: Partial<Component>) {
+  constructor(com: Partial<Component>);
+  constructor(com: Component) {
     this.type = com.type || ComponentType.Container;
     this.uid = autoIncreaseID();
     this.pid = com.pid || 0;
     this.tag = com.tag || "div";
     this.level = com.level || 1;
     this.attrs = com.attrs || {};
-    this.ancestors = com.ancestors || [];
     this.children = com.children || [];
     this.selected = false;
     this.onFocusin = false;
     this.index = com.index || 0;
-
-    if (this.children.length > 0) {
-      this.children = this.children.map((el) => {
+    this.refChildren = ref(null);
+    this.refData = reactive({});
+  }
+  static NEW(com: Component) {
+    const newCom = new SassComponent({});
+    newCom.type = com.type || ComponentType.Container;
+    newCom.uid = autoIncreaseID();
+    newCom.pid = com.pid || 0;
+    newCom.tag = com.tag || "div";
+    newCom.level = com.level || 1;
+    newCom.attrs = com.attrs || {};
+    newCom.selected = false;
+    newCom.onFocusin = false;
+    newCom.index = com.index || 0;
+    newCom.refChildren = ref(null);
+    newCom.refData = reactive({});
+    // 以上属性需要从重赋值，否则克隆的时候可能会被污染到
+    if (com.children.length > 0) {
+      newCom.children = com.children.map((el) => {
         el = el.clone();
-        el.pid = this.uid;
-        el.parent = this;
+        el.pid = newCom.uid;
+        el.parent = newCom;
         return el;
       });
     }
+    return newCom;
   }
   removeChild(c: Component): Component[] | undefined {
     if (c.parent) {
@@ -126,15 +142,20 @@ export class SassComponent implements Component {
     this.refChildren.value = this.children;
   }
   clone(): Component {
-    return new SassComponent(this);
+    return SassComponent.NEW(this);
   }
   setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;
+    console.log("set");
   }
   setRefData(ref: UnwrapNestedRefs<VueComponentData>): void {
     this.refData = ref;
   }
   getChildById(uid: Component["uid"]) {
     return this.children.find((el) => (el.uid = uid));
+  }
+  toggleSelect(): void {
+    this.selected = !this.selected;
+    this.refData.selected = this.selected;
   }
 }

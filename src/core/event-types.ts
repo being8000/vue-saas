@@ -4,13 +4,13 @@
 import { Component } from "./components";
 
 // };
-type SelectParameters = {
+export type AppEventParameters = {
   component: Component;
 };
 
-type SelectEvent = (params: SelectParameters) => void;
-type CancelSelectEvent = (params: Partial<SelectParameters>) => void;
-type LockEvent = (params: SelectParameters) => void;
+type SelectEvent = (params: AppEventParameters) => void;
+type CancelSelectEvent = (params: Partial<AppEventParameters>) => void;
+type LockEvent = (params: AppEventParameters) => void;
 
 export interface EventMap {
   appSelect: SelectEvent;
@@ -18,9 +18,9 @@ export interface EventMap {
   appLock: LockEvent;
 }
 export interface EventParametersMap {
-  appSelect: SelectParameters;
-  appCancelSelect: SelectParameters;
-  appLock: SelectParameters;
+  appSelect: AppEventParameters;
+  appCancelSelect: AppEventParameters;
+  appLock: AppEventParameters;
 }
 export type EventKey = keyof EventMap;
 

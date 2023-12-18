@@ -1,5 +1,10 @@
 import { sassApp } from ".";
-import { DeleteCommand, AddChildCommand, CopyCommand } from "./command";
+import {
+  AddChildCommand,
+  AddVueComponentCommand,
+  CopyCommand,
+  DeleteCommand,
+} from "./command";
 import { Component } from "./components";
 import { appEvents } from "./event-manager";
 
@@ -11,6 +16,7 @@ export abstract class AppStateAction {
   constructor() {}
   abstract delete(): void;
   abstract addChild(): void;
+  abstract addVueComponentChild(name: string): void;
   abstract copy(): void;
   toggleSelect(com?: Component): void {
     if (!com) {
@@ -27,6 +33,7 @@ export abstract class AppStateAction {
 }
 
 class DefaultStateAction extends AppStateAction {
+  addVueComponentChild(): void {}
   toggleSelect(com?: Component): void {
     super.toggleSelect(com);
   }
@@ -39,6 +46,13 @@ class SelectedStateAction extends AppStateAction {
   constructor() {
     super();
   }
+  addVueComponentChild(name: string): void {
+    if (sassApp.activedComponent) {
+      sassApp.history.executeCommand(
+        new AddVueComponentCommand(sassApp.activedComponent, name)
+      );
+    }
+  }
   // 取消选中
   toggleSelect(com?: Component): void {
     // 如果没有具体所要选中的组件，则默认执行选中ROOT 根节点
@@ -46,6 +60,7 @@ class SelectedStateAction extends AppStateAction {
       com = sassApp.component;
     }
     sassApp.activedComponent?.toggleSelect();
+    // 通知其他面板
     appEvents.notify("appCancelSelect", {
       component: com,
     });
@@ -80,6 +95,7 @@ class SelectedStateAction extends AppStateAction {
 }
 // 锁定状态
 class LockedStateAction extends AppStateAction {
+  addVueComponentChild(): void {}
   toggleSelect(): void {}
   delete(): void {}
   addChild(): void {}

@@ -1,9 +1,4 @@
 import {
-  ChildContainer,
-  Root,
-  RootContainer,
-} from "@/components/Sass/Components/index";
-import {
   Component as VueComponent,
   reactive,
   ref,
@@ -11,6 +6,7 @@ import {
   UnwrapNestedRefs,
 } from "vue";
 import { Container } from "./container";
+import { sassVueComponents } from "./register-component";
 export enum ComponentType {
   Root = "Root", // 根节点， 只允许新增 RootContainer 层级为L1
   RootContainer = "RootContainer", // 根容器，层级为L2, 允许添加 子容器 "Container" 或者 设置为自定义组
@@ -45,7 +41,8 @@ export interface Component {
   type: ComponentType; //组件类型
   uid: number; // 组件ID
   pid: Component["uid"]; // 父组件ID
-  tag: VueComponent; // 组件名字
+  tag: string; // 组件名字
+  vueComponent: VueComponent;
   level: number;
   index: number;
   attrs?: Record<string, string | boolean | undefined>; // 组件属性
@@ -80,7 +77,8 @@ export class SassComponent implements Component {
   type: ComponentType;
   uid: number;
   pid: Component["uid"];
-  tag: VueComponent;
+  tag: string;
+  vueComponent: VueComponent;
   level: number;
   index: number;
   attrs: Record<string, string | boolean | undefined>;
@@ -96,25 +94,28 @@ export class SassComponent implements Component {
     this.pid = com.pid || 0;
     this.level = com.level || 1;
     if (com.level == 1) {
-      this.tag = Root;
+      this.tag = "Root";
       this.type = ComponentType.Root;
     } else if (com.level == 2) {
-      this.tag = RootContainer;
+      this.tag = "RootContainer";
       this.type = ComponentType.RootContainer;
     } else if (com.level == 3) {
       // 判断当前tag是否是ComponentType 数组中的 如果是则设置对应类型
       // 如果不是则设置类型为CustomComponent.
       if (Container.isCoustomContainer(com)) {
         this.type = ComponentType.CustomComponent;
+
         this.tag = com.tag;
       } else {
         this.type = ComponentType.ChildContainer;
-        this.tag = ChildContainer;
+
+        this.tag = "ChildContainer";
       }
     } else {
       this.type = ComponentType.CustomComponent;
       this.tag = com.tag;
     }
+    this.vueComponent = sassVueComponents.com[this.tag];
     this.attrs = com.attrs || {};
     this.children = []; // 需要设置为空，否则会污染子元素
     this.selected = false;
@@ -171,7 +172,6 @@ export class SassComponent implements Component {
   }
   setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;
-    console.log("set");
   }
   setRefData(ref: UnwrapNestedRefs<VueComponentData>): void {
     this.refData = ref;

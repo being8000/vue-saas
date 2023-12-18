@@ -5,6 +5,7 @@
 import { sassApp } from ".";
 import { Component, ComponentType, SassComponent } from "./components";
 import { Container } from "./container";
+import { sassVueComponents } from "./register-component";
 
 export interface Command {
   component: Component;
@@ -43,6 +44,39 @@ export class AddChildCommand implements Command {
     } else if ((this.component.type = ComponentType.RootContainer)) {
       this.addedCom = Container.getChildContainer(this.component);
     }
+    this.component.addChild(this.addedCom);
+    return true;
+  }
+}
+
+/**
+ *
+ */
+export class AddVueComponentCommand implements Command {
+  component: Component;
+  addedCom: Component = new SassComponent({});
+  name: string; // 新增的自定义组件名字
+  constructor(com: Component, name: string) {
+    this.component = com;
+    this.name = name;
+  }
+  undo(): void {
+    const command = new DeleteCommand(this.addedCom);
+    command.execute();
+  }
+  execute(): boolean {
+    if (this.component.type == ComponentType.CustomComponent) {
+      return false;
+    }
+    const vueComponent = sassVueComponents.com[this.name];
+
+    if (!vueComponent) {
+      throw new Error(
+        "未找到当前组件，请确认组件名字是否正确且并且已经注册完毕"
+      );
+    }
+    this.addedCom = Container.getCustomComponents(this.component);
+    this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);
     return true;
   }

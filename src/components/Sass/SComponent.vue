@@ -1,7 +1,8 @@
 <template>
   <component
-    :is="instance.tag"
+    :is="instance.vueComponent"
     v-bind="attrs"
+    :instance="instance"
     @mouseenter.stop.prevent="onMouseEnter"
     @mouseleave.stop.prevent="onMouseleave"
     @click.stop.prevent="onClick"
@@ -10,31 +11,23 @@
       selected: data.selected
     }]"
   >
-    <template v-if="instance.type == ComponentType.CustomComponent">
-      CustomComponent
-    </template>
-    <template v-else-if="children.length == 0">
-      Empty
-    </template>
-    <template v-else>
-      <SComponent
-        v-for="(item) in children"
-        :key="`${item.uid}+${item.pid}`"
-        :instance="item"
-      />
-    </template>
-    <div class="w-full text-center">
+    <SComponent
+      v-for="(item) in children"
+      :key="`${item.uid}+${item.pid}`"
+      :instance="item"
+    />
+    <!-- <div class="w-full text-center">
       <div class=" text-black text-2">{{ instance.type }} ,</div>
       <div class=" text-black text-2">index:{{ instance.index }} ,</div>
       <div class=" text-black text-2">uid:{{ instance.uid }} ,</div>
       <div class=" text-black text-2">parent: {{ instance.pid }}</div>
       <div class=" text-black text-2">level: {{ instance.level }}</div>
-    </div>
+    </div> -->
   </component>
 </template>
 <script setup lang="ts">
-import { sassApp } from '@/sass';
-import { SComponentProps, ComponentType, VueComponentData } from '@/sass/components';
+import { sassApp } from '@/core';
+import { SComponentProps, VueComponentData } from '@/core/components';
 import { onBeforeUnmount, onMounted, onUpdated, reactive, ref, shallowRef } from 'vue';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()

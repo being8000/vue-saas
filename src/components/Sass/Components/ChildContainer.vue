@@ -1,17 +1,20 @@
 <template>
-  <div class="child-container">
+  <div class="root-container">
+    <div class="tag">{{ props.instance.tag }}</div>
     <slot>
-      child-container
+      <EmptyBox :tag="props.instance.tag" />
     </slot>
   </div>
 </template>
 <script lang="ts" setup>
+import { SComponentProps } from '@/core/components';
+import EmptyBox from './EmptyBox.vue'
+const props = defineProps<SComponentProps>()
 </script>
 
 <style lang="scss" scoped>
-.child-container {
+.root-container {
   min-width: 100%;
   text-align: center;
-  background-color: rgb(159, 122, 245);
 }
 </style>

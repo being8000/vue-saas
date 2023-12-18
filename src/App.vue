@@ -2,6 +2,11 @@
 import { onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated } from 'vue';
 // import SassRenderer from '@/components/SassRenderer.vue'
 import SassRenderer from '@/components/Sass/RendererPannel.vue';
+import { sassVueComponents } from './core/register-component';
+import ImageComponent from '@/components/Sass/Components/Image.vue'
+sassVueComponents.components({
+  ImageComponent: ImageComponent
+})
 onMounted(() => {
   console.log('onMounted')
 })

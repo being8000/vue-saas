@@ -1,10 +1,4 @@
 import {
-  ChildContainer,
-  Root,
-  RootContainer,
-} from "@/components/Sass/Components";
-import { Component as VueComponent } from "vue";
-import {
   autoIncreaseID,
   Component,
   ComponentType,
@@ -18,7 +12,7 @@ export const Container = {
   // 为PlainNode设置根Node
   rootNode(nodes: PlainNode[]) {
     return {
-      tag: Root,
+      tag: "Root",
       children: nodes,
     } as PlainNode;
   },
@@ -26,7 +20,7 @@ export const Container = {
   initRoodNode() {
     return this.rootNode([
       {
-        tag: RootContainer,
+        tag: "RootContainer",
         children: [],
       },
     ]);
@@ -35,7 +29,7 @@ export const Container = {
     const rootContainer = new SassComponent({
       level: 1,
       type: ComponentType.Root,
-      tag: Root,
+      tag: "Root",
       uid: autoIncreaseID(),
       pid: 0,
       parent: undefined,
@@ -46,27 +40,36 @@ export const Container = {
     const rootContainer = new SassComponent({
       level: root.level + 1,
       type: ComponentType.RootContainer,
-      tag: RootContainer,
+      tag: "RootContainer",
       uid: autoIncreaseID(),
       pid: root.uid,
       parent: root,
     });
     return rootContainer;
   },
-  getChildContainer(rootContainer: Component) {
+  getChildContainer(parant: Component) {
     const childContainer = new SassComponent({
-      level: rootContainer.level + 1,
+      level: parant.level + 1,
       type: ComponentType.ChildContainer,
-      tag: ChildContainer,
+      tag: "ChildContainer",
       uid: autoIncreaseID(),
-      pid: rootContainer.uid,
-      parent: rootContainer,
+      pid: parant.uid,
+      parent: parant,
+    });
+    return childContainer;
+  },
+  getCustomComponents(parant?: Component) {
+    const childContainer = new SassComponent({
+      level: (parant?.level || 0) + 1,
+      type: ComponentType.CustomComponent,
+      tag: "ChildContainer",
+      uid: autoIncreaseID(),
+      pid: parant?.uid,
+      parent: parant,
     });
     return childContainer;
   },
   isCoustomContainer(com: Component) {
-    return !([ChildContainer, Root, RootContainer] as VueComponent[]).includes(
-      com.tag
-    );
+    return ["ChildContainer", "Root", "RootContainer"].includes(com.tag);
   },
 };

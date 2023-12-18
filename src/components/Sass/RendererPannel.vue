@@ -29,8 +29,20 @@
       >
         Copy
       </button>
+      <button
+        @click="layerVisible = !layerVisible"
+        class=" bg-origin-border b-none p-1 rounded inline-block mx-2"
+      >
+        {{ layerVisible ? "Hide" : "Show" }} Layers
+      </button>
     </div>
-    <section class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset render-container">
+    <SelectorPanel />
+    <section
+      class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset render-container"
+      :class="{
+        layers: layerVisible
+      }"
+    >
       <RenderItem
         ref="vDom"
         :instance="children"
@@ -40,13 +52,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Container } from '@/sass/container';
-import { appEvents } from '@/sass/event-manager';
-import { sassApp } from '@/sass/index';
-import { ComponentType } from '@/sass/components';
+import SelectorPanel from './SelectorPanel/index.vue'
+import { Container } from '@/core/container';
+import { appEvents } from '@/core/event-manager';
+import { sassApp } from '@/core/index';
+import { ComponentType } from '@/core/components';
 import { onMounted, onRenderTracked, onUpdated, ref } from 'vue';
 // import FloatingBar from './FloatingBar/Bar.vue';
 import RenderItem from './SComponent.vue';
+const layerVisible = ref(false)
 const buttonState = ref({
   delete: false,
   addChild: false,
@@ -81,7 +95,6 @@ appEvents.subscribe("appSelect", (data) => {
       copy: true
     }
   }
-  console.log(buttonState.value)
 })
 appEvents.subscribe("appCancelSelect", () => {
   buttonState.value = {
@@ -106,7 +119,7 @@ const copy = () => {
 }
 const children = ref(instance)
 instance.setRefChildren(children)
-sassApp.action.toggleSelect(children.value)
+// sassApp.action.toggleSelect(children.value)
 const vDom = ref()
 // 初始化 操作类示例，并统一加入数组
 const undo = () => {
@@ -115,7 +128,6 @@ const undo = () => {
 onMounted(() => {
 })
 onUpdated(() => {
-  console.log('update')
 
 })
 onRenderTracked(() => {
@@ -124,37 +136,57 @@ onRenderTracked(() => {
 </script>
 
 <style lang="scss">
-.sass-item {
-  position: relative;
-  border: 1px dashed darkgray;
-}
-
 .render-container {
   min-height: 100vh;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-}
 
-.sass-renderer .sass-item.selected::after {
-  width: calc(100% + 0px);
-  height: calc(100% + 0px);
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  border: 2px solid rgb(6, 34, 58);
-  content: "";
-  border-radius: 3px;
-  pointer-events: none;
-  z-index: 1;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  .tag {
+    display: none;
+  }
+
+  &.layers .tag {
+    display: block;
+    background-color: rgb(92, 91, 94);
+    width: max-content;
+    padding: 2px 5px;
+    font-size: 10px;
+    color: rgb(255, 255, 255);
+    border-radius: 3px;
+    margin: 0px;
+    transform: translateX(100%);
+    margin-left: auto;
+  }
+
+  .selected>.tag {
+    background-color: rgb(4, 153, 16);
+  }
 }
 
 .sass-renderer {
 
-  .L1:has(:hover),
+  .sass-item {
+    position: relative;
+  }
 
-  .sass-item:not(.L1):hover,
+  .sass-item::after {
+    width: calc(100% + 0px);
+    height: calc(100% + 0px);
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    border: 1px dashed darkgray;
+    content: "";
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .sass-item.selected::after {
+    border: 2px solid rgb(6, 34, 58);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+
   .sass-item:not(.L1):has(.selected) {
-
     border: 1px dashed rgb(39, 1, 54);
   }
 }

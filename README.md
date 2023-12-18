@@ -41,3 +41,12 @@
 ### 12/18/2023  Done
 
 - 使用媒体模式或者中间件模式或者订阅者模式，来进行主Application 和 Floatingbar 和 StylePannel之间进行通信
+
+- 12/18 结果，引用了观察者模式，实现了 不同组件之间的同行，
+- 12/18 应用了状态模式来控制主面板的选中，取消选中，以后等其他状态。
+
+### TODO 阶段3 Stage 3
+
+- 完成左侧组件控制面板 develop left side Component Controller
+- 完成右侧组件样式控制面板 develop
+- 优化floating bar 样式， enhance Floating bar style

@@ -2,8 +2,6 @@
   <div class="sass-renderer">
     <!-- 如果是个空数组则显示新增按钮 -->
     <div class="w-full text-center bg-coolGray p-2">
-      <div>Try to select Component, click the yellow section.</div>
-      <div>尝试去选择一下组件，点击黄色区域</div>
       <button
         @click="undo"
         class=" bg-cyan b-none p-1 rounded inline-block mx-2"

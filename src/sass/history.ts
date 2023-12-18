@@ -1,5 +1,8 @@
 import { Command } from "./command";
 
+/**
+ * 用命令模式存储历史命令
+ */
 export class CommandHistory {
   private history: Command[] = [];
   push(c: Command) {
@@ -11,7 +14,6 @@ export class CommandHistory {
   }
 
   executeCommand(c: Command) {
-    console.log("execute", c);
     if (c.execute()) {
       this.history.push(c);
     }
@@ -19,6 +21,5 @@ export class CommandHistory {
   undo() {
     const c = this.history.pop();
     c?.undo();
-    console.log("undo", c);
   }
 }

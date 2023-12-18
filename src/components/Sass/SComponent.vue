@@ -24,6 +24,7 @@
       />
     </template>
     <div class="w-full text-center">
+      <div class=" text-black text-2">{{ instance.type }} ,</div>
       <div class=" text-black text-2">index:{{ instance.index }} ,</div>
       <div class=" text-black text-2">uid:{{ instance.uid }} ,</div>
       <div class=" text-black text-2">parent: {{ instance.pid }}</div>
@@ -66,7 +67,7 @@ const onMouseleave = () => {
   }
 }
 const onClick = () => {
-  sassApp.select(instance)
+  sassApp.action.toggleSelect(instance)
 }
 onMounted(() => {
 })

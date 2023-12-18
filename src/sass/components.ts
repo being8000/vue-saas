@@ -1,15 +1,32 @@
-import { reactive, ref, Ref, UnwrapNestedRefs } from "vue";
-
+import {
+  ChildContainer,
+  Root,
+  RootContainer,
+} from "@/components/Sass/Components/index";
+import {
+  Component as VueComponent,
+  reactive,
+  ref,
+  Ref,
+  UnwrapNestedRefs,
+} from "vue";
+import { Container } from "./container";
 export enum ComponentType {
-  Container = 0, // 容器，可以添加子容器
-  CustomComponent = 1, // 自定义组件
+  Root = "Root", // 根节点， 只允许新增 RootContainer 层级为L1
+  RootContainer = "RootContainer", // 根容器，层级为L2, 允许添加 子容器 "Container" 或者 设置为自定义组
+  ChildContainer = "ChildContainer", // 子容器 层级为L3, 允许 添加一个自定义组件
+  // 自定义组件 层级 可以为
+  // L3：作为根容器的自定义组件
+  // L4：作为子容器的自定义组件
+  CustomComponent = -1,
 }
+
 // interface ComponentAttributes {
 //   props: Record<string, any>;
 //   class: Pick<HTMLAttributes, "class">;
 //   style: Pick<HTMLAttributes, "style">;
 // }
-export type PlainNode = Pick<Component, "attrs" | "tag" | "type"> & {
+export type PlainNode = Pick<Component, "attrs" | "tag"> & {
   children: PlainNode[];
 };
 export type SComponentProps = {
@@ -28,7 +45,7 @@ export interface Component {
   type: ComponentType; //组件类型
   uid: number; // 组件ID
   pid: Component["uid"]; // 父组件ID
-  tag: string; // 组件名字
+  tag: VueComponent; // 组件名字
   level: number;
   index: number;
   attrs?: Record<string, string | boolean | undefined>; // 组件属性
@@ -56,11 +73,14 @@ export const autoIncreaseID = (function () {
   };
 })();
 
+/**
+ * 参照创建行模式中的 组合模式
+ */
 export class SassComponent implements Component {
   type: ComponentType;
   uid: number;
   pid: Component["uid"];
-  tag: string;
+  tag: VueComponent;
   level: number;
   index: number;
   attrs: Record<string, string | boolean | undefined>;
@@ -72,43 +92,48 @@ export class SassComponent implements Component {
   refData: UnwrapNestedRefs<VueComponentData> = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
   constructor(com: Partial<Component>);
   constructor(com: Component) {
-    this.type = com.type || ComponentType.Container;
     this.uid = autoIncreaseID();
     this.pid = com.pid || 0;
-    this.tag = com.tag || "div";
     this.level = com.level || 1;
+    if (com.level == 1) {
+      this.tag = Root;
+      this.type = ComponentType.Root;
+    } else if (com.level == 2) {
+      this.tag = RootContainer;
+      this.type = ComponentType.RootContainer;
+    } else if (com.level == 3) {
+      // 判断当前tag是否是ComponentType 数组中的 如果是则设置对应类型
+      // 如果不是则设置类型为CustomComponent.
+      if (Container.isCoustomContainer(com)) {
+        this.type = ComponentType.CustomComponent;
+        this.tag = com.tag;
+      } else {
+        this.type = ComponentType.ChildContainer;
+        this.tag = ChildContainer;
+      }
+    } else {
+      this.type = ComponentType.CustomComponent;
+      this.tag = com.tag;
+    }
     this.attrs = com.attrs || {};
-    this.children = com.children || [];
+    this.children = []; // 需要设置为空，否则会污染子元素
     this.selected = false;
     this.onFocusin = false;
     this.index = com.index || 0;
     this.refChildren = ref(null);
     this.refData = reactive({});
-  }
-  static NEW(com: Component) {
-    const newCom = new SassComponent({});
-    newCom.type = com.type || ComponentType.Container;
-    newCom.uid = autoIncreaseID();
-    newCom.pid = com.pid || 0;
-    newCom.tag = com.tag || "div";
-    newCom.level = com.level || 1;
-    newCom.attrs = com.attrs || {};
-    newCom.selected = false;
-    newCom.onFocusin = false;
-    newCom.index = com.index || 0;
-    newCom.refChildren = ref(null);
-    newCom.refData = reactive({});
+    this.parent = com.parent;
     // 以上属性需要从重赋值，否则克隆的时候可能会被污染到
-    if (com.children.length > 0) {
-      newCom.children = com.children.map((el) => {
+    if (com.children && com.children.length > 0) {
+      this.children = com.children.map((el) => {
         el = el.clone();
-        el.pid = newCom.uid;
-        el.parent = newCom;
+        el.pid = this.uid;
+        el.parent = this;
         return el;
       });
     }
-    return newCom;
   }
+
   removeChild(c: Component): Component[] | undefined {
     if (c.parent) {
       c.parent.children.splice(c.index, 1);
@@ -142,7 +167,7 @@ export class SassComponent implements Component {
     this.refChildren.value = this.children;
   }
   clone(): Component {
-    return SassComponent.NEW(this);
+    return new SassComponent(this);
   }
   setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;

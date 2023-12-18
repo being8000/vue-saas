@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUpdated, onUnmounted, onBeforeMount, onBeforeUpdate, onBeforeUnmount, onErrorCaptured, onRenderTracked, onRenderTriggered, onActivated, onDeactivated, onServerPrefetch } from 'vue'
+import { onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated } from 'vue';
 // import SassRenderer from '@/components/SassRenderer.vue'
-import SassRenderer from '@/components/Sass/RendererPannel.vue'
-import { ComponentType, PlainNode } from './sass/components';
+import SassRenderer from '@/components/Sass/RendererPannel.vue';
 onMounted(() => {
   console.log('onMounted')
 })
@@ -39,49 +38,11 @@ onDeactivated(() => {
 onServerPrefetch(() => {
   console.log('onServerPrefetch')
 })
-const data = ref<PlainNode>({
-  tag: 'div',
-  type: ComponentType.Container,
-  attrs: {
-  },
-  children: [
-    {
-      type: ComponentType.Container,
-      tag: 'div',
-      attrs: {
-        class: 'flex'
-      },
-      children: [{
-        type: ComponentType.Container,
-        tag: 'div',
-        attrs: {
-          class: 'flex'
-        },
-        children: []
-      }, {
-        type: ComponentType.Container,
-        tag: 'div',
-        attrs: {
-          class: 'flex'
-        },
-        children: []
-      }]
-    },
-    {
-      type: ComponentType.Container,
-      tag: 'div',
-      attrs: {
-        class: 'flex'
-      },
-      children: []
-    }
-  ]
-})
 </script>
 
 <template>
   <div class=" text-black">
-    <SassRenderer :data="data" />
+    <SassRenderer />
   </div>
 </template>
 

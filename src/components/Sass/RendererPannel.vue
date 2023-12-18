@@ -30,7 +30,7 @@
         Copy
       </button>
     </div>
-    <section class="w-2xl m-auto b-r b-l b-balck b-2 shadow-inset render-container">
+    <section class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset render-container">
       <RenderItem
         ref="vDom"
         :instance="children"

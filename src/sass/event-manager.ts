@@ -41,5 +41,4 @@ class EeventManager {
       });
   }
 }
-window.addEventListener("abort", () => {});
 export const appEvents = new EeventManager();

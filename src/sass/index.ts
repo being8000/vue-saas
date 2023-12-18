@@ -10,7 +10,7 @@ export class SassApplication {
   selections: Component[] = []; // 存储选中的组件列表，为后续使用
   action: AppStateAction = defaultAction;
   activedComponent?: Component;
-  focused: boolean = false; // 当前是否有节点被选中 , 暂时为用到
+  focused: boolean = false; // 当前是否有节点被选中 , 暂时未用到
   history: CommandHistory = new CommandHistory();
   constructor() {}
   // 将PlainNode to Component 对象，递归遍历生成实例

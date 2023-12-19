@@ -4,6 +4,7 @@ import {
   AddVueComponentCommand,
   CopyCommand,
   DeleteCommand,
+  ReplaceCommand,
 } from "./command";
 import { Component } from "./components";
 import { appEvents } from "./event-manager";
@@ -18,6 +19,7 @@ export abstract class AppStateAction {
   abstract addChild(): void;
   abstract addVueComponentChild(name: string): void;
   abstract copy(): void;
+  abstract replaceTo(name: string): void;
   toggleSelect(com?: Component): void {
     if (!com) {
       com = saasApp.component;
@@ -33,6 +35,7 @@ export abstract class AppStateAction {
 }
 
 class DefaultStateAction extends AppStateAction {
+  replaceTo(): void {}
   addVueComponentChild(): void {}
   toggleSelect(com?: Component): void {
     super.toggleSelect(com);
@@ -43,6 +46,13 @@ class DefaultStateAction extends AppStateAction {
 }
 
 class SelectedStateAction extends AppStateAction {
+  replaceTo(name: string): void {
+    if (saasApp.activedComponent) {
+      saasApp.history.executeCommand(
+        new ReplaceCommand(saasApp.activedComponent, name)
+      );
+    }
+  }
   constructor() {
     super();
   }
@@ -95,6 +105,7 @@ class SelectedStateAction extends AppStateAction {
 }
 // 锁定状态
 class LockedStateAction extends AppStateAction {
+  replaceTo(): void {}
   addVueComponentChild(): void {}
   toggleSelect(): void {}
   delete(): void {}

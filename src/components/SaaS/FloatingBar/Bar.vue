@@ -50,13 +50,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Button from 'primevue/button';
 import { saasApp } from '@/core';
 import { ComponentType } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
+import Button from 'primevue/button';
 import { ref } from 'vue';
 
-const layerVisible = ref(false)
+const layerVisible = ref(true)
 const ButtonState = ref({
   delete: false,
   addChild: false,
@@ -122,6 +122,7 @@ appEvents.subscribe("appCancelSelect", () => {
     copy: false
   }
 })
+
 
 
 

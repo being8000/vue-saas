@@ -4,7 +4,8 @@
     <!-- 如果是个空数组则显示新增按钮 -->
     <FloatingBar />
     <SelectorPanel />
-    <section class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset render-container">
+    <PropPanel />
+    <section class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset layers render-container">
       <RenderItem
         ref="vDom"
         :instance="children"
@@ -20,6 +21,8 @@ import { onMounted, onRenderTracked, onUpdated, ref } from 'vue';
 import FloatingBar from './FloatingBar/Bar.vue';
 import RenderItem from './SComponent.vue';
 import SelectorPanel from './SelectorPanel/index.vue';
+import PropPanel from './PropPanel/index.vue';
+
 
 const instance = saasApp.mount(Container.initRoodNode())
 
@@ -38,12 +41,18 @@ onRenderTracked(() => {
 </script>
 
 <style lang="scss">
+@import './render.scss';
+
 .render-container {
   min-height: 100vh;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   .tag {
     display: none;
+  }
+
+  &.layers .saas-item {
+    padding-top: 20px;
   }
 
   &.layers .tag {
@@ -56,6 +65,9 @@ onRenderTracked(() => {
     border-radius: 3px;
     margin: 0px;
     margin-left: auto;
+    position: absolute;
+    left: 0%;
+    top: 0px;
   }
 
   .selected>.tag {
@@ -67,6 +79,8 @@ onRenderTracked(() => {
 
   .saas-item {
     position: relative;
+    box-sizing: border-box;
+    display: block;
   }
 
   .saas-item::after {

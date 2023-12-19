@@ -23,6 +23,10 @@ export const Container = {
         tag: "RootContainer",
         children: [],
       },
+      {
+        tag: "RootContainer",
+        children: [],
+      },
     ]);
   },
   getRoot() {
@@ -68,6 +72,17 @@ export const Container = {
       parent: parant,
     });
     return childContainer;
+  },
+  getComponentType(tag: string) {
+    if (tag == "Root") {
+      return ComponentType.Root;
+    } else if (tag == "RootContainer") {
+      return ComponentType.RootContainer;
+    } else if (tag == "ChildContainer") {
+      return ComponentType.ChildContainer;
+    } else {
+      return ComponentType.CustomComponent;
+    }
   },
   isCoustomContainer(com: Component) {
     return !["ChildContainer", "Root", "RootContainer"].includes(com.tag);

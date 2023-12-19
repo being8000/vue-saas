@@ -1,69 +1,93 @@
 <template>
   <div class="selector-pannel card flex justify-content-center ">
     <Sidebar
-      v-model:visible="visible"
+      v-model:visible="data.visible"
       :dismissable="false"
       :pt="{
         mask: {
-          class: 'testsss',
           style: {
             animation: 'none',
-
+            pointerEvents: 'none'
           }
         }
       }"
-      header="Sidebar"
+      header="组件选择面板"
       class="w-full md:w-15rem lg:w-20rem"
     >
 
       <div>
-        当前选中：{{ selectedCom?.type }}
+        当前选中：{{ type }}
       </div>
       <div>
         <h4>请选则你需要添加得组件</h4>
         <section>
           <h5>系统组件</h5>
           <section class="flex">
-            <button @click="addChild">
+            <Button
+              @click="addChild"
+              v-if="type == ComponentType.RootContainer"
+            >
               ChildContainer
-            </button>
+            </Button>
           </section>
         </section>
-        <section>
-          <h5>自定义组件</h5>
-          <button @click="addVueComponent">
+        <section class="space-x-2 space-y-2">
+          <h5>自定义组件 (测试专用)</h5>
+          <Button @click="replaceTo(`ImageComponent`)">
             Image
-          </button>
+          </Button>
+          <Button @click="replaceTo(`Breadcrumb`)">
+            Breadcrumb
+          </Button>
+          <Button @click="replaceTo(`Carouel`)">
+            Carouel
+          </Button>
+          <Button @click="replaceTo(`Message`)">
+            Message
+          </Button>
         </section>
       </div>
     </Sidebar>
   </div>
 </template>
 <script lang="ts" setup>
-import Sidebar from 'primevue/sidebar';
+/**
+ * L2 可以添加自定义组件以及子容器
+ * L3 无法继续添加，可以替换当前层级为自定义组件
+ */
 import { saasApp } from '@/core';
-import { Component, SaaSComponent } from '@/core/components';
+import { Component, SaaSComponent, ComponentType } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
-import { ref } from 'vue';
-const visible = ref(false)
-let selectedCom: Component = new SaaSComponent({})
+import Button from 'primevue/button';
+import Sidebar from 'primevue/sidebar';
+import { computed, reactive } from 'vue';
+const data = reactive<{
+  visible: boolean,
+  selectedCom: Component
+}>({
+  visible: false,
+  selectedCom: new SaaSComponent({})
+})
 
+const type = computed(() => {
+  return data.selectedCom.type
+})
 
 const addChild = () => {
   saasApp.action.addChild()
 }
-const addVueComponent = () => {
-  saasApp.action.addVueComponentChild("ImageComponent")
+const replaceTo = (name: string) => {
+  saasApp.action.replaceTo(name)
 }
 
-const subSelect = (data: AppEventParameters) => {
-  selectedCom = data.component
-  visible.value = true
+const subSelect = (param: AppEventParameters) => {
+  data.selectedCom = param.component
+  data.visible = true
 }
-const appCancelSelect = (data: AppEventParameters) => {
-  selectedCom = data.component
-  visible.value = false
+const appCancelSelect = (param: AppEventParameters) => {
+  data.selectedCom = param.component
+  data.visible = false
 }
 appEvents.subscribe("appSelect", subSelect)
 appEvents.subscribe("appCancelSelect", appCancelSelect)

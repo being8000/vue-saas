@@ -13,11 +13,14 @@ import IconSquare from '../icons/add-square.vue'
 
 <style lang="scss" scoped>
 .empty-box {
+  width: 100%;
   min-width: 100%;
+
   text-align: center;
   padding: 8px 8px;
   text-align: center;
   background-color: white;
+  height: max-content;
 
   .text {
     font-size: 12px;

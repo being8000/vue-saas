@@ -24,6 +24,36 @@ export class SelectComponentCommand implements Command {
   }
 }
 
+export class ReplaceCommand implements Command {
+  component: Component;
+  oldName: string;
+  replacedName: string;
+  constructor(com: Component, componentName: string) {
+    this.component = com;
+    this.oldName = this.component.tag;
+    this.replacedName = componentName;
+  }
+  undo(): void {
+    this.component.tag = this.oldName;
+    const vueComponent = saasVueComponents.com[this.oldName];
+    this.component.vueComponent = vueComponent;
+    this.component.type = Container.getComponentType(this.oldName);
+  }
+  execute(): boolean {
+    const vueComponent = saasVueComponents.com[this.replacedName];
+
+    if (!vueComponent) {
+      throw new Error(
+        "未找到当前组件，请确认组件名字是否正确且并且已经注册完毕"
+      );
+    }
+    this.component.tag = this.replacedName;
+    this.component.vueComponent = vueComponent;
+    this.component.type = ComponentType.CustomComponent;
+    return true;
+  }
+}
+
 export class AddChildCommand implements Command {
   component: Component;
   addedCom: Component = new SaaSComponent({});

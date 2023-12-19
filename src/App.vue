@@ -5,8 +5,16 @@ import './style.css'
 import SaaSRenderer from '@/components/SaaS/RendererPannel.vue';
 import { saasVueComponents } from './core/register-component';
 import ImageComponent from '@/components/SaaS/Components/Image.vue'
+import Breadcrumb from '@/components/Test/Breadcrumb.vue';
+import Carouel from '@/components/Test/Carouel.vue';
+import Message from '@/components/Test/Message.vue';
+
+
 saasVueComponents.components({
-  ImageComponent: ImageComponent
+  ImageComponent: ImageComponent,
+  Breadcrumb: Breadcrumb,
+  Carouel: Carouel,
+  Message: Message,
 })
 onMounted(() => {
   console.log('onMounted')

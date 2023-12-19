@@ -1,0 +1,21 @@
+.saas-renderer {
+  .L1{
+    .L2 {
+      // display: grid;
+      // grid-template-columns: repeat(3,minmax(0,1fr));
+      // gap: 5px;
+      // width: 100%;
+      // &.grid-flow-col{
+      //   grid-auto-flow: column;
+      // }
+     
+      .L3{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

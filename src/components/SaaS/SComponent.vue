@@ -16,7 +16,7 @@
     <template v-if="instance.level == 1">
       <draggable
         tag="div"
-        v-model="children"
+        v-model="instance.children"
         v-bind="dragOption"
         @start="drag = true"
         @end="drag = false"
@@ -31,7 +31,7 @@
     </template>
     <template v-else>
       <SComponent
-        v-for="(item) in children"
+        v-for="(item) in instance.children"
         :key="`${item.uid}+${item.pid}`"
         :instance="item"
       />
@@ -78,8 +78,10 @@ const data = reactive<VueComponentData>({
 instance.setRefData(data)
 
 const resort = () => {
-  instance.children = children.value
-
+  instance.children.map((el, index) => {
+    el.index = index;
+    // 重新绑定父节点
+  });
 }
 const onMouseEnter = () => {
   if (instance.children.length <= 0) {

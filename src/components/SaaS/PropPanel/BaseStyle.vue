@@ -1,0 +1,11 @@
+<template>
+  <div>
+    style
+  </div>
+</template>
+
+<script setup lang="ts">
+
+</script>
+
+<style lang="scss"></style>

@@ -52,7 +52,7 @@ export interface Component {
   parent?: Component;
   refChildren: Ref<any>; // 绑定Vue组件中动态响应的变量，用于促发更新
   refData: UnwrapNestedRefs<VueComponentData>;
-  clone(): Component;
+  clone(deep?: boolean): Component;
   removeChild(c: Component): Component[] | undefined;
   appendChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
@@ -88,31 +88,13 @@ export class SaaSComponent implements Component {
   parent?: Component;
   refChildren: Ref<any> = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
   refData: UnwrapNestedRefs<VueComponentData> = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
-  constructor(com: Partial<Component>);
-  constructor(com: Component) {
-    this.uid = autoIncreaseID();
+  constructor(com: Partial<Component>, deep?: boolean);
+  constructor(com: Component, deep?: boolean) {
+    this.uid = deep ? com?.uid || 1 : autoIncreaseID();
     this.pid = com.pid || 0;
     this.level = com.level || 1;
-    if (com.level == 1) {
-      this.tag = "Root";
-      this.type = ComponentType.Root;
-    } else if (com.level == 2) {
-      this.tag = "RootContainer";
-      this.type = ComponentType.RootContainer;
-    } else if (com.level == 3) {
-      // 判断当前tag是否是ComponentType 数组中的 如果是则设置对应类型
-      // 如果不是则设置类型为CustomComponent.
-      if (Container.isCoustomContainer(com)) {
-        this.type = ComponentType.CustomComponent;
-        this.tag = com.tag;
-      } else {
-        this.type = ComponentType.ChildContainer;
-        this.tag = "ChildContainer";
-      }
-    } else {
-      this.type = ComponentType.CustomComponent;
-      this.tag = com.tag;
-    }
+    this.type = Container.getComponentType(com.tag);
+    this.tag = com.tag;
     this.vueComponent = saasVueComponents.com[this.tag];
     this.attrs = com.attrs || {};
     this.children = []; // 需要设置为空，否则会污染子元素
@@ -165,8 +147,8 @@ export class SaaSComponent implements Component {
     });
     this.refChildren.value = this.children;
   }
-  clone(): Component {
-    return new SaaSComponent(this);
+  clone(deep: boolean = false): Component {
+    return new SaaSComponent(this, deep);
   }
   setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;

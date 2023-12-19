@@ -15,7 +15,7 @@
       position="right"
       class="w-full md:w-15rem lg:w-20rem"
     >
-
+      <ComponentLayout />
       <BaseStyle />
     </Sidebar>
   </div>
@@ -27,6 +27,7 @@ import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import { ref } from 'vue';
 import BaseStyle from './BaseStyle.vue'
+import ComponentLayout from './Layout.vue'
 
 let selectedCom: Component = new SaaSComponent({})
 console.log(selectedCom)

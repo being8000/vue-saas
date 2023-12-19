@@ -1,5 +1,4 @@
 import {
-  autoIncreaseID,
   Component,
   ComponentType,
   PlainNode,
@@ -34,7 +33,7 @@ export const Container = {
       level: 1,
       type: ComponentType.Root,
       tag: "Root",
-      uid: autoIncreaseID(),
+      uid: 0,
       pid: 0,
       parent: undefined,
     });
@@ -45,7 +44,7 @@ export const Container = {
       level: root.level + 1,
       type: ComponentType.RootContainer,
       tag: "RootContainer",
-      uid: autoIncreaseID(),
+      uid: 0,
       pid: root.uid,
       parent: root,
     });
@@ -56,7 +55,7 @@ export const Container = {
       level: parant.level + 1,
       type: ComponentType.ChildContainer,
       tag: "ChildContainer",
-      uid: autoIncreaseID(),
+      uid: 0,
       pid: parant.uid,
       parent: parant,
     });
@@ -67,7 +66,7 @@ export const Container = {
       level: (parant?.level || 0) + 1,
       type: ComponentType.CustomComponent,
       tag: name,
-      uid: autoIncreaseID(),
+      uid: 0,
       pid: parant?.uid,
       parent: parant,
     });

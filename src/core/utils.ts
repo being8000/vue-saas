@@ -12,14 +12,6 @@ export const is = (o: any, type: DTKey) => {
   return Object.prototype.toString.call(o) === DT[type];
 };
 
-export const autoIncreaseID = (function () {
-  let id = 0;
-  return function () {
-    id++;
-    return id;
-  };
-})();
-
 // export function debounce<T extends (...args: any[]) => any>(
 //   cb: T,
 //   wait: number

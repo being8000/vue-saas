@@ -11,6 +11,7 @@
       selected: data.selected
     }]"
   >
+
     <!-- ParentContainer组件拖拽功能 -->
     <!-- handle=".tag" -->
     <template v-if="instance.level == 1">

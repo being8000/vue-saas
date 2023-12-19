@@ -1,6 +1,6 @@
 <template>
   <div class="root-container">
-    <div class="tag">{{ props.instance.tag }}</div>
+    <div class="tag">{{ props.instance.tag }} {{ props.instance.index }} - {{ props.instance.uid }}</div>
     <slot>
       <EmptyBox :tag="props.instance.tag" />
     </slot>

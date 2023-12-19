@@ -16,7 +16,7 @@
     >
 
       <div>
-        当前选中：{{ type }}
+        当前选中：{{ data.selectedCom.tag }}
       </div>
       <div>
         <h4>请选则你需要添加得组件</h4>

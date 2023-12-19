@@ -1,9 +1,9 @@
 <template>
-  <div class="w-full text-center flex p-1">
-    <div class="grow">
-      01
+  <div class="w-full text-center grid grid-cols-3 p-1 pl-3 sticky top-0 bg-white shadow-lg z-10">
+    <div class="grow text-left flex items-center">
+      <h3 class="m-0 pl">Saas网页编辑器</h3>
     </div>
-    <div class="m-auto grow-0 space-x-1">
+    <div class="m-auto grow-0 space-x-1 text-center">
       <Button
         @click="undo"
         class=" bg-cyan b-none "
@@ -46,7 +46,16 @@
         {{ layerVisible ? "Hide" : "Show" }} Layers
       </Button>
     </div>
-    <div class="grow">02</div>
+    <div class="grow text-right flex items-center justify-end">
+      <a href="https://github.com/being8000/vue-sass">
+        <img
+          src="@/assets/github.svg"
+          alt=""
+          srcset=""
+          class="w-7 mr-3 cursor-pointer"
+        >
+      </a>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>

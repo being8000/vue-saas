@@ -25,13 +25,16 @@
           <section class="flex">
             <Button
               @click="addChild"
-              v-if="type == ComponentType.RootContainer"
+              v-if="type == ComponentType.RootContainer || type == ComponentType.Root"
             >
               ChildContainer
             </Button>
           </section>
         </section>
-        <section class="space-x-2 space-y-2">
+        <section
+          class="space-x-2 space-y-2"
+          v-if="type != ComponentType.Root"
+        >
           <h5>自定义组件 (测试专用)</h5>
           <Button @click="replaceTo(`ImageComponent`)">
             Image

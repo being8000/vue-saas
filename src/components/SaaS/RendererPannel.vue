@@ -89,7 +89,8 @@ onRenderTracked(() => {
     position: absolute;
     top: -1px;
     left: -1px;
-    border: 1px dashed darkgray;
+    border-left: 1px dashed darkgray;
+    border-bottom: 1px dashed darkgray;
     content: "";
     border-radius: 3px;
     pointer-events: none;
@@ -102,7 +103,8 @@ onRenderTracked(() => {
   }
 
   .saas-item:not(.L1):has(.selected) {
-    border: 1px dashed rgb(39, 1, 54);
+    border-left: 1px dashed rgb(39, 1, 54);
+    border-bottom: 1px dashed rgb(39, 1, 54);
   }
 }
 </style>

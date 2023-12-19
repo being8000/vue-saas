@@ -25,7 +25,9 @@
         @change="resort"
       >
         <template #item="{ element }">
-          <SComponent :instance="element" />
+          <div>
+            <SComponent :instance="element" />
+          </div>
         </template>
       </draggable>
     </template>

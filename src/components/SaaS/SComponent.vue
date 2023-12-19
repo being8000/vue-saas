@@ -6,16 +6,36 @@
     @mouseenter.stop.prevent="onMouseEnter"
     @mouseleave.stop.prevent="onMouseleave"
     @click.stop.prevent="onClick"
-    :class="['sass-item', `L${instance.level}`, {
+    :class="['saas-item', `L${instance.level}`, {
       last: instance.children.length <= 0,
       selected: data.selected
     }]"
   >
-    <SComponent
-      v-for="(item) in children"
-      :key="`${item.uid}+${item.pid}`"
-      :instance="item"
-    />
+    <!-- ParentContainer组件拖拽功能 -->
+    <!-- handle=".tag" -->
+    <template v-if="instance.level == 1">
+      <draggable
+        tag="div"
+        v-model="children"
+        v-bind="dragOption"
+        @start="drag = true"
+        @end="drag = false"
+        class="list-group"
+        item-key="uid"
+        @change="resort"
+      >
+        <template #item="{ element }">
+          <SComponent :instance="element" />
+        </template>
+      </draggable>
+    </template>
+    <template v-else>
+      <SComponent
+        v-for="(item) in children"
+        :key="`${item.uid}+${item.pid}`"
+        :instance="item"
+      />
+    </template>
     <!-- <div class="w-full text-center">
       <div class=" text-black text-2">{{ instance.type }} ,</div>
       <div class=" text-black text-2">index:{{ instance.index }} ,</div>
@@ -26,28 +46,41 @@
   </component>
 </template>
 <script setup lang="ts">
-import { sassApp } from '@/core';
+import { saasApp } from '@/core';
 import { SComponentProps, VueComponentData } from '@/core/components';
-import { onBeforeUnmount, onMounted, onUpdated, reactive, ref, shallowRef } from 'vue';
+import { computed, onBeforeUnmount, onMounted, onUpdated, reactive, ref, shallowRef } from 'vue';
+import Draggable from 'vuedraggable';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()
 const instance = props.instance
-
-
+const drag = ref(false)
+const dragOption = computed(() => {
+  return {
+    animation: 200,
+    group: "description",
+    disabled: false,
+    ghostClass: "ghost"
+  }
+})
 
 // Vue功能逻辑代码
 const children = ref(instance.children)
 const attrs = shallowRef(instance.attrs)
-// 绑定响应式对象到 Sass组件上。 Children用于父组件更新子组件的CRUD
+// 绑定响应式对象到 SaaS组件上。 Children用于父组件更新子组件的CRUD
 
 instance.setRefChildren(children)
 
-// 绑定内部状态，这个值只用来SassComponent 更新内部值之后同步当前组件触发渲染
+// 绑定内部状态，这个值只用来SaaSComponent 更新内部值之后同步当前组件触发渲染
 const data = reactive<VueComponentData>({
   selected: instance.selected,
   hovering: false
 })
 instance.setRefData(data)
+
+const resort = () => {
+  instance.children = children.value
+
+}
 const onMouseEnter = () => {
   if (instance.children.length <= 0) {
     data.hovering = true
@@ -60,7 +93,7 @@ const onMouseleave = () => {
   }
 }
 const onClick = () => {
-  sassApp.action.toggleSelect(instance)
+  saasApp.action.toggleSelect(instance)
 }
 onMounted(() => {
 })

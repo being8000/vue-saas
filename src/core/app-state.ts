@@ -1,4 +1,4 @@
-import { sassApp } from ".";
+import { saasApp } from ".";
 import {
   AddChildCommand,
   AddVueComponentCommand,
@@ -20,12 +20,12 @@ export abstract class AppStateAction {
   abstract copy(): void;
   toggleSelect(com?: Component): void {
     if (!com) {
-      com = sassApp.component;
+      com = saasApp.component;
     }
     com.toggleSelect();
     // 设置为选中状态
-    sassApp.action = selectedAction;
-    sassApp.activedComponent = com;
+    saasApp.action = selectedAction;
+    saasApp.activedComponent = com;
     appEvents.notify("appSelect", {
       component: com,
     });
@@ -47,9 +47,9 @@ class SelectedStateAction extends AppStateAction {
     super();
   }
   addVueComponentChild(name: string): void {
-    if (sassApp.activedComponent) {
-      sassApp.history.executeCommand(
-        new AddVueComponentCommand(sassApp.activedComponent, name)
+    if (saasApp.activedComponent) {
+      saasApp.history.executeCommand(
+        new AddVueComponentCommand(saasApp.activedComponent, name)
       );
     }
   }
@@ -57,39 +57,39 @@ class SelectedStateAction extends AppStateAction {
   toggleSelect(com?: Component): void {
     // 如果没有具体所要选中的组件，则默认执行选中ROOT 根节点
     if (!com) {
-      com = sassApp.component;
+      com = saasApp.component;
     }
-    sassApp.activedComponent?.toggleSelect();
+    saasApp.activedComponent?.toggleSelect();
     // 通知其他面板
     appEvents.notify("appCancelSelect", {
       component: com,
     });
     // 如果 选中的组件和已经激活的组件是同一个 就取消选中不执行一下操作
-    if (sassApp.activedComponent?.uid == com?.uid) {
-      sassApp.activedComponent = undefined;
-      sassApp.action = defaultAction;
+    if (saasApp.activedComponent?.uid == com?.uid) {
+      saasApp.activedComponent = undefined;
+      saasApp.action = defaultAction;
     } else {
       super.toggleSelect(com);
     }
   }
   delete(): void {
-    if (sassApp.activedComponent) {
-      sassApp.history.executeCommand(
-        new DeleteCommand(sassApp.activedComponent)
+    if (saasApp.activedComponent) {
+      saasApp.history.executeCommand(
+        new DeleteCommand(saasApp.activedComponent)
       );
-      sassApp.activedComponent = undefined;
+      saasApp.activedComponent = undefined;
     }
   }
   addChild(): void {
-    if (sassApp.activedComponent) {
-      sassApp.history.executeCommand(
-        new AddChildCommand(sassApp.activedComponent)
+    if (saasApp.activedComponent) {
+      saasApp.history.executeCommand(
+        new AddChildCommand(saasApp.activedComponent)
       );
     }
   }
   copy(): void {
-    if (sassApp.activedComponent) {
-      sassApp.history.executeCommand(new CopyCommand(sassApp.activedComponent));
+    if (saasApp.activedComponent) {
+      saasApp.history.executeCommand(new CopyCommand(saasApp.activedComponent));
     }
   }
 }

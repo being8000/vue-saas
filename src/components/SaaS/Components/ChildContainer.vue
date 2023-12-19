@@ -1,5 +1,5 @@
 <template>
-  <div class="root-container">
+  <div class="child-container">
     <div class="tag">{{ props.instance.tag }}</div>
     <slot>
       <EmptyBox :tag="props.instance.tag" />
@@ -13,8 +13,8 @@ const props = defineProps<SComponentProps>()
 </script>
 
 <style lang="scss" scoped>
-.root-container {
-  min-width: 100%;
+.child-container {
+  width: max-content;
   text-align: center;
 }
 </style>

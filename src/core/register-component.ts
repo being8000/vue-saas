@@ -2,13 +2,13 @@ import {
   ChildContainer,
   Root,
   RootContainer,
-} from "@/components/Sass/Components/index";
+} from "@/components/SaaS/Components/index";
 import { Component as VueComponent } from "vue";
 export type RegisteredComponents = Record<string, VueComponent>;
 
 export type RegisteredComponentsKey = keyof RegisteredComponents;
 
-class SassVueComponents {
+class SaaSVueComponents {
   com: RegisteredComponents = {
     ChildContainer: ChildContainer,
     Root: Root,
@@ -26,4 +26,4 @@ class SassVueComponents {
   }
 }
 
-export const sassVueComponents = new SassVueComponents();
+export const saasVueComponents = new SaaSVueComponents();

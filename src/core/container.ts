@@ -3,7 +3,7 @@ import {
   Component,
   ComponentType,
   PlainNode,
-  SassComponent,
+  SaaSComponent,
 } from "./components";
 /**
  * 用来编写一些公用 Component的操作方法
@@ -26,7 +26,7 @@ export const Container = {
     ]);
   },
   getRoot() {
-    const rootContainer = new SassComponent({
+    const rootContainer = new SaaSComponent({
       level: 1,
       type: ComponentType.Root,
       tag: "Root",
@@ -37,7 +37,7 @@ export const Container = {
     return rootContainer;
   },
   getRootContainer(root: Component) {
-    const rootContainer = new SassComponent({
+    const rootContainer = new SaaSComponent({
       level: root.level + 1,
       type: ComponentType.RootContainer,
       tag: "RootContainer",
@@ -48,7 +48,7 @@ export const Container = {
     return rootContainer;
   },
   getChildContainer(parant: Component) {
-    const childContainer = new SassComponent({
+    const childContainer = new SaaSComponent({
       level: parant.level + 1,
       type: ComponentType.ChildContainer,
       tag: "ChildContainer",
@@ -58,11 +58,11 @@ export const Container = {
     });
     return childContainer;
   },
-  getCustomComponents(parant?: Component) {
-    const childContainer = new SassComponent({
+  getCustomComponents(name: string, parant?: Component) {
+    const childContainer = new SaaSComponent({
       level: (parant?.level || 0) + 1,
       type: ComponentType.CustomComponent,
-      tag: "ChildContainer",
+      tag: name,
       uid: autoIncreaseID(),
       pid: parant?.uid,
       parent: parant,
@@ -70,6 +70,6 @@ export const Container = {
     return childContainer;
   },
   isCoustomContainer(com: Component) {
-    return ["ChildContainer", "Root", "RootContainer"].includes(com.tag);
+    return !["ChildContainer", "Root", "RootContainer"].includes(com.tag);
   },
 };

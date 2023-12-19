@@ -1,7 +1,7 @@
 import { createApp } from "vue";
-import "./style.css";
 import "virtual:uno.css";
-import "primevue/resources/themes/lara-light-green/theme.css";
+import "primevue/resources/themes/soho-light/theme.css";
+import "./style.css";
 import PrimeVue from "primevue/config";
 import App from "./App.vue";
 

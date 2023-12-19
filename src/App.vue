@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated } from 'vue';
-// import SassRenderer from '@/components/SassRenderer.vue'
-import SassRenderer from '@/components/Sass/RendererPannel.vue';
-import { sassVueComponents } from './core/register-component';
-import ImageComponent from '@/components/Sass/Components/Image.vue'
-sassVueComponents.components({
+// import SaaSRenderer from '@/components/SaaSRenderer.vue'
+import './style.css'
+import SaaSRenderer from '@/components/SaaS/RendererPannel.vue';
+import { saasVueComponents } from './core/register-component';
+import ImageComponent from '@/components/SaaS/Components/Image.vue'
+saasVueComponents.components({
   ImageComponent: ImageComponent
 })
 onMounted(() => {
@@ -47,7 +48,7 @@ onServerPrefetch(() => {
 
 <template>
   <div class=" text-black">
-    <SassRenderer />
+    <SaaSRenderer />
   </div>
 </template>
 

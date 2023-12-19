@@ -2,10 +2,10 @@
  * 参照设计模式中行为模式的命令模式，试图通过结合命令模式来实现历史记录，撤回等功能
  */
 
-import { sassApp } from ".";
-import { Component, ComponentType, SassComponent } from "./components";
+import { saasApp } from ".";
+import { Component, ComponentType, SaaSComponent } from "./components";
 import { Container } from "./container";
-import { sassVueComponents } from "./register-component";
+import { saasVueComponents } from "./register-component";
 
 export interface Command {
   component: Component;
@@ -26,7 +26,7 @@ export class SelectComponentCommand implements Command {
 
 export class AddChildCommand implements Command {
   component: Component;
-  addedCom: Component = new SassComponent({});
+  addedCom: Component = new SaaSComponent({});
   constructor(com: Component) {
     this.component = com;
   }
@@ -36,7 +36,12 @@ export class AddChildCommand implements Command {
   }
   execute(): boolean {
     // 如果为自定义容器，无法添加子容器
-    if (this.component.type == ComponentType.CustomComponent) {
+    if (
+      [ComponentType.CustomComponent, ComponentType.ChildContainer].includes(
+        this.component.type
+      )
+    ) {
+      console.warn("ChildContainer和CustomComponent无法添加子组件");
       return false;
     }
     if (this.component.type == ComponentType.Root) {
@@ -54,7 +59,7 @@ export class AddChildCommand implements Command {
  */
 export class AddVueComponentCommand implements Command {
   component: Component;
-  addedCom: Component = new SassComponent({});
+  addedCom: Component = new SaaSComponent({});
   name: string; // 新增的自定义组件名字
   constructor(com: Component, name: string) {
     this.component = com;
@@ -68,14 +73,14 @@ export class AddVueComponentCommand implements Command {
     if (this.component.type == ComponentType.CustomComponent) {
       return false;
     }
-    const vueComponent = sassVueComponents.com[this.name];
+    const vueComponent = saasVueComponents.com[this.name];
 
     if (!vueComponent) {
       throw new Error(
         "未找到当前组件，请确认组件名字是否正确且并且已经注册完毕"
       );
     }
-    this.addedCom = Container.getCustomComponents(this.component);
+    this.addedCom = Container.getCustomComponents(this.name, this.component);
     this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);
     return true;
@@ -84,7 +89,7 @@ export class AddVueComponentCommand implements Command {
 
 export class CopyCommand implements Command {
   component: Component;
-  copyDom: Component = new SassComponent({});
+  copyDom: Component = new SaaSComponent({});
   constructor(com: Component) {
     this.component = com;
   }
@@ -130,8 +135,8 @@ export class DeleteCommand implements Command {
   execute(): boolean {
     this.component.parent?.removeChild(this.component);
     // // 清楚app的选中状态
-    if (sassApp.activedComponent?.uid == this.component.uid) {
-      sassApp.action.toggleSelect(this.component);
+    if (saasApp.activedComponent?.uid == this.component.uid) {
+      saasApp.action.toggleSelect(this.component);
     }
     return true;
   }

@@ -1,12 +1,12 @@
-import { Component, PlainNode, SassComponent } from "./components";
+import { Component, PlainNode, SaaSComponent } from "./components";
 import { Container } from "./container";
 import { CommandHistory } from "./history";
 import { AppStateAction, defaultAction } from "./app-state";
 
 /**
- * 该类是Sass应用的主类，实现各个功能的载体。返回应用程序实例
+ * 该类是SaaS应用的主类，实现各个功能的载体。返回应用程序实例
  */
-export class SassApplication {
+export class SaaSApplication {
   component: Component = Container.getRoot();
   selections: Component[] = []; // 存储选中的组件列表，为后续使用
   action: AppStateAction = defaultAction;
@@ -30,7 +30,7 @@ export class SassApplication {
       params.pid = 0;
     }
     params.children = [];
-    const instance = new SassComponent(params);
+    const instance = new SaaSComponent(params);
     if (data.children.length > 0) {
       const childrends = data.children.map((el, index) =>
         this.mount(el, instance, index)
@@ -42,4 +42,4 @@ export class SassApplication {
   }
 }
 
-export const sassApp = new SassApplication();
+export const saasApp = new SaaSApplication();

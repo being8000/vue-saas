@@ -6,7 +6,7 @@ import {
   UnwrapNestedRefs,
 } from "vue";
 import { Container } from "./container";
-import { sassVueComponents } from "./register-component";
+import { saasVueComponents } from "./register-component";
 export enum ComponentType {
   Root = "Root", // 根节点， 只允许新增 RootContainer 层级为L1
   RootContainer = "RootContainer", // 根容器，层级为L2, 允许添加 子容器 "Container" 或者 设置为自定义组
@@ -73,7 +73,7 @@ export const autoIncreaseID = (function () {
 /**
  * 参照创建行模式中的 组合模式
  */
-export class SassComponent implements Component {
+export class SaaSComponent implements Component {
   type: ComponentType;
   uid: number;
   pid: Component["uid"];
@@ -104,18 +104,16 @@ export class SassComponent implements Component {
       // 如果不是则设置类型为CustomComponent.
       if (Container.isCoustomContainer(com)) {
         this.type = ComponentType.CustomComponent;
-
         this.tag = com.tag;
       } else {
         this.type = ComponentType.ChildContainer;
-
         this.tag = "ChildContainer";
       }
     } else {
       this.type = ComponentType.CustomComponent;
       this.tag = com.tag;
     }
-    this.vueComponent = sassVueComponents.com[this.tag];
+    this.vueComponent = saasVueComponents.com[this.tag];
     this.attrs = com.attrs || {};
     this.children = []; // 需要设置为空，否则会污染子元素
     this.selected = false;
@@ -168,7 +166,7 @@ export class SassComponent implements Component {
     this.refChildren.value = this.children;
   }
   clone(): Component {
-    return new SassComponent(this);
+    return new SaaSComponent(this);
   }
   setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;

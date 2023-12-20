@@ -6,7 +6,7 @@ import {
   UnwrapNestedRefs,
 } from "vue";
 import { Container } from "./container";
-import { saasVueComponents } from "./register-component";
+import { ComponentItem, saasVueComponents } from "./register-component";
 export enum ComponentType {
   Root = "Root", // 根节点， 只允许新增 RootContainer 层级为L1
   RootContainer = "RootContainer", // 根容器，层级为L2, 允许添加 子容器 "Container" 或者 设置为自定义组
@@ -42,7 +42,7 @@ export interface Component {
   uid: number; // 组件ID
   pid: Component["uid"]; // 父组件ID
   tag: string; // 组件名字
-  vueComponent: VueComponent;
+  vueComponent?: ComponentItem;
   level: number;
   index: number;
   attrs?: Record<string, string | boolean | undefined>; // 组件属性
@@ -78,7 +78,7 @@ export class SaaSComponent implements Component {
   uid: number;
   pid: Component["uid"];
   tag: string;
-  vueComponent: VueComponent;
+  vueComponent?: ComponentItem;
   level: number;
   index: number;
   attrs: Record<string, string | boolean | undefined>;
@@ -95,7 +95,7 @@ export class SaaSComponent implements Component {
     this.level = com.level || 1;
     this.type = Container.getComponentType(com.tag);
     this.tag = com.tag;
-    this.vueComponent = saasVueComponents.com[this.tag];
+    this.vueComponent = saasVueComponents.find(this.tag);
     this.attrs = com.attrs || {};
     this.children = []; // 需要设置为空，否则会污染子元素
     this.selected = false;

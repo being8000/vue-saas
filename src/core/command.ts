@@ -35,18 +35,12 @@ export class ReplaceCommand implements Command {
   }
   undo(): void {
     this.component.tag = this.oldName;
-    const vueComponent = saasVueComponents.com[this.oldName];
+    const vueComponent = saasVueComponents.find(this.oldName);
     this.component.vueComponent = vueComponent;
     this.component.type = Container.getComponentType(this.oldName);
   }
   execute(): boolean {
-    const vueComponent = saasVueComponents.com[this.replacedName];
-
-    if (!vueComponent) {
-      throw new Error(
-        "未找到当前组件，请确认组件名字是否正确且并且已经注册完毕"
-      );
-    }
+    const vueComponent = saasVueComponents.find(this.replacedName);
     this.component.tag = this.replacedName;
     this.component.vueComponent = vueComponent;
     this.component.type = ComponentType.CustomComponent;
@@ -103,13 +97,8 @@ export class AddVueComponentCommand implements Command {
     if (this.component.type == ComponentType.CustomComponent) {
       return false;
     }
-    const vueComponent = saasVueComponents.com[this.name];
+    const vueComponent = saasVueComponents.find(this.name);
 
-    if (!vueComponent) {
-      throw new Error(
-        "未找到当前组件，请确认组件名字是否正确且并且已经注册完毕"
-      );
-    }
     this.addedCom = Container.getCustomComponents(this.name, this.component);
     this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);

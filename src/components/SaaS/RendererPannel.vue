@@ -3,6 +3,7 @@
 
     <!-- 如果是个空数组则显示新增按钮 -->
     <FloatingBar />
+    <!-- <CssGrid /> -->
     <SelectorPanel />
     <PropPanel />
     <section class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset layers render-container">
@@ -15,6 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
+// import CssGrid from '@/components/CssGrid.vue'
 import { Container } from '@/core/container';
 import { saasApp } from '@/core/index';
 import { onMounted, onRenderTracked, onUpdated, ref } from 'vue';

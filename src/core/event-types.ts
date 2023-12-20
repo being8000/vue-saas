@@ -4,12 +4,15 @@
 import { Component } from "./components";
 
 // };
+/**
+ * 消息通信事件列表注册
+ */
 export type AppEventParameters = {
   component: Component;
 };
 
 type SelectEvent = (params: AppEventParameters) => void;
-type CancelSelectEvent = (params: Partial<AppEventParameters>) => void;
+type CancelSelectEvent = (params: AppEventParameters) => void;
 type LockEvent = (params: AppEventParameters) => void;
 
 export interface EventMap {
@@ -17,14 +20,12 @@ export interface EventMap {
   appCancelSelect: CancelSelectEvent;
   appLock: LockEvent;
 }
-export interface EventParametersMap {
-  appSelect: AppEventParameters;
-  appCancelSelect: AppEventParameters;
-  appLock: AppEventParameters;
-}
-export type EventKey = keyof EventMap;
 
-export interface Listener<T extends EventKey> {
-  type: T;
-  callback: (params: EventParametersMap[T]) => void;
+// export type EventConfig<Events extends EventMap> = {
+//   [E in Events as E["eventName"]]: (data: Omit<E, "eventName">) => void;
+// }
+export type EventKey = keyof EventMap;
+export interface Listener<K extends EventKey> {
+  type: K;
+  callback(...params: Parameters<EventMap[K]>): void;
 }

@@ -31,12 +31,16 @@
             </Button>
           </section>
         </section>
-        <section
-          class="space-x-2 space-y-2"
-          v-if="type != ComponentType.Root"
-        >
+        <section v-if="type != ComponentType.Root">
           <h5>自定义组件 (测试专用)</h5>
-          <Button @click="replaceTo(`ImageComponent`)">
+          <div class="flex flex-wrap">
+            <ComponentSelector
+              v-for="(componentKey, index) in customComponents"
+              :componentKey="componentKey"
+              :index="index"
+            />
+          </div>
+          <!-- <Button @click="replaceTo(`ImageComponent`)">
             Image
           </Button>
           <Button @click="replaceTo(`Breadcrumb`)">
@@ -47,7 +51,7 @@
           </Button>
           <Button @click="replaceTo(`Message`)">
             Message
-          </Button>
+          </Button> -->
         </section>
       </div>
     </Sidebar>
@@ -58,6 +62,7 @@
  * L2 可以添加自定义组件以及子容器
  * L3 无法继续添加，可以替换当前层级为自定义组件
  */
+import ComponentSelector from '../System/ComponentSelector.vue'
 import { saasApp } from '@/core';
 import { Component, SaaSComponent, ComponentType } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
@@ -73,6 +78,10 @@ const data = reactive<{
   selectedCom: new SaaSComponent({})
 })
 
+const customComponents = [
+  "ImageComponent", "Breadcrumb", "Carouel", "Message"
+]
+
 const type = computed(() => {
   return data.selectedCom.type
 })
@@ -80,9 +89,7 @@ const type = computed(() => {
 const addChild = () => {
   saasApp.action.addChild()
 }
-const replaceTo = (name: string) => {
-  saasApp.action.replaceTo(name)
-}
+
 
 const subSelect = (param: AppEventParameters) => {
   data.selectedCom = param.component

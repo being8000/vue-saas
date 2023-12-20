@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="instance.vueComponent"
+    :is="instance.vueComponent?.com"
     v-bind="attrs"
     :instance="instance"
     @mouseenter.stop.prevent="onMouseEnter"

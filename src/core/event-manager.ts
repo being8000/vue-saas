@@ -3,28 +3,20 @@
  * 行为模式中的观察者模式
  */
 
-import {
-  EventKey,
-  EventMap,
-  EventParametersMap,
-  Listener,
-} from "./event-types";
+import { EventKey, EventMap, Listener } from "./event-types";
 
 class EeventManager {
   listeners: Listener<EventKey>[] = [];
   constructor() {}
 
-  subscribe<K extends EventKey>(
-    eventType: EventKey,
-    callback: (params: EventParametersMap[K]) => void
-  ) {
+  subscribe<K extends EventKey>(eventType: K, callback: EventMap[K]) {
     this.listeners.push({
       type: eventType,
       callback,
     });
   }
 
-  unsubscribe<K extends EventKey>(eventType: EventKey, callback: EventMap[K]) {
+  unsubscribe<K extends EventKey>(eventType: K, callback: EventMap[K]) {
     const index = this.listeners.findIndex(
       (el) => el.type == eventType && el.callback == callback
     );
@@ -33,7 +25,7 @@ class EeventManager {
     }
   }
 
-  notify<K extends EventKey>(eventType: EventKey, data: EventParametersMap[K]) {
+  notify<K extends EventKey>(eventType: K, data: Parameters<EventMap[K]>[0]) {
     this.listeners
       .filter((el) => el.type == eventType)
       .forEach((lis) => {

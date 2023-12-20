@@ -17,6 +17,7 @@
     >
       <ComponentLayout />
       <BaseStyle />
+      <ComponentProps />
     </Sidebar>
   </div>
 </template>
@@ -27,6 +28,7 @@ import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import { ref } from 'vue';
 import BaseStyle from './BaseStyle.vue'
+import ComponentProps from './Props.vue'
 import ComponentLayout from './Layout.vue'
 
 let selectedCom: Component = new SaaSComponent({})

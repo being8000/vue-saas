@@ -50,3 +50,7 @@
 - 完成左侧组件控制面板 develop left side Component Controller
 - 完成右侧组件样式控制面板 develop
 - 优化floating bar 样式， enhance Floating bar style
+
+### TODO 12/20/2023 阶段3
+- 确认属性面板和组件直接得关系，如何在两则之间建立联系，交互，如何
+- 开发属性面板，定义好 属性类型，需要开发一个动态表单来动态设置组件属性

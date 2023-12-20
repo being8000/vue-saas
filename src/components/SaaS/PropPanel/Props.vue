@@ -1,6 +1,6 @@
 <template>
   <div>
-    样式 (Style)
+    属性 (Props)
   </div>
 </template>
 

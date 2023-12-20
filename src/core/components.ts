@@ -1,10 +1,4 @@
-import {
-  Component as VueComponent,
-  reactive,
-  ref,
-  Ref,
-  UnwrapNestedRefs,
-} from "vue";
+import { reactive, ref, Ref, UnwrapNestedRefs } from "vue";
 import { Container } from "./container";
 import { ComponentItem, saasVueComponents } from "./register-component";
 export enum ComponentType {

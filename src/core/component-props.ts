@@ -1,5 +1,3 @@
-import { Nullable } from "primevue/ts-helpers";
-
 /**
  * 该类定义了Props属性面板用到的一些基础类型
  */

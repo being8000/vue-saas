@@ -2,11 +2,13 @@ import {
   ChildContainer,
   Root,
   RootContainer,
+  RootContainerProps,
 } from "@/components/SaaS/Components/index";
 import { Component as VueComponent } from "vue";
 import { Field } from "./component-props";
 export interface ComponentItem {
-  com: VueComponent;
+  component: VueComponent;
+  propsComponent?: VueComponent; // 属性控制组件，用于编辑组件属性值
   componentName: string;
   props?: Field[];
 }
@@ -17,16 +19,17 @@ export type RegisteredComponentsKey = keyof RegisteredComponents;
 class SaaSVueComponents {
   private com: RegisteredComponents = {
     ChildContainer: {
-      com: ChildContainer,
+      component: ChildContainer,
       componentName: "子容器节点",
     },
     Root: {
-      com: Root,
+      component: Root,
       componentName: "根节点",
     },
     RootContainer: {
-      com: RootContainer,
+      component: RootContainer,
       componentName: "根节点容器",
+      propsComponent: RootContainerProps,
     },
   };
   constructor() {}
@@ -41,7 +44,6 @@ class SaaSVueComponents {
   }
 
   find(componentKey: string) {
-    console.log(componentKey);
     if (!componentKey) {
       return;
     }

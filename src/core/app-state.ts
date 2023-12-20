@@ -51,6 +51,9 @@ class SelectedStateAction extends AppStateAction {
       saasApp.history.executeCommand(
         new ReplaceCommand(saasApp.activedComponent, name)
       );
+      appEvents.notify("appSelect", {
+        component: saasApp.activedComponent,
+      });
     }
   }
   constructor() {

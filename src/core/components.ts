@@ -1,4 +1,4 @@
-import { reactive, ref, Ref, UnwrapNestedRefs } from "vue";
+import { CSSProperties, reactive, ref, Ref, UnwrapNestedRefs } from "vue";
 import { Container } from "./container";
 import { ComponentItem, saasVueComponents } from "./register-component";
 export enum ComponentType {
@@ -19,17 +19,21 @@ export enum ComponentType {
 export type PlainNode = Pick<Component, "attrs" | "tag"> & {
   children: PlainNode[];
 };
+
 export type SComponentProps = {
   instance: Component;
-};
-export type RendererPannelProps = {
-  data: PlainNode;
 };
 
 export type VueComponentData = {
   selected?: boolean;
   onfocusin?: boolean;
   hovering?: boolean;
+};
+
+export type ComponentAttribute = {
+  [x: string]: any;
+  style?: CSSProperties;
+  initData?: object;
 };
 export interface Component {
   type: ComponentType; //组件类型
@@ -39,19 +43,21 @@ export interface Component {
   vueComponent?: ComponentItem;
   level: number;
   index: number;
-  attrs?: Record<string, string | boolean | undefined>; // 组件属性
+  attrs?: ComponentAttribute; // 组件属性
   children: Component[]; // 子组件
   selected?: boolean; // 是否被选中
   onFocusin?: boolean; // 是否有子元素被选中
   parent?: Component;
   refChildren: Ref<any>; // 绑定Vue组件中动态响应的变量，用于促发更新
   refData: UnwrapNestedRefs<VueComponentData>;
+  refAttrs: UnwrapNestedRefs<any>;
   clone(deep?: boolean): Component;
   removeChild(c: Component): Component[] | undefined;
   appendChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
   getChildById(uid: Component["uid"]): Component | undefined;
   setRefChildren(ref: Ref<any>): void;
+  setRefAttrs(ref: Ref<any>): void;
   setRefData(ref: UnwrapNestedRefs<VueComponentData>): void;
   sync(): void;
   toggleSelect(): void;
@@ -68,20 +74,21 @@ export const autoIncreaseID = (function () {
  * 参照创建行模式中的 组合模式
  */
 export class SaaSComponent implements Component {
-  type: ComponentType;
-  uid: number;
+  type: Component["type"];
+  uid: Component["uid"];
   pid: Component["uid"];
-  tag: string;
-  vueComponent?: ComponentItem;
-  level: number;
-  index: number;
-  attrs: Record<string, string | boolean | undefined>;
+  tag: Component["tag"];
+  vueComponent?: Component["vueComponent"];
+  level: Component["level"];
+  index: Component["index"];
+  attrs?: Component["attrs"];
   children: Component[];
-  selected?: boolean | undefined;
-  onFocusin?: boolean | undefined;
+  selected?: Component["selected"];
+  onFocusin?: Component["onFocusin"];
   parent?: Component;
-  refChildren: Ref<any> = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
-  refData: UnwrapNestedRefs<VueComponentData> = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
+  refChildren: Component["refChildren"] = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
+  refAttrs: Component["refAttrs"] = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
+  refData: Component["refData"] = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
   constructor(com: Partial<Component>, deep?: boolean);
   constructor(com: Component, deep?: boolean) {
     this.uid = deep ? com?.uid || 1 : autoIncreaseID();
@@ -146,6 +153,9 @@ export class SaaSComponent implements Component {
   }
   setRefChildren(ref: Ref<any>): void {
     this.refChildren = ref;
+  }
+  setRefAttrs(ref: Ref<any>): void {
+    this.refAttrs = ref;
   }
   setRefData(ref: UnwrapNestedRefs<VueComponentData>): void {
     this.refData = ref;

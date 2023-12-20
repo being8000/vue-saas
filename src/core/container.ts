@@ -16,11 +16,16 @@ export const Container = {
     } as PlainNode;
   },
   // 获取空的根node树， 用于创建新的一个页面编辑器的时候
-  initRoodNode() {
+  initRootNode() {
     return this.rootNode([
       {
         tag: "RootContainer",
         children: [],
+        attrs: {
+          initData: {
+            name: "zehan",
+          },
+        },
       },
       {
         tag: "RootContainer",

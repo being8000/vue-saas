@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="instance.vueComponent?.com"
+    :is="instance.vueComponent?.component"
     v-bind="attrs"
     :instance="instance"
     @mouseenter.stop.prevent="onMouseEnter"
@@ -14,7 +14,7 @@
 
     <!-- ParentContainer组件拖拽功能 -->
     <!-- handle=".tag" -->
-    <template v-if="instance.level == 1">
+    <template v-if="instance.level == 1 && children.length > 0">
       <draggable
         tag="div"
         v-model="instance.children"
@@ -26,7 +26,10 @@
         @change="resort"
       >
         <template #item="{ element }">
+
+
           <div>
+            <!-- 新增上面这个Div是为了解决当前组件替换成自定义组件之后引起的未知错误 -->
             <SComponent :instance="element" />
           </div>
         </template>
@@ -51,7 +54,7 @@
 <script setup lang="ts">
 import { saasApp } from '@/core';
 import { SComponentProps, VueComponentData } from '@/core/components';
-import { computed, onBeforeUnmount, onMounted, onUpdated, reactive, ref, shallowRef } from 'vue';
+import { computed, onBeforeUnmount, onMounted, onUpdated, reactive, ref } from 'vue';
 import Draggable from 'vuedraggable';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()
@@ -68,10 +71,10 @@ const dragOption = computed(() => {
 
 // Vue功能逻辑代码
 const children = ref(instance.children)
-const attrs = shallowRef(instance.attrs)
+const attrs = ref(instance.attrs)
 // 绑定响应式对象到 SaaS组件上。 Children用于父组件更新子组件的CRUD
-
 instance.setRefChildren(children)
+instance.setRefAttrs(attrs)
 
 // 绑定内部状态，这个值只用来SaaSComponent 更新内部值之后同步当前组件触发渲染
 const data = reactive<VueComponentData>({

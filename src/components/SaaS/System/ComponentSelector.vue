@@ -6,7 +6,7 @@
     <div class=" font-bold text-3">{{ component?.componentName }}</div>
     <section class="  overflow-hidden w-full  flex justify-center items-center  cursor-pointer">
       <component
-        :is="component?.com"
+        :is="component?.component"
         class=" pointer-events-none"
       ></component>
     </section>

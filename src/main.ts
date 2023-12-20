@@ -12,19 +12,19 @@ import Message from "@/components/Test/Message.vue";
 saasVueComponents.components({
   ImageComponent: {
     componentName: "图片",
-    com: ImageComponent,
+    component: ImageComponent,
   },
   Breadcrumb: {
     componentName: "面包屑",
-    com: Breadcrumb,
+    component: Breadcrumb,
   },
   Carouel: {
     componentName: "轮播组件",
-    com: Carouel,
+    component: Carouel,
   },
   Message: {
     componentName: "消息组件",
-    com: Message,
+    component: Message,
   },
 });
 const app = createApp(App);

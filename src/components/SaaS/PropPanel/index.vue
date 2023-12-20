@@ -17,7 +17,7 @@
     >
       <ComponentLayout />
       <BaseStyle />
-      <ComponentProps />
+      <ComponentProps :instance="data.selectedCom" />
     </Sidebar>
   </div>
 </template>
@@ -26,23 +26,27 @@ import Sidebar from 'primevue/sidebar';
 import { Component, SaaSComponent } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import BaseStyle from './BaseStyle.vue'
 import ComponentProps from './Props.vue'
 import ComponentLayout from './Layout.vue'
 
-let selectedCom: Component = new SaaSComponent({})
-console.log(selectedCom)
+const data = reactive<{
+  selectedCom: Component
+}>({
+  selectedCom: new SaaSComponent({})
+})
 const visible = ref(false)
-const subSelect = (data: AppEventParameters) => {
-  selectedCom = data.component
+const appSelect = (params: AppEventParameters) => {
+  data.selectedCom = params.component
   visible.value = true
 }
-const appCancelSelect = (data: AppEventParameters) => {
-  selectedCom = data.component
+const appCancelSelect = (params: AppEventParameters) => {
+
+  data.selectedCom = params.component
   visible.value = false
 }
-appEvents.subscribe("appSelect", subSelect)
+appEvents.subscribe("appSelect", appSelect)
 appEvents.subscribe("appCancelSelect", appCancelSelect)
 </script>
 

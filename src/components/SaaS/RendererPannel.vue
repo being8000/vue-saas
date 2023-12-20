@@ -6,7 +6,7 @@
     <!-- <CssGrid /> -->
     <SelectorPanel />
     <PropPanel />
-    <section class="max-w-2xl m-auto b-r b-l b-balck b-2 shadow-inset layers render-container">
+    <section class="max-w-2xl m-auto mt-2 b-r b-l b-balck b-2 shadow-inset layers render-container">
       <RenderItem
         ref="vDom"
         :instance="children"
@@ -25,9 +25,9 @@ import RenderItem from './SComponent.vue';
 import SelectorPanel from './SelectorPanel/index.vue';
 import PropPanel from './PropPanel/index.vue';
 
-
-const instance = saasApp.mount(Container.initRoodNode())
-
+console.log(Container.initRootNode())
+const instance = saasApp.mount(Container.initRootNode())
+console.log(instance)
 const children = ref(instance)
 instance.setRefChildren(children)
 // saasApp.action.toggleSelect(children.value)
@@ -82,7 +82,6 @@ onRenderTracked(() => {
   .saas-item {
     position: relative;
     box-sizing: border-box;
-    display: block;
   }
 
   .saas-item::after {

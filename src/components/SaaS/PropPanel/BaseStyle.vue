@@ -116,29 +116,27 @@ const style = reactive<Style>({
 const transformToPx = (): CSSProperties => {
   const st = JSON.parse(JSON.stringify(style))
   Object.keys(st).forEach(el => {
-    st[el] = st[el] + 'px'
+    st[el] = st[el] + 'rem'
   })
   return st
+}
+const config = {
+  min: -5,
+  max: 5,
+  step: 0.01,
+  unit: 'rem'
 }
 const padding: PropsFieldType = {
   label: "上间距",
   key: "display",
   type: "slider",
-  config: {
-    min: 0,
-    max: 15,
-    unit: 'px'
-  },
+  config,
 };
 const margin: PropsFieldType = {
   label: "上边距",
   key: "display",
   type: "slider",
-  config: {
-    min: 0,
-    max: 15,
-    unit: 'px'
-  },
+  config,
 };
 let inst = instance
 const appSelect = (params: AppEventParameters) => {

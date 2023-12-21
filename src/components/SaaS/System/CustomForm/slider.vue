@@ -5,6 +5,7 @@
       :min="config.min"
       :max="config.max"
       v-model="value"
+      :step="config.step"
       @input="onChange"
       class="slider"
     >
@@ -43,7 +44,8 @@ const onChange = () => {
   &>span {
     display: inline-block;
     margin-left: 5px;
-    width: 20%;
+    width: 35%;
+    font-size: 10px;
   }
 
   /* The slider itself */

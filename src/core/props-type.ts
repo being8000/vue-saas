@@ -7,6 +7,7 @@ export interface Slider {
   min: number;
   max: number;
   unit?: string;
+  step?: number;
 }
 
 export type FiledTypeMap = {

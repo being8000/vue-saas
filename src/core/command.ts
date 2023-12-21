@@ -6,6 +6,7 @@ import { triggerRef } from "vue";
 import { saasApp } from ".";
 import { Component, ComponentType, SaaSComponent } from "./components";
 import { Container } from "./container";
+import { appEvents } from "./event-manager";
 import { saasVueComponents } from "./register-component";
 
 export interface Command {
@@ -41,6 +42,9 @@ export class ReplaceCommand implements Command {
     this.component.type = Container.getComponentType(this.oldName);
     this.component.$ref.value = this.component;
     triggerRef(this.component.$ref);
+    appEvents.notify("appSelect", {
+      component: this.component,
+    });
   }
   execute(): boolean {
     const vueComponent = saasVueComponents.find(this.replacedName);
@@ -49,6 +53,9 @@ export class ReplaceCommand implements Command {
     this.component.type = ComponentType.CustomComponent;
     this.component.$ref.value = this.component;
     triggerRef(this.component.$ref);
+    appEvents.notify("appSelect", {
+      component: this.component,
+    });
     return true;
   }
 }
@@ -79,6 +86,9 @@ export class AddChildCommand implements Command {
       this.addedCom = Container.getChildContainer(this.component);
     }
     this.component.addChild(this.addedCom);
+    appEvents.notify("appSelect", {
+      component: this.component,
+    });
     return true;
   }
 }
@@ -108,8 +118,6 @@ export class AddVueComponentCommand implements Command {
     this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);
     this.component.syncChildren();
-    // this.component.$ref.value.children = this.component.children;
-    // triggerRef(this.component.parent.$ref);
     return true;
   }
 }

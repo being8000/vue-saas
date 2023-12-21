@@ -24,7 +24,7 @@ saasVueComponents.components({
 });
 export default {
   install(app: App<Element>, options: any) {
-    // console.log(app, options);
+    console.log(app, options);
     app.mixin({
       // updated() {
       //   console.log("updated");

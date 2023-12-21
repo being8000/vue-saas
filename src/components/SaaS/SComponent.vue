@@ -11,12 +11,12 @@
   >
 
     <!-- ParentContainer组件拖拽功能 -->
-    <template v-if="$ref.level == 1 && $chilren.length > 0">
+    <template v-if="$ref.level == 1 && instance.children.length > 0">
       <!-- 这里面有个属性key，使用shadowRef之后，如果是数组有时候需要给组件绑定这个Key，否则就算是调用trigerRef也无法触发渲染 -->
       <draggable
         tag="div"
-        v-model="$chilren"
-        :key="$chilren.length"
+        v-model="instance.children"
+        :key="instance.children.length"
         v-bind="dragOption"
         @start="drag = true"
         @end="drag = false"
@@ -52,7 +52,7 @@
 <script setup lang="ts">
 import { saasApp } from '@/core';
 import { SComponentProps } from '@/core/components';
-import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef } from 'vue';
+import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef, triggerRef } from 'vue';
 import Draggable from 'vuedraggable';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()
@@ -75,11 +75,12 @@ instance.$chilren = $chilren
 
 
 const resort = () => {
-  $ref.value.children.map((el, index) => {
+  instance.children.map((el, index) => {
     el.index = index;
     // 重新绑定父节点
   });
-  instance.children = $ref.value.children
+  $ref.value.children = instance.children
+  triggerRef($ref)
 }
 
 const onClick = () => {

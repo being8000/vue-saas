@@ -107,6 +107,9 @@ export class AddVueComponentCommand implements Command {
     this.addedCom = Container.getCustomComponents(this.name, this.component);
     this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);
+    this.component.syncChildren(this.component);
+    // this.component.$ref.value.children = this.component.children;
+    // triggerRef(this.component.parent.$ref);
     return true;
   }
 }
@@ -125,7 +128,8 @@ export class CopyCommand implements Command {
     this.copyDom = this.component.clone();
     this.copyDom.parent = this.component.parent;
     this.copyDom.index = (this.component.parent?.children.length || 0) + 1;
-    this.component.parent?.addChild(this.copyDom);
+    this.component.parent.addChild(this.copyDom);
+    this.component.syncChildren(this.component.parent);
     return true;
   }
 }
@@ -148,20 +152,21 @@ export class DeleteCommand implements Command {
     this.component = com;
   }
   undo(): void {
-    this.component.parent?.children.splice(
+    this.component.parent.children.splice(
       this.component.index,
       0,
       this.component
     );
-    this.component.parent?.sync();
+    this.component.parent?.syncChildren();
     // 回退app的选中状态
   }
   execute(): boolean {
-    this.component.parent?.removeChild(this.component);
+    this.component.parent.removeChild(this.component);
     // // 清楚app的选中状态
     if (saasApp.activedComponent?.uid == this.component.uid) {
       saasApp.action.toggleSelect(this.component);
     }
+
     return true;
   }
 }

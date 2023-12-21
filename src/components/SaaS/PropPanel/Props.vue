@@ -1,6 +1,7 @@
 <template>
   <div class="">
     <div>属性 Props</div>
+    {{ parent?.uid }}
     <template v-if="parent && parent?.vueComponent?.propsComponent">
       <div>
         父节点属性： {{ parent.vueComponent?.componentName }}

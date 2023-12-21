@@ -47,7 +47,7 @@ export interface Component {
   children: Component[]; // 子组件
   selected?: boolean; // 是否被选中
   onFocusin?: boolean; // 是否有子元素被选中
-  parent?: Component;
+  parent: Component;
   $chilren: ShallowRef<Component[]>;
   $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
   clone(deep?: boolean): Component;
@@ -56,7 +56,7 @@ export interface Component {
   addChild(c: Component): Component[] | undefined;
   getChildById(uid: Component["uid"]): Component | undefined;
   updateAttr(attr: ComponentAttribute): void;
-  sync(): void;
+  syncChildren(): void;
   toggleSelect(): void;
 }
 export const autoIncreaseID = (function () {
@@ -82,7 +82,7 @@ export class SaaSComponent implements Component {
   children: Component[];
   selected?: Component["selected"];
   onFocusin?: Component["onFocusin"];
-  parent?: Component;
+  parent: Component;
   $chilren: ShallowRef<Component[]> = shallowRef([]); // 绑定Vue组件中动态响应的变量，用于促发更新
   $ref: ShallowRef<Component> = shallowRef(this); // 绑定Vue组件中动态响应的变量，用于促发更新
   constructor(com: Partial<Component>, deep?: boolean);
@@ -111,10 +111,8 @@ export class SaaSComponent implements Component {
   }
 
   removeChild(c: Component): Component[] | undefined {
-    if (c.parent) {
-      c.parent.children.splice(c.index, 1);
-      c.parent.sync();
-    }
+    c.parent.children.splice(c.index, 1);
+    c.parent.syncChildren();
     return c.parent?.children;
   }
   addChild(c: Component): Component[] | undefined {
@@ -123,7 +121,7 @@ export class SaaSComponent implements Component {
     c.parent = this;
     c.index = this.children.length + 1;
     this.children.splice(c.index, 0, c);
-    this.sync();
+    this.syncChildren();
     return this.children;
   }
   // 没用到
@@ -131,17 +129,16 @@ export class SaaSComponent implements Component {
     if (c.parent) {
       let index = c.parent.children.length;
       c.parent.children.splice(index, 0, c.clone());
-      c.parent.sync();
     }
     return c.parent?.children;
   }
-  sync() {
+  syncChildren() {
     // 更新索引
     this.children.forEach((el, index) => {
       el.index = index;
     });
-    this.$chilren.value = this.children;
-    triggerRef(this.$chilren);
+    this.$ref.value.children = this.children;
+    triggerRef(this.$ref);
   }
   updateAttr(attr: ComponentAttribute): void {
     this.attrs = { ...this.attrs, ...attr };

@@ -48,7 +48,6 @@ export interface Component {
   selected?: boolean; // 是否被选中
   onFocusin?: boolean; // 是否有子元素被选中
   parent: Component;
-  $chilren: ShallowRef<Component[]>;
   $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
   clone(deep?: boolean): Component;
   removeChild(c: Component): Component[] | undefined;
@@ -83,7 +82,6 @@ export class SaaSComponent implements Component {
   selected?: Component["selected"];
   onFocusin?: Component["onFocusin"];
   parent: Component;
-  $chilren: ShallowRef<Component[]> = shallowRef([]); // 绑定Vue组件中动态响应的变量，用于促发更新
   $ref: ShallowRef<Component> = shallowRef(this); // 绑定Vue组件中动态响应的变量，用于促发更新
   constructor(com: Partial<Component>, deep?: boolean);
   constructor(com: Component, deep?: boolean) {

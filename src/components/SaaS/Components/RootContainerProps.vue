@@ -45,10 +45,11 @@ const display: PropsFieldType = {
   key: "display",
   type: "radio",
   config: [
+    // {
+    //   label: "弹性",
+    //   value: "flex",
+    // }, 
     {
-      label: "弹性",
-      value: "flex",
-    }, {
       label: "网格",
       value: "grid",
     },

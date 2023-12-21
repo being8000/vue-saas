@@ -35,18 +35,11 @@
     </template>
     <template v-else>
       <SComponent
-        v-for="(item) in $chilren"
+        v-for="(item) in $ref.children"
         :key="`${item.uid}+${item.pid}`"
         :instance="item"
       />
     </template>
-    <!-- <div class="w-full text-center">
-      <div class=" text-black text-2">{{ instance.type }} ,</div>
-      <div class=" text-black text-2">index:{{ instance.index }} ,</div>
-      <div class=" text-black text-2">uid:{{ instance.uid }} ,</div>
-      <div class=" text-black text-2">parent: {{ instance.pid }}</div>
-      <div class=" text-black text-2">level: {{ instance.level }}</div>
-    </div> -->
   </component>
 </template>
 <script setup lang="ts">
@@ -69,9 +62,7 @@ const dragOption = computed(() => {
 // Vue功能逻辑代码
 
 const $ref = shallowRef(instance)
-const $chilren = shallowRef(instance.children)
 instance.$ref = $ref
-instance.$chilren = $chilren
 
 
 const resort = () => {

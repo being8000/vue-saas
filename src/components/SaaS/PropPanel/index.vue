@@ -19,9 +19,13 @@
       position="right"
       class="w-full md:w-15rem lg:w-20rem pt-2"
     >
-      <BaseStyle :instance="data.selectedCom" />
+      <BaseStyle
+        :instance="data.selectedCom"
+        :key="data.selectedCom.tag"
+      />
       <ComponentProps
         :instance="data.selectedCom"
+        :key="data.selectedCom.tag"
         class="py-2"
       />
     </Sidebar>
@@ -75,5 +79,4 @@ appEvents.subscribe("appCancelSelect", appCancelSelect)
   100% {
     transform: translate(0px, 0px);
   }
-}
-</style>
+}</style>

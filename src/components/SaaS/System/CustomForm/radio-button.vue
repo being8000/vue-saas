@@ -37,23 +37,27 @@ const onChange = () => {
 <style lang="scss" scoped>
 .radio {
 
-  &>:nth-child(1) {
-    border-radius: 5px 0px 0px 5px;
-    overflow: hidden;
-  }
 
   &>:nth-last-child(1) {
-    border-radius: 0px 5px 5px 0px;
-    border-right-width: 1px;
-    overflow: hidden;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
+
+  &>:nth-child(1) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  // &>:has(label+label) {
+  //   background-color: red;
+  // }
 
   &>label {
     border: 1px solid var(--primary-color);
     padding: 4px 5px;
-    border-right-width: 0px;
     cursor: pointer;
     font-size: 12px;
+
 
 
     &>input {
@@ -64,6 +68,10 @@ const onChange = () => {
       background-color: var(--primary-color);
       color: #ffffff;
     }
+  }
+
+  label+label {
+    border-left: 0;
   }
 }
 </style>

@@ -3,6 +3,7 @@ import {
   Root,
   RootContainer,
   RootContainerProps,
+  ChildContainerProps,
 } from "@/components/SaaS/Components/index";
 import { Component as VueComponent } from "vue";
 export interface ComponentItem {
@@ -19,6 +20,7 @@ class SaaSVueComponents {
     ChildContainer: {
       component: ChildContainer,
       componentName: "子容器节点",
+      propsComponent: ChildContainerProps,
     },
     Root: {
       component: Root,

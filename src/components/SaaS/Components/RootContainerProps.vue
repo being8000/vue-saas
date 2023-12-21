@@ -12,6 +12,12 @@
       v-model="form.cols"
       inline
     />
+    <PropsField
+      v-bind="gaps"
+      :key="gaps.key"
+      v-model="form.gap"
+      inline
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -28,6 +34,7 @@ import { PropsFieldType } from '@/core/props-type';
 interface Form {
   dispaly?: 'flex' | 'grid'
   cols?: string,
+  gap?: string
 }
 // 父组件传过来的组件值
 const { instance } = defineProps<SComponentProps>()
@@ -82,15 +89,54 @@ const gridCols: PropsFieldType = {
     },
   ],
 }
-
+const gaps: PropsFieldType = {
+  label: "间隔",
+  key: "gaps",
+  type: "radio",
+  config: [
+    {
+      label: "0",
+      value: "gap-0",
+    },
+    {
+      label: "1",
+      value: "gap-1",
+    }, {
+      label: "2",
+      value: "gap-2",
+    }, {
+      label: "3",
+      value: "gap-3",
+    }, {
+      label: "4",
+      value: "gap-4",
+    }, {
+      label: "5",
+      value: "gap-5",
+    }, {
+      label: "6",
+      value: "gap-6",
+    }, {
+      label: "7",
+      value: "gap-7",
+    }, {
+      label: "8",
+      value: "gap-8",
+    }, {
+      label: "9",
+      value: "gap-9",
+    },
+  ],
+}
 // 父组件传过来的组件值, 自定义初始值
 const form = reactive<Form>({
   cols: 'grid-cols-1',
   dispaly: 'grid',
+  gap: 'gap-1',
   ...instance.attrs?.initData
 })
 watch(form, () => {
-  instance.updateAttr({ class: [form.dispaly, form.cols], initData: form })
+  instance.updateAttr({ class: Object.values(form), initData: form })
 })
 // const attrs = useAttrs()
 

@@ -119,6 +119,7 @@ export class SaaSComponent implements Component {
     c.level = this.level + 1;
     c.pid = this.uid;
     c.parent = this;
+    console.log(this);
     c.index = this.children.length + 1;
     this.children.splice(c.index, 0, c);
     this.syncChildren();

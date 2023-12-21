@@ -51,25 +51,27 @@ onRenderTracked(() => {
   position: absolute;
   top: -1px;
   left: -1px;
-  // border-left: 1px dashed darkgray;
+  margin: 0 -1px -1px 0;
   border: 1px dashed darkgray;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   content: "";
   pointer-events: none;
   z-index: 1;
 }
 
-.saas-item.L3:nth-child(odd)::after {
-  border-left: none;
-}
+// .saas-item.L3:nth-child(odd)::after {
+//   border-left: none;
+// }
 
-.saas-item.L2,
-.saas-item.L3:nth-last-of-type() {
-  border-bottom: 1px dashed darkgray;
-}
+// .saas-item.L2,
+// .saas-item.L3:nth-last-of-type() {
+//   border-bottom: 1px dashed darkgray;
+// }
 
 .render-container {
   min-height: 100vh;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
 
 
 

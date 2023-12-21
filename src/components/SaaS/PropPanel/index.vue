@@ -9,11 +9,15 @@
             animation: 'none',
             pointerEvents: 'none'
           }
+        },
+        header: {
+          style: {
+            display: 'none'
+          }
         }
       }"
-      header="属性面板"
       position="right"
-      class="w-full md:w-15rem lg:w-20rem"
+      class="w-full md:w-15rem lg:w-20rem pt-2"
     >
       <BaseStyle :instance="data.selectedCom" />
       <ComponentProps
@@ -47,6 +51,7 @@ const appSelect = (params: AppEventParameters) => {
 const appCancelSelect = (params: AppEventParameters) => {
   data.value.selectedCom = params.component
   data.value.visible = false
+
   triggerRef(data)
 }
 appEvents.subscribe("appSelect", appSelect)

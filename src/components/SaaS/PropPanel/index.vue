@@ -28,7 +28,7 @@ import { Component, SaaSComponent } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import Sidebar from 'primevue/sidebar';
-import { ref, shallowRef, triggerRef } from 'vue';
+import { shallowRef, triggerRef } from 'vue';
 import BaseStyle from './BaseStyle.vue';
 import ComponentProps from './Props.vue';
 
@@ -39,7 +39,6 @@ const data = shallowRef<{
   selectedCom: new SaaSComponent({}),
   visible: false
 })
-const visible = ref(false)
 const appSelect = (params: AppEventParameters) => {
   data.value.selectedCom = params.component
   data.value.visible = true

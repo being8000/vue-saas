@@ -27,7 +27,6 @@
       >
         <template #item="{ element }">
 
-
           <div>
             <!-- 新增上面这个Div是为了解决当前组件替换成自定义组件之后引起的未知错误 -->
             <SComponent :instance="element" />

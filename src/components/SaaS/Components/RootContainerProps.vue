@@ -1,84 +1,96 @@
 <template>
   <div class="container">
-    <form class=" space-y-2">
-      <div class="flex flex-wrap gap-3">
-        <div>Display</div>
-        <div>
-          <div
-            class="flex align-items-center"
-            v-for="(item, index) in display"
-          >
-            <RadioButton
-              v-model="form.dispaly"
-              :inputId="`display${index}`"
-              name="display"
-              :value="item"
-            />
-            <label
-              :for="`display${index}`"
-              class="ml-2"
-            >{{ item }}</label>
-          </div>
-        </div>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <div>Columns</div>
-        <div>
-          <div
-            class="flex align-items-center"
-            v-for="(item, index) in gridCols"
-          >
-            <RadioButton
-              v-model="form.cols"
-              :inputId="`cols${index}`"
-              name="cols"
-              :value="item"
-            />
-            <label
-              :for="`cols${index}`"
-              class="ml-2"
-            >{{ item }}</label>
-          </div>
-        </div>
-      </div>
-    </form>
+    <PropsField
+      v-bind="display"
+      :key="display.key"
+      v-model="form.dispaly"
+      inline
+    />
+    <PropsField
+      v-bind="gridCols"
+      :key="gridCols.key"
+      v-model="form.cols"
+      inline
+    />
   </div>
 </template>
 <script lang="ts" setup>
 /**
  * 注册动态组件模板， RootContainerProps
+ * 
  */
-import RadioButton from 'primevue/radiobutton';
+// TODO 新增margin. padding, background, flex
+// TODO 新增子容器的
+import PropsField from '@/components/SaaS/System/PropsField.vue'
 import { SComponentProps } from '@/core/components';
 import { reactive, watch } from 'vue';
+import { PropsFieldType } from '@/core/props-type';
 interface Form {
   dispaly?: 'flex' | 'grid'
   cols?: string,
 }
 // 父组件传过来的组件值
 const { instance } = defineProps<SComponentProps>()
-const display = ['flex', 'grid']
+// const display = ['flex', 'grid']
 // 此处一一列出来是因为Unocss的on-demand 按需加载css。 
-const gridCols = [
-  "grid-cols-1",
-  "grid-cols-2",
-  "grid-cols-3",
-  "grid-cols-4",
-  "grid-cols-5",
-  "grid-cols-6",
-  "grid-cols-7",
-  "grid-cols-8",
-  "grid-cols-9",
-  "grid-cols-10"
-]
+const display: PropsFieldType = {
+  label: "布局",
+  key: "display",
+  type: "radio",
+  config: [
+    {
+      label: "弹性",
+      value: "flex",
+    }, {
+      label: "网格",
+      value: "grid",
+    },
+  ],
+};
+const gridCols: PropsFieldType = {
+  label: "列数",
+  key: "display",
+  type: "radio",
+  config: [
+    {
+      label: "1",
+      value: "grid-cols-1",
+    }, {
+      label: "2",
+      value: "grid-cols-2",
+    }, {
+      label: "3",
+      value: "grid-cols-3",
+    }, {
+      label: "4",
+      value: "grid-cols-4",
+    }, {
+      label: "5",
+      value: "grid-cols-5",
+    }, {
+      label: "6",
+      value: "grid-cols-6",
+    }, {
+      label: "7",
+      value: "grid-cols-7",
+    }, {
+      label: "8",
+      value: "grid-cols-8",
+    }, {
+      label: "9",
+      value: "grid-cols-9",
+    },
+  ],
+}
+
 // 父组件传过来的组件值, 自定义初始值
 const form = reactive<Form>({
   cols: 'grid-cols-1',
-  dispaly: 'grid'
+  dispaly: 'grid',
+  ...instance.attrs?.initData
 })
 watch(form, () => {
-  instance.attrs = { ...instance.attrs, class: [form.dispaly, form.cols] }
-  instance.refAttrs = instance.attrs
+  instance.updateAttr({ class: [form.dispaly, form.cols], initData: form })
 })
 // const attrs = useAttrs()
 
@@ -93,4 +105,4 @@ watch(form, () => {
   position: relative;
 
 }
-</style>
+</style>@/core/props-type

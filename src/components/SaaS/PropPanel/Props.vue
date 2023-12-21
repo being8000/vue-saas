@@ -1,13 +1,25 @@
 <template>
   <div class="">
     <div>属性 Props</div>
-    {{ instance.vueComponent?.componentName }}
+    <template v-if="parent && parent?.vueComponent?.propsComponent">
+      <div>
+        父节点属性： {{ parent.vueComponent?.componentName }}
+        <component
+          :key="parent.uid"
+          :instance="parent"
+          :is="parent.vueComponent.propsComponent"
+        ></component>
+      </div>
+    </template>
     <template v-if="instance.vueComponent?.propsComponent">
-      <component
-        :key="instance.uid"
-        :instance="instance"
-        :is="instance.vueComponent.propsComponent"
-      ></component>
+      <div>
+        当前节点： {{ instance.vueComponent?.componentName }}
+        <component
+          :key="instance.uid"
+          :instance="instance"
+          :is="instance.vueComponent.propsComponent"
+        ></component>
+      </div>
     </template>
     <template>
       <div>
@@ -23,7 +35,12 @@
  * 将会加载选中
  */
 import { SComponentProps } from "@/core/components";
+import { computed } from "vue";
 const { instance } = defineProps<SComponentProps>()
+
+const parent = computed(() => {
+  return instance.parent
+})
 // 找到注册的组件实例，获取 propsComponent 组件
 // const replaceTo = (name: string) => {
 //   saasApp.action.replaceTo(name)

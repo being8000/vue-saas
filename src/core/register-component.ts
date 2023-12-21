@@ -5,12 +5,10 @@ import {
   RootContainerProps,
 } from "@/components/SaaS/Components/index";
 import { Component as VueComponent } from "vue";
-import { Field } from "./component-props";
 export interface ComponentItem {
   component: VueComponent;
   propsComponent?: VueComponent; // 属性控制组件，用于编辑组件属性值
   componentName: string;
-  props?: Field[];
 }
 export type RegisteredComponents = Record<string, ComponentItem>;
 

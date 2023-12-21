@@ -45,9 +45,34 @@ onRenderTracked(() => {
 <style lang="scss">
 @import './render.scss';
 
+
+.saas-item::after {
+  width: calc(100% + 0px);
+  height: calc(100% + 0px);
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  // border-left: 1px dashed darkgray;
+  border: 1px dashed darkgray;
+  content: "";
+  pointer-events: none;
+  z-index: 1;
+}
+
+.saas-item.L3:nth-child(odd)::after {
+  border-left: none;
+}
+
+.saas-item.L2,
+.saas-item.L3:nth-last-of-type() {
+  border-bottom: 1px dashed darkgray;
+}
+
 .render-container {
   min-height: 100vh;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+
 
   .tag {
     display: none;
@@ -84,18 +109,9 @@ onRenderTracked(() => {
     box-sizing: border-box;
   }
 
-  .saas-item::after {
-    width: calc(100% + 0px);
-    height: calc(100% + 0px);
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    // border-left: 1px dashed darkgray;
-    border-bottom: 1px dashed darkgray;
-    content: "";
-    pointer-events: none;
-    z-index: 1;
-  }
+
+
+
 
   .saas-item.selected::after {
     transform: translateX(1px);

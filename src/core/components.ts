@@ -59,6 +59,7 @@ export interface Component {
   setRefChildren(ref: Ref<any>): void;
   setRefAttrs(ref: Ref<any>): void;
   setRefData(ref: UnwrapNestedRefs<VueComponentData>): void;
+  updateAttr(attr: ComponentAttribute): void;
   sync(): void;
   toggleSelect(): void;
 }
@@ -147,6 +148,10 @@ export class SaaSComponent implements Component {
       el.index = index;
     });
     this.refChildren.value = this.children;
+  }
+  updateAttr(attr: ComponentAttribute): void {
+    this.attrs = { ...this.attrs, ...attr };
+    this.refAttrs = this.attrs;
   }
   clone(deep: boolean = false): Component {
     return new SaaSComponent(this, deep);

@@ -15,8 +15,7 @@
       position="right"
       class="w-full md:w-15rem lg:w-20rem"
     >
-      <ComponentLayout />
-      <BaseStyle />
+      <BaseStyle :instance="data.selectedCom" />
       <ComponentProps :instance="data.selectedCom" />
     </Sidebar>
   </div>
@@ -29,7 +28,6 @@ import { AppEventParameters } from '@/core/event-types';
 import { reactive, ref } from 'vue';
 import BaseStyle from './BaseStyle.vue'
 import ComponentProps from './Props.vue'
-import ComponentLayout from './Layout.vue'
 
 const data = reactive<{
   selectedCom: Component

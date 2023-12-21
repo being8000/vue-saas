@@ -6,6 +6,7 @@ export class ShorcutsEvent {
   // 存储用户注册快捷键事件
   events: Record<CombindKey, EventFunction> = {};
   // 用于零时存储已触发的shortcut事件, 防止重复触发, 事件会在按键松开的时候从新绑定到 events 对象中
+  // TODO 这个功能 获取可以使用防抖函数优化。
   emittedEvents: Record<CombindKey, EventFunction> = {};
 
   constructor() {}

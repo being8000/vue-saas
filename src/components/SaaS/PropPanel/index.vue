@@ -16,7 +16,10 @@
       class="w-full md:w-15rem lg:w-20rem"
     >
       <BaseStyle :instance="data.selectedCom" />
-      <ComponentProps :instance="data.selectedCom" />
+      <ComponentProps
+        :instance="data.selectedCom"
+        class="py-2"
+      />
     </Sidebar>
   </div>
 </template>
@@ -67,5 +70,4 @@ appEvents.subscribe("appCancelSelect", appCancelSelect)
   }
 }
 
-.selector-pannel {}
-</style>
+.selector-pannel {}</style>

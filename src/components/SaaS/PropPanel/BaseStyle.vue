@@ -2,7 +2,7 @@
   <div class="container">
     <div>基础样式</div>
     <section>
-      <div class="text-3 font-bold">内间距</div>
+      <div class="text-3 font-bold py-2">内间距</div>
       <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
         <PropsField
           v-bind="padding"
@@ -43,7 +43,7 @@
       </div>
     </section>
     <section>
-      <div class="text-3 font-bold">外边距</div>
+      <div class="text-3 font-bold py-2">外边距</div>
       <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
         <PropsField
           v-bind="margin"

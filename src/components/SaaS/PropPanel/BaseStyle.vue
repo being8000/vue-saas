@@ -6,7 +6,6 @@
       <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
         <PropsField
           v-bind="padding"
-          :key="padding.key"
           v-model="style.paddingTop"
           inline
         />
@@ -16,7 +15,6 @@
             label: `下间距`,
             key: `paddingBottom`
           }"
-          :key="padding.key"
           v-model="style.paddingBottom"
           inline
         />
@@ -26,7 +24,6 @@
             label: `左间距`,
             key: `paddingLeft`
           }"
-          :key="padding.key"
           v-model="style.paddingLeft"
           inline
         />
@@ -36,7 +33,6 @@
             label: `右间距`,
             key: `paddingRight`
           }"
-          :key="padding.key"
           v-model="style.paddingRight"
           inline
         />

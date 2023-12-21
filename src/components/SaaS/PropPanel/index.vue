@@ -24,27 +24,27 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Sidebar from 'primevue/sidebar';
 import { Component, SaaSComponent } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
-import { reactive, ref } from 'vue';
-import BaseStyle from './BaseStyle.vue'
-import ComponentProps from './Props.vue'
+import Sidebar from 'primevue/sidebar';
+import { ref, shallowRef } from 'vue';
+import BaseStyle from './BaseStyle.vue';
+import ComponentProps from './Props.vue';
 
-const data = reactive<{
+const data = shallowRef<{
   selectedCom: Component
 }>({
   selectedCom: new SaaSComponent({})
 })
 const visible = ref(false)
 const appSelect = (params: AppEventParameters) => {
-  data.selectedCom = params.component
+  data.value.selectedCom = params.component
   visible.value = true
 }
 const appCancelSelect = (params: AppEventParameters) => {
 
-  data.selectedCom = params.component
+  data.value.selectedCom = params.component
   visible.value = false
 }
 appEvents.subscribe("appSelect", appSelect)
@@ -69,5 +69,4 @@ appEvents.subscribe("appCancelSelect", appCancelSelect)
     transform: translate(0px, 0px);
   }
 }
-
-.selector-pannel {}</style>
+</style>

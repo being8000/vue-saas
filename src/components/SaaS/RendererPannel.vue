@@ -9,7 +9,7 @@
     <section class="max-w-2xl m-auto mt-2 b-r b-l b-balck b-2 shadow-inset layers render-container">
       <RenderItem
         ref="vDom"
-        :instance="children"
+        :instance="$ref"
       />
     </section>
     <!-- <FloatingBar /> -->
@@ -19,17 +19,16 @@
 // import CssGrid from '@/components/CssGrid.vue'
 import { Container } from '@/core/container';
 import { saasApp } from '@/core/index';
-import { onMounted, onRenderTracked, onUpdated, ref } from 'vue';
+import { onMounted, onRenderTracked, onUpdated, shallowRef } from 'vue';
 import FloatingBar from './FloatingBar/Bar.vue';
 import RenderItem from './SComponent.vue';
 import SelectorPanel from './SelectorPanel/index.vue';
 import PropPanel from './PropPanel/index.vue';
 
-console.log(Container.initRootNode())
 const instance = saasApp.mount(Container.initRootNode())
-console.log(instance)
-const children = ref(instance)
-instance.setRefChildren(children)
+const $ref = shallowRef(instance)
+instance.$ref = $ref
+
 // saasApp.action.toggleSelect(children.value)
 
 onMounted(() => {

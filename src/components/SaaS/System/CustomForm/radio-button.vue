@@ -24,7 +24,7 @@ import { ref } from 'vue';
 const props = defineProps<{
   modelValue: any,
   config: LabelValue[],
-  key: string,
+  key: string | undefined,
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
 const value = ref(props.modelValue)
@@ -50,10 +50,10 @@ const onChange = () => {
 
   &>label {
     border: 1px solid var(--primary-color);
-    padding: 2px 5px;
+    padding: 4px 5px;
     border-right-width: 0px;
     cursor: pointer;
-
+    font-size: 12px;
 
 
     &>input {

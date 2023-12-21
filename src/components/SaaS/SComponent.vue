@@ -1,23 +1,22 @@
 <template>
   <component
-    :is="instance.vueComponent?.component"
-    v-bind="attrs"
-    :instance="instance"
-    @mouseenter.stop.prevent="onMouseEnter"
-    @mouseleave.stop.prevent="onMouseleave"
+    :is="$ref.vueComponent?.component"
+    v-bind="$ref.attrs"
+    :instance="$ref"
     @click.stop.prevent="onClick"
-    :class="['saas-item', `L${instance.level}`, {
-      last: instance.children.length <= 0,
-      selected: data.selected
+    :class="['saas-item', `L${$ref.level}`, {
+      last: $ref.children.length <= 0,
+      selected: $ref.selected
     }]"
   >
 
     <!-- ParentContainer组件拖拽功能 -->
-    <!-- handle=".tag" -->
-    <template v-if="instance.level == 1 && children.length > 0">
+    <template v-if="$ref.level == 1 && $chilren.length > 0">
+      <!-- 这里面有个属性key，使用shadowRef之后，如果是数组有时候需要给组件绑定这个Key，否则就算是调用trigerRef也无法触发渲染 -->
       <draggable
         tag="div"
-        v-model="instance.children"
+        v-model="$chilren"
+        :key="$chilren.length"
         v-bind="dragOption"
         @start="drag = true"
         @end="drag = false"
@@ -36,7 +35,7 @@
     </template>
     <template v-else>
       <SComponent
-        v-for="(item) in instance.children"
+        v-for="(item) in $chilren"
         :key="`${item.uid}+${item.pid}`"
         :instance="item"
       />
@@ -52,13 +51,13 @@
 </template>
 <script setup lang="ts">
 import { saasApp } from '@/core';
-import { SComponentProps, VueComponentData } from '@/core/components';
-import { computed, onBeforeUnmount, onMounted, onUpdated, reactive, ref } from 'vue';
+import { SComponentProps } from '@/core/components';
+import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef } from 'vue';
 import Draggable from 'vuedraggable';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()
 const instance = props.instance
-const drag = ref(false)
+const drag = shallowRef(false)
 const dragOption = computed(() => {
   return {
     animation: 200,
@@ -67,38 +66,22 @@ const dragOption = computed(() => {
     ghostClass: "ghost"
   }
 })
-
 // Vue功能逻辑代码
-const children = ref(instance.children)
-const attrs = ref(instance.attrs)
-// 绑定响应式对象到 SaaS组件上。 Children用于父组件更新子组件的CRUD
-instance.setRefChildren(children)
-instance.setRefAttrs(attrs)
 
-// 绑定内部状态，这个值只用来SaaSComponent 更新内部值之后同步当前组件触发渲染
-const data = reactive<VueComponentData>({
-  selected: instance.selected,
-  hovering: false
-})
-instance.setRefData(data)
+const $ref = shallowRef(instance)
+const $chilren = shallowRef(instance.children)
+instance.$ref = $ref
+instance.$chilren = $chilren
+
 
 const resort = () => {
-  instance.children.map((el, index) => {
+  $ref.value.children.map((el, index) => {
     el.index = index;
     // 重新绑定父节点
   });
-}
-const onMouseEnter = () => {
-  if (instance.children.length <= 0) {
-    data.hovering = true
-  }
+  instance.children = $ref.value.children
 }
 
-const onMouseleave = () => {
-  if (instance.children.length <= 0) {
-    data.hovering = false
-  }
-}
 const onClick = () => {
   saasApp.action.toggleSelect(instance)
 }

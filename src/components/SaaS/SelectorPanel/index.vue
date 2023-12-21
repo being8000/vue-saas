@@ -69,8 +69,8 @@ import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import Button from 'primevue/button';
 import Sidebar from 'primevue/sidebar';
-import { computed, reactive } from 'vue';
-const data = reactive<{
+import { computed, shallowRef, triggerRef } from 'vue';
+const data = shallowRef<{
   visible: boolean,
   selectedCom: Component
 }>({
@@ -83,7 +83,7 @@ const customComponents = [
 ]
 
 const type = computed(() => {
-  return data.selectedCom.type
+  return data.value.selectedCom.type
 })
 
 const addChild = () => {
@@ -92,12 +92,14 @@ const addChild = () => {
 
 
 const subSelect = (param: AppEventParameters) => {
-  data.selectedCom = param.component
-  data.visible = true
+  data.value.selectedCom = param.component
+  data.value.visible = true
+  triggerRef(data)
 }
 const appCancelSelect = (param: AppEventParameters) => {
-  data.selectedCom = param.component
-  data.visible = false
+  data.value.selectedCom = param.component
+  data.value.visible = false
+  triggerRef(data)
 }
 appEvents.subscribe("appSelect", subSelect)
 appEvents.subscribe("appCancelSelect", appCancelSelect)
@@ -121,6 +123,4 @@ appEvents.subscribe("appCancelSelect", appCancelSelect)
     transform: translate(0px, 0px);
   }
 }
-
-.selector-pannel {}
 </style>

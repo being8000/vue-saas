@@ -1,4 +1,4 @@
-import { CSSProperties, reactive, ref, Ref, UnwrapNestedRefs } from "vue";
+import { CSSProperties, shallowRef, ShallowRef, triggerRef } from "vue";
 import { Container } from "./container";
 import { ComponentItem, saasVueComponents } from "./register-component";
 export enum ComponentType {
@@ -48,17 +48,13 @@ export interface Component {
   selected?: boolean; // 是否被选中
   onFocusin?: boolean; // 是否有子元素被选中
   parent?: Component;
-  refChildren: Ref<any>; // 绑定Vue组件中动态响应的变量，用于促发更新
-  refData: UnwrapNestedRefs<VueComponentData>;
-  refAttrs: UnwrapNestedRefs<any>;
+  $chilren: ShallowRef<Component[]>;
+  $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
   clone(deep?: boolean): Component;
   removeChild(c: Component): Component[] | undefined;
   appendChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
   getChildById(uid: Component["uid"]): Component | undefined;
-  setRefChildren(ref: Ref<any>): void;
-  setRefAttrs(ref: Ref<any>): void;
-  setRefData(ref: UnwrapNestedRefs<VueComponentData>): void;
   updateAttr(attr: ComponentAttribute): void;
   sync(): void;
   toggleSelect(): void;
@@ -87,9 +83,8 @@ export class SaaSComponent implements Component {
   selected?: Component["selected"];
   onFocusin?: Component["onFocusin"];
   parent?: Component;
-  refChildren: Component["refChildren"] = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
-  refAttrs: Component["refAttrs"] = ref(null); // 绑定Vue组件中动态响应的变量，用于促发更新
-  refData: Component["refData"] = reactive({}); // 绑定Vue组件中动态响应的变量，用于促发更新
+  $chilren: ShallowRef<Component[]> = shallowRef([]); // 绑定Vue组件中动态响应的变量，用于促发更新
+  $ref: ShallowRef<Component> = shallowRef(this); // 绑定Vue组件中动态响应的变量，用于促发更新
   constructor(com: Partial<Component>, deep?: boolean);
   constructor(com: Component, deep?: boolean) {
     this.uid = deep ? com?.uid || 1 : autoIncreaseID();
@@ -103,8 +98,6 @@ export class SaaSComponent implements Component {
     this.selected = false;
     this.onFocusin = false;
     this.index = com.index || 0;
-    this.refChildren = ref(null);
-    this.refData = reactive({});
     this.parent = com.parent;
     // 以上属性需要从重赋值，否则克隆的时候可能会被污染到
     if (com.children && com.children.length > 0) {
@@ -147,29 +140,23 @@ export class SaaSComponent implements Component {
     this.children.forEach((el, index) => {
       el.index = index;
     });
-    this.refChildren.value = this.children;
+    this.$chilren.value = this.children;
+    triggerRef(this.$chilren);
   }
   updateAttr(attr: ComponentAttribute): void {
     this.attrs = { ...this.attrs, ...attr };
-    this.refAttrs = this.attrs;
+    this.$ref.value.attrs = this.attrs;
+    triggerRef(this.$ref);
   }
   clone(deep: boolean = false): Component {
     return new SaaSComponent(this, deep);
-  }
-  setRefChildren(ref: Ref<any>): void {
-    this.refChildren = ref;
-  }
-  setRefAttrs(ref: Ref<any>): void {
-    this.refAttrs = ref;
-  }
-  setRefData(ref: UnwrapNestedRefs<VueComponentData>): void {
-    this.refData = ref;
   }
   getChildById(uid: Component["uid"]) {
     return this.children.find((el) => (el.uid = uid));
   }
   toggleSelect(): void {
     this.selected = !this.selected;
-    this.refData.selected = this.selected;
+    this.$ref.value.selected = this.selected;
+    triggerRef(this.$ref);
   }
 }

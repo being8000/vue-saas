@@ -20,7 +20,7 @@ import { ref } from 'vue';
 const props = defineProps<{
   modelValue: any,
   config: Slider,
-  key: string,
+  key?: string | undefined
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
 const value = ref(props.modelValue)

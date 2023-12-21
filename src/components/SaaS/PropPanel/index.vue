@@ -1,7 +1,7 @@
 <template>
   <div class="selector-pannel card flex justify-content-center ">
     <Sidebar
-      v-model:visible="visible"
+      v-model:visible="data.visible"
       :dismissable="false"
       :pt="{
         mask: {
@@ -28,24 +28,27 @@ import { Component, SaaSComponent } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import Sidebar from 'primevue/sidebar';
-import { ref, shallowRef } from 'vue';
+import { ref, shallowRef, triggerRef } from 'vue';
 import BaseStyle from './BaseStyle.vue';
 import ComponentProps from './Props.vue';
 
 const data = shallowRef<{
-  selectedCom: Component
+  selectedCom: Component,
+  visible: boolean
 }>({
-  selectedCom: new SaaSComponent({})
+  selectedCom: new SaaSComponent({}),
+  visible: false
 })
 const visible = ref(false)
 const appSelect = (params: AppEventParameters) => {
   data.value.selectedCom = params.component
-  visible.value = true
+  data.value.visible = true
+  triggerRef(data)
 }
 const appCancelSelect = (params: AppEventParameters) => {
-
   data.value.selectedCom = params.component
-  visible.value = false
+  data.value.visible = false
+  triggerRef(data)
 }
 appEvents.subscribe("appSelect", appSelect)
 appEvents.subscribe("appCancelSelect", appCancelSelect)

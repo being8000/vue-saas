@@ -107,7 +107,7 @@ export class AddVueComponentCommand implements Command {
     this.addedCom = Container.getCustomComponents(this.name, this.component);
     this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);
-    this.component.syncChildren(this.component);
+    this.component.syncChildren();
     // this.component.$ref.value.children = this.component.children;
     // triggerRef(this.component.parent.$ref);
     return true;
@@ -129,7 +129,7 @@ export class CopyCommand implements Command {
     this.copyDom.parent = this.component.parent;
     this.copyDom.index = (this.component.parent?.children.length || 0) + 1;
     this.component.parent.addChild(this.copyDom);
-    this.component.syncChildren(this.component.parent);
+    this.component.syncChildren();
     return true;
   }
 }

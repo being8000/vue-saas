@@ -19,7 +19,7 @@ class SaaSVueComponents {
   private com: RegisteredComponents = {
     ChildContainer: {
       component: ChildContainer,
-      componentName: "子容器节点",
+      componentName: "子节点容器",
       propsComponent: ChildContainerProps,
     },
     Root: {

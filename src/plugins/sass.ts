@@ -1,5 +1,6 @@
 import { App, ComponentOptions } from "vue";
-import ImageComponent from "@/components/SaaS/Components/Image.vue";
+import ImageComponent from "@/components/Test/Image.vue";
+import ImageProps from "@/components/Test/ImageProps.vue";
 import Breadcrumb from "@/components/Test/Breadcrumb.vue";
 import Carouel from "@/components/Test/Carouel.vue";
 import Message from "@/components/Test/Message.vue";
@@ -8,6 +9,7 @@ saasVueComponents.components({
   ImageComponent: {
     componentName: "图片",
     component: ImageComponent,
+    propsComponent: ImageProps,
   },
   Breadcrumb: {
     componentName: "面包屑",

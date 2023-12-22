@@ -2,14 +2,14 @@
   <div class="container">
     <div>基础样式</div>
     <section>
-      <div class="text-3 font-bold py-2">内间距</div>
+      <!-- <div class="text-3 font-bold py-2">内间距</div> -->
       <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
         <PropsField
           v-bind="padding"
-          v-model="style.paddingTop"
+          v-model="style.padding"
           inline
         />
-        <PropsField
+        <!-- <PropsField
           v-bind="{
             ...padding,
             label: `下间距`,
@@ -35,29 +35,23 @@
           }"
           v-model="style.paddingRight"
           inline
-        />
+        /> -->
       </div>
     </section>
     <section>
-      <div class="text-3 font-bold py-2">外边距</div>
+      <!-- <div class="text-3 font-bold py-2">外边距</div> -->
       <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
-        <PropsField
-          v-bind="margin"
-          :key="margin.key"
-          v-model="style.marginTop"
-          inline
-        />
         <PropsField
           v-bind="{
             ...margin,
-            label: `下边距`,
+            label: `外边距`,
             key: `marginBottom`
           }"
           :key="margin.key"
-          v-model="style.marginBottom"
+          v-model="style.margin"
           inline
         />
-        <PropsField
+        <!-- <PropsField
           v-bind="{
             ...margin,
             label: `左边距`,
@@ -76,8 +70,19 @@
           :key="margin.key"
           v-model="style.marginRight"
           inline
+        /> -->
+        <PropsField
+          v-bind="{
+            label: `背景色`,
+            key: `color`,
+            type: `color`,
+          }"
+          :key="margin.key"
+          v-model="style.backgroundColor"
+          inline
         />
       </div>
+
     </section>
   </div>
 </template>
@@ -98,22 +103,28 @@ import { CSSProperties, reactive, watch } from 'vue';
 const { instance } = defineProps<SComponentProps>()
 
 
-type Style = Pick<CSSProperties, "marginTop" | "marginBottom" | "marginRight" | "paddingLeft" | "paddingRight" | "paddingBottom" | "paddingTop" | "marginLeft">
+type Style = Pick<CSSProperties, "margin" | "padding" | "backgroundColor">
 const style = reactive<Style>({
-  paddingLeft: 0,
-  paddingRight: 0,
-  paddingBottom: 0,
-  paddingTop: 0,
-  marginLeft: 0,
-  marginRight: 0,
-  marginBottom: 0,
-  marginTop: 0,
+  // paddingLeft: 0,
+  // paddingRight: 0,
+  // paddingBottom: 0,
+  // paddingTop: 0,
+  // marginLeft: 0,
+  // marginRight: 0,
+  // marginBottom: 0,
+  // marginTop: 0,
 })
 const transformToPx = (): CSSProperties => {
   const st = JSON.parse(JSON.stringify(style))
   Object.keys(st).forEach(el => {
-    st[el] = st[el] + 'rem'
+    if (["margin", "padding"].includes(el)) {
+      st[el] = st[el] + 'px'
+    }
+    if (["backgroundColor"].includes(el)) {
+      st[el] = "#" + st[el]
+    }
   })
+  console.log(st)
   return st
 }
 const config = {
@@ -123,7 +134,7 @@ const config = {
   unit: 'rem'
 }
 const padding: PropsFieldType = {
-  label: "上间距",
+  label: "内间距",
   key: "display",
   type: "slider",
   config,

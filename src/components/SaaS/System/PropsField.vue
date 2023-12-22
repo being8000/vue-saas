@@ -24,6 +24,20 @@
         @change="emits('update:modelValue', value)"
       />
     </template>
+    <template v-if="props.type == 'color'">
+      <CusColorPicker
+        :key="props.key"
+        v-model="value"
+        @change="emits('update:modelValue', value)"
+      />
+    </template>
+    <template v-if="props.type == 'image'">
+      <CusUploader
+        :key="props.key"
+        v-model="value"
+        @change="emits('update:modelValue', value)"
+      />
+    </template>
   </div>
 </template>
 
@@ -32,6 +46,8 @@ import { LabelValue, Slider } from '@/core/props-type';
 import { PropsFieldType } from '@/core/props-type';
 import CusRadioButton from './CustomForm/radio-button.vue'
 import CusSlider from './CustomForm/slider.vue'
+import CusColorPicker from './CustomForm/color-picker.vue'
+import CusUploader from './CustomForm/uploader.vue'
 import { ref } from 'vue';
 
 const props = defineProps<PropsFieldType & {

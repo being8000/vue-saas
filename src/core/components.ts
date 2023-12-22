@@ -51,9 +51,7 @@ export interface Component {
   $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
   clone(deep?: boolean): Component;
   removeChild(c: Component): Component[] | undefined;
-  appendChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
-  getChildById(uid: Component["uid"]): Component | undefined;
   updateAttr(attr: ComponentAttribute): void;
   syncChildren(): void;
   toggleSelect(): void;
@@ -123,14 +121,6 @@ export class SaaSComponent implements Component {
     this.syncChildren();
     return this.children;
   }
-  // 没用到
-  appendChild(c: Component): Component[] | undefined {
-    if (c.parent) {
-      let index = c.parent.children.length;
-      c.parent.children.splice(index, 0, c.clone());
-    }
-    return c.parent?.children;
-  }
   syncChildren() {
     // 更新索引
     this.children.forEach((el, index) => {
@@ -146,9 +136,6 @@ export class SaaSComponent implements Component {
   }
   clone(deep: boolean = false): Component {
     return new SaaSComponent(this, deep);
-  }
-  getChildById(uid: Component["uid"]) {
-    return this.children.find((el) => (el.uid = uid));
   }
   toggleSelect(): void {
     this.selected = !this.selected;

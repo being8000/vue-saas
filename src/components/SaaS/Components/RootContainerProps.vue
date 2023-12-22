@@ -152,4 +152,4 @@ watch(form, () => {
   position: relative;
 
 }
-</style>@/core/props-type
+</style>

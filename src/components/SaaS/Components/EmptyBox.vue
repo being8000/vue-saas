@@ -19,7 +19,6 @@ import IconSquare from '../icons/add-square.vue'
   text-align: center;
   padding: 8px 8px;
   text-align: center;
-  background-color: white;
   height: max-content;
 
   .text {

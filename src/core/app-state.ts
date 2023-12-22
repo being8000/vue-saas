@@ -20,6 +20,9 @@ export abstract class AppStateAction {
   abstract addVueComponentChild(name: string): void;
   abstract copy(): void;
   abstract replaceTo(name: string): void;
+  addRootContainer() {
+    saasApp.history.executeCommand(new AddChildCommand(saasApp.component));
+  }
   toggleSelect(com?: Component): void {
     if (!com) {
       com = saasApp.component;

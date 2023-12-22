@@ -1,9 +1,27 @@
 <template>
   <div class="w-full text-center grid grid-cols-3 p-1 pl-3 sticky top-0 bg-white shadow-lg z-10">
     <div class="grow text-left flex items-center">
-      <h3 class="m-0 pl">Saas网页编辑器</h3>
+      <h3 class="m-0 pl">模拟商城装修系统</h3>
     </div>
     <div class="m-auto grow-0 space-x-1 text-center">
+
+
+      <Button
+        raised
+        size="small"
+        @click="toggleLayer"
+        class=" bg-origin-border b-none"
+      >
+        {{ layerVisible ? "隐藏" : "显示" }}层级
+      </Button>
+      <Button
+        @click="addRootContainer"
+        raised
+        size="small"
+        class="bg-blue b-none"
+      >
+        添加根容器
+      </Button>
       <Button
         @click="undo"
         class=" bg-cyan b-none "
@@ -12,38 +30,26 @@
       >撤回</Button>
       <Button
         @click="deleteItem"
-        v-if="ButtonState.delete"
+        :style="{
+          visibility: ButtonState.delete ? 'visible' : 'hidden'
+        }"
         raised
         size="small"
         class="bg-red b-none"
       >
         删除
       </Button>
-      <!-- <Button
-        @click="addChild"
-        raised
-        size="small"
-        v-if="ButtonState.addChild"
-        class="bg-blue b-none"
-      >
-        添加容器
-      </Button> -->
+
       <Button
         @click="copy"
         raised
         size="small"
-        v-if="ButtonState.copy"
+        :style="{
+          visibility: ButtonState.copy ? 'visible' : 'hidden'
+        }"
         class="bg-yellow b-none"
       >
         复制节点
-      </Button>
-      <Button
-        raised
-        size="small"
-        @click="toggleLayer"
-        class=" bg-origin-border b-none"
-      >
-        {{ layerVisible ? "隐藏" : "显示" }}层级
       </Button>
     </div>
     <div class="grow text-right flex items-center justify-end">
@@ -78,6 +84,9 @@ const toggleLayer = () => {
   } else {
     document.querySelector(".render-container")?.classList.remove("layers")
   }
+}
+const addRootContainer = () => {
+  saasApp.action.addRootContainer()
 }
 const deleteItem = async () => {
   // console.log(instance)

@@ -1,6 +1,6 @@
 
 <template>
-  <div class="card">
+  <div class="card overflow-hidden">
     <Carousel
       :value="products"
       :numVisible="3"
@@ -15,7 +15,7 @@
             <img
               :src="'https://primefaces.org/cdn/primevue/images/product/' + slotProps.data.image"
               :alt="slotProps.data.name"
-              class="w-6 shadow-2"
+              class="w-full shadow-2"
             />
           </div>
           <div>

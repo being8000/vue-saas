@@ -23,10 +23,11 @@ const props = defineProps<{
   key?: string | undefined
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
-const value = ref(props.modelValue)
+const defaultValue = !!props.modelValue ? (props.modelValue + '').replace((props.config.unit) + '', '') : 0
+const value = ref(defaultValue)
 const onChange = () => {
-  emits('update:modelValue', value)
-  emits('change', value)
+  emits('update:modelValue', value.value + (props.config.unit || 'px'))
+  emits('change', value.value + (props.config.unit || 'px'))
 }
 </script>
 

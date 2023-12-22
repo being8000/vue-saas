@@ -55,25 +55,25 @@ export const Container = {
     });
     return rootContainer;
   },
-  getChildContainer(parant: Component) {
+  getChildContainer(parent: Component) {
     const childContainer = new SaaSComponent({
-      level: parant.level + 1,
+      level: parent.level + 1,
       type: ComponentType.ChildContainer,
       tag: "ChildContainer",
       uid: 0,
-      pid: parant.uid,
-      parent: parant,
+      pid: parent.uid,
+      parent: parent,
     });
     return childContainer;
   },
-  getCustomComponents(name: string, parant?: Component) {
+  getCustomComponents(name: string, parent?: Component) {
     const childContainer = new SaaSComponent({
-      level: (parant?.level || 0) + 1,
+      level: (parent?.level || 0) + 1,
       type: ComponentType.CustomComponent,
       tag: name,
       uid: 0,
-      pid: parant?.uid,
-      parent: parant,
+      pid: parent?.uid,
+      parent: parent,
     });
     return childContainer;
   },

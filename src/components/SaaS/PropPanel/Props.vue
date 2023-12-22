@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="text-3.5 font-bold text-[#333] mb-3">属性 Props</div>
-    <template v-if="instance.parent && instance.parent.vueComponent?.propsComponent">
+    <!-- <template v-if="instance.parent && instance.parent.vueComponent?.propsComponent">
       <div class="b-1 b-amber bg-[#f5f5f5] p-2 rounded">
         <span class="text-3.5 font-bold"> 父节点属性： {{ instance.parent.vueComponent?.componentName }}</span>
         <component
@@ -10,20 +9,20 @@
           :is="instance.parent.vueComponent.propsComponent"
         ></component>
       </div>
-    </template>
+    </template> -->
+    <Props
+      v-if="instance.parent"
+      :instance="instance.parent"
+      :key="instance.parent.uid"
+    />
     <template v-if="instance.vueComponent?.propsComponent">
       <div class="b-1 b-amber bg-[#f5f5f5] p-2 rounded mt-5">
-        <span class="text-3.5 font-bold"> 当前节点： {{ instance.vueComponent?.componentName }}</span>
+        <span class="text-3.5 font-bold text-[#000]"> {{ instance.vueComponent?.componentName }}</span>
         <component
           :key="instance.uid"
           :instance="instance"
           :is="instance.vueComponent.propsComponent"
         ></component>
-      </div>
-    </template>
-    <template>
-      <div>
-        该组件无属性配置面板
       </div>
     </template>
 

@@ -59,15 +59,22 @@ class SelectedStateAction extends AppStateAction {
   addVueComponentChild(name: string): void {
     if (saasApp.activedComponent) {
       const act = saasApp.activedComponent;
-      if (act.type != ComponentType.CustomComponent) {
-        saasApp.history.executeCommand(
-          new AddVueComponentCommand(saasApp.activedComponent, name)
-        );
+      if (act.type == ComponentType.Root) {
+        saasApp.history.executeCommand(new AddVueComponentCommand(act, name));
+      } else if (act.type == ComponentType.RootContainer) {
+        saasApp.history.executeCommand(new AddVueComponentCommand(act, name));
+      } else if (act.type == ComponentType.ChildContainer) {
+        if (act.children.length != 0) {
+          // 子容器只允许新增一个自定义组件， 如果以及存在只能做子组件的替换操作
+          saasApp.history.executeCommand(
+            new ReplaceCommand(act.children[0], name)
+          );
+        } else {
+          saasApp.history.executeCommand(new AddVueComponentCommand(act, name));
+        }
       } else {
         // 如果以及是自定义组件，则只能做替换操作
-        saasApp.history.executeCommand(
-          new ReplaceCommand(saasApp.activedComponent, name)
-        );
+        saasApp.history.executeCommand(new ReplaceCommand(act, name));
       }
     }
   }

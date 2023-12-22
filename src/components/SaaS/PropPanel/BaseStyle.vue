@@ -3,86 +3,34 @@
     <div class="text-3.5 font-bold text-[#333] mb-3">基础样式</div>
     <section>
       <!-- <div class="text-3 font-bold py-2">内间距</div> -->
-      <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
-        <PropsField
-          v-bind="padding"
-          v-model="style.padding"
-          inline
-        />
-        <!-- <PropsField
-          v-bind="{
-            ...padding,
-            label: `下间距`,
-            key: `paddingBottom`
-          }"
-          v-model="style.paddingBottom"
-          inline
-        />
-        <PropsField
-          v-bind="{
-            ...padding,
-            label: `左间距`,
-            key: `paddingLeft`
-          }"
-          v-model="style.paddingLeft"
-          inline
-        />
-        <PropsField
-          v-bind="{
-            ...padding,
-            label: `右间距`,
-            key: `paddingRight`
-          }"
-          v-model="style.paddingRight"
-          inline
-        /> -->
-      </div>
-    </section>
-    <section>
-      <!-- <div class="text-3 font-bold py-2">外边距</div> -->
-      <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">
-        <PropsField
-          v-bind="{
-            ...margin,
-            label: `外边距`,
-            key: `marginBottom`
-          }"
-          :key="margin.key"
-          v-model="style.margin"
-          inline
-        />
-        <!-- <PropsField
-          v-bind="{
-            ...margin,
-            label: `左边距`,
-            key: `marginLeft`
-          }"
-          :key="margin.key"
-          v-model="style.marginLeft"
-          inline
-        />
-        <PropsField
-          v-bind="{
-            ...margin,
-            label: `右边距`,
-            key: `marginRight`
-          }"
-          :key="margin.key"
-          v-model="style.marginRight"
-          inline
-        /> -->
-        <PropsField
-          v-bind="{
-            label: `背景色`,
-            key: `color`,
-            type: `color`,
-          }"
-          :key="margin.key"
-          v-model="style.backgroundColor"
-          inline
-        />
-      </div>
+      <PropsField
+        v-bind="padding"
+        v-model="style.padding"
+        inline
+      />
 
+      <!-- <div class="text-3 font-bold py-2">外边距</div> -->
+      <PropsField
+        v-bind="{
+          ...margin,
+          label: `外边距`,
+          key: `marginBottom`
+        }"
+        :key="margin.key"
+        v-model="style.margin"
+        inline
+      />
+
+      <PropsField
+        v-bind="{
+          label: `背景色`,
+          key: `color`,
+          type: `color`,
+        }"
+        :key="margin.key"
+        v-model="style.backgroundColor"
+        inline
+      />
     </section>
   </div>
 </template>
@@ -114,24 +62,24 @@ const style = reactive<Style>({
   // marginBottom: 0,
   // marginTop: 0,
 })
-const transformToPx = (): CSSProperties => {
-  const st = JSON.parse(JSON.stringify(style))
-  Object.keys(st).forEach(el => {
-    if (["margin", "padding"].includes(el)) {
-      st[el] = st[el] + 'px'
-    }
-    if (["backgroundColor"].includes(el)) {
-      st[el] = "#" + st[el]
-    }
-  })
-  console.log(st)
-  return st
-}
+// const transformToPx = (): CSSProperties => {
+//   const st = JSON.parse(JSON.stringify(style))
+//   Object.keys(st).forEach(el => {
+//     if (["margin", "padding"].includes(el)) {
+//       st[el] = st[el] + 'px'
+//     }
+//     if (["backgroundColor"].includes(el)) {
+//       st[el] = "#" + st[el]
+//     }
+//   })
+//   console.log(st)
+//   return st
+// }
 const config = {
   min: -5,
   max: 5,
   step: 0.01,
-  unit: 'rem'
+  unit: 'vw'
 }
 const padding: PropsFieldType = {
   label: "内间距",
@@ -161,7 +109,7 @@ const appCancelSelect = (params: AppEventParameters) => {
 appEvents.subscribe("appSelect", appSelect)
 appEvents.subscribe("appCancelSelect", appCancelSelect)
 watch(style, () => {
-  inst.updateAttr({ style: transformToPx() })
+  inst.updateAttr({ style: style })
 })
 
 // const attrs = useAttrs()

@@ -17,26 +17,27 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, toRaw } from 'vue';
+import { shallowRef } from 'vue';
 import ColorPicker from 'primevue/colorpicker';
 const props = defineProps<{
   modelValue: any,
   key?: string | undefined
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
-const value = shallowRef(props.modelValue)
-const pickedColor = shallowRef(toRaw(value))
+const defaultValue = !!props.modelValue ? (props.modelValue + '').replace('#', '') : ""
+const value = shallowRef(defaultValue)
+const pickedColor = shallowRef(defaultValue)
 const onChange = () => {
   if (value.value.length <= 6) {
     return
   }
-  emits('update:modelValue', value)
-  emits('change', value)
+  emits('update:modelValue', '#' + value.value)
+  emits('change', '#' + value.value)
 }
 const hidePalette = () => {
   value.value = pickedColor.value
-  emits('update:modelValue', value)
-  emits('change', value)
+  emits('update:modelValue', '#' + value.value)
+  emits('change', '#' + value.value)
 }
 </script>
 

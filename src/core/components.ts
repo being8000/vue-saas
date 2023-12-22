@@ -129,7 +129,8 @@ export class SaaSComponent implements Component {
     triggerRef(this.$ref);
   }
   updateAttr(attr: ComponentAttribute): void {
-    this.attrs = { ...this.attrs, ...attr };
+    // 这里需要Json.stringify 来 深拷贝，要不然会影响到上一个组件
+    this.attrs = JSON.parse(JSON.stringify({ ...this.attrs, ...attr }));
     this.$ref.value.attrs = this.attrs;
     triggerRef(this.$ref);
   }

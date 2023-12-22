@@ -1,15 +1,5 @@
 <template>
   <div>
-    <!-- <template v-if="instance.parent && instance.parent.vueComponent?.propsComponent">
-      <div class="b-1 b-amber bg-[#f5f5f5] p-2 rounded">
-        <span class="text-3.5 font-bold"> 父节点属性： {{ instance.parent.vueComponent?.componentName }}</span>
-        <component
-          :key="instance.parent.uid"
-          :instance="instance.parent"
-          :is="instance.parent.vueComponent.propsComponent"
-        ></component>
-      </div>
-    </template> -->
     <Props
       v-if="instance.parent"
       :instance="instance.parent"
@@ -25,7 +15,6 @@
         ></component>
       </div>
     </template>
-
   </div>
 </template>
 <script setup lang="ts">

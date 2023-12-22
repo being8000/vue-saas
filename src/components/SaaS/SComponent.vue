@@ -15,8 +15,8 @@
       <!-- 这里面有个属性key，使用shadowRef之后，如果是数组有时候需要给组件绑定这个Key，否则就算是调用trigerRef也无法触发渲染 -->
       <draggable
         tag="div"
+        ref="drag"
         v-model="instance.children"
-        :key="instance.children.length"
         v-bind="dragOption"
         @start="drag = true"
         @end="drag = false"
@@ -45,12 +45,11 @@
 <script setup lang="ts">
 import { saasApp } from '@/core';
 import { SComponentProps } from '@/core/components';
-import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef, triggerRef } from 'vue';
+import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef, triggerRef, ref } from 'vue';
 import Draggable from 'vuedraggable';
 // import { drawer } from '@/core/types/renderBoarders'
 const props = defineProps<SComponentProps>()
 const instance = props.instance
-const drag = shallowRef(false)
 const dragOption = computed(() => {
   return {
     animation: 200,
@@ -60,7 +59,7 @@ const dragOption = computed(() => {
   }
 })
 // Vue功能逻辑代码
-
+const drag = ref()
 const $ref = shallowRef(instance)
 instance.$ref = $ref
 
@@ -83,6 +82,11 @@ onBeforeUnmount(() => {
 })
 // 组件重新渲染时候出发
 onUpdated(() => {
+  console.log(123)
+  // 需要手动触发拖拽组件中的更新
+  if (instance.level == 1) {
+    drag.value && drag.value.$forceUpdate()
+  }
 })
 
 </script>

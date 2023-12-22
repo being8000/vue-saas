@@ -100,17 +100,18 @@
 // TODO 新增margin. padding, background, flex
 // TODO 新增子容器的
 import PropsField from '@/components/SaaS/System/PropsField.vue'
+import { saasApp } from '@/core';
 import { SComponentProps } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import { PropsFieldType } from '@/core/props-type';
-import { CSSProperties, reactive, watch } from 'vue';
+import { CSSProperties, ref, toRaw, watch } from 'vue';
 // 父组件传过来的组件值
 const { instance } = defineProps<SComponentProps>()
 
 
 type Style = Pick<CSSProperties, "backgroundColor" | "paddingLeft" | "paddingRight" | "paddingBottom" | "paddingTop" | "marginLeft" | "marginRight" | "marginBottom" | "marginTop">
-const style = reactive<Style>({
+const style = ref<Style>({
   paddingLeft: 0,
   paddingRight: 0,
   paddingBottom: 0,
@@ -151,25 +152,10 @@ const margin: PropsFieldType = {
   type: "number",
   config,
 };
-let inst = instance
-const appSelect = (params: AppEventParameters) => {
-  inst = params.component
-  if (inst.attrs) {
-    // const st = (inst.attrs.style || {}) as Style
-    // Object.keys(st).forEach(el => {
-    //   style[el] = parseInt(st[el]) as any
-    // })
-  }
-}
-const appCancelSelect = (params: AppEventParameters) => {
-  inst = params.component
-}
-appEvents.subscribe("appSelect", appSelect)
-appEvents.subscribe("appCancelSelect", appCancelSelect)
-watch(style, () => {
-  inst.updateAttr({ style: style })
-})
 
+watch(style.value, () => {
+  saasApp.activedComponent?.updateAttr({ style: toRaw(style).value })
+})
 // const attrs = useAttrs()
 
 

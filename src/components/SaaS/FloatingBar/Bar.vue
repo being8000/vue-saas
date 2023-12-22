@@ -9,7 +9,7 @@
         class=" bg-cyan b-none "
         raised
         size="small"
-      >Undo</Button>
+      >撤回</Button>
       <Button
         @click="deleteItem"
         v-if="ButtonState.delete"
@@ -17,17 +17,17 @@
         size="small"
         class="bg-red b-none"
       >
-        Delete
+        删除
       </Button>
-      <Button
+      <!-- <Button
         @click="addChild"
         raised
         size="small"
         v-if="ButtonState.addChild"
         class="bg-blue b-none"
       >
-        AddChild
-      </Button>
+        添加容器
+      </Button> -->
       <Button
         @click="copy"
         raised
@@ -43,7 +43,7 @@
         @click="toggleLayer"
         class=" bg-origin-border b-none"
       >
-        {{ layerVisible ? "Hide" : "Show" }} Layers
+        {{ layerVisible ? "隐藏" : "显示" }}层级
       </Button>
     </div>
     <div class="grow text-right flex items-center justify-end">
@@ -83,10 +83,10 @@ const deleteItem = async () => {
   // console.log(instance)
   saasApp.action.delete()
 }
-const addChild = async () => {
-  // console.log(instance)
-  saasApp.action.addChild()
-}
+// const addChild = async () => {
+//   // console.log(instance)
+//   saasApp.action.addChild()
+// }
 const copy = () => {
   saasApp.action.copy()
 }

@@ -17,21 +17,7 @@ export const Container = {
   },
   // 获取空的根node树， 用于创建新的一个页面编辑器的时候
   initRootNode() {
-    return this.rootNode([
-      {
-        tag: "RootContainer",
-        children: [],
-        attrs: {
-          initData: {
-            name: "zehan",
-          },
-        },
-      },
-      {
-        tag: "RootContainer",
-        children: [],
-      },
-    ]);
+    return this.rootNode([]);
   },
   getRoot() {
     const rootContainer = new SaaSComponent({
@@ -51,6 +37,12 @@ export const Container = {
       tag: "RootContainer",
       uid: 0,
       pid: root.uid,
+      attrs: {
+        initData: {
+          cols: "grid-cols-2",
+          dispaly: "grid",
+        },
+      },
       parent: root,
     });
     return rootContainer;

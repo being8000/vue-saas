@@ -1,9 +1,12 @@
 <template>
-  <div class="root-container">
+  <div
+    class="root-container"
+    :class="Object.values(props.instance.attrs?.initData || {})"
+  >
     <div class="tag">{{ props.instance.tag }} {{ props.instance.index }} - {{ props.instance.pid }}- {{ props.instance.uid
     }}</div>
     <slot>
-      <EmptyBox :tag="props.instance.tag" />
+      <EmptyBox :instance="instance" />
     </slot>
   </div>
 </template>

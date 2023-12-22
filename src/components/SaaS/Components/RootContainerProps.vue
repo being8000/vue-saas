@@ -133,7 +133,7 @@ const gaps: PropsFieldType = {
 const form = reactive<Form>({
   cols: 'grid-cols-1',
   dispaly: 'grid',
-  gap: 'gap-1',
+  gap: 'gap-0',
   ...instance.attrs?.initData
 })
 watch(form, () => {

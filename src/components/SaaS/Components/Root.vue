@@ -2,7 +2,7 @@
   <div class="root-container">
     <div class="tag">{{ instance.tag }} {{ instance.index }} - {{ instance.uid }}</div>
     <slot>
-      <EmptyBox :tag="instance.tag" />
+      <EmptyBox :instance="instance" />
     </slot>
   </div>
 </template>

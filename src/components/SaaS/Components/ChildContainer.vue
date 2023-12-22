@@ -3,7 +3,7 @@
     <div class="tag">{{ props.instance.tag }} {{ props.instance.index }} - {{ props.instance.pid }}- {{ props.instance.uid
     }}</div>
     <slot>
-      <EmptyBox :tag="props.instance.tag" />
+      <EmptyBox :instance="instance" />
     </slot>
   </div>
 </template>

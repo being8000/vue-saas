@@ -16,18 +16,15 @@
     >
 
       <div>
-        当前选中：{{ data.selectedCom.tag }}
+        当前选中：{{ data.selectedCom.vueComponent?.componentName }}
       </div>
       <div>
         <h4>请选则你需要添加得组件</h4>
-        <section>
+        <section v-if="type == ComponentType.RootContainer || type == ComponentType.Root">
           <h5>系统组件</h5>
           <section class="flex">
-            <Button
-              @click="addChild"
-              v-if="type == ComponentType.RootContainer || type == ComponentType.Root"
-            >
-              ChildContainer
+            <Button @click="addChild">
+              添加子容器
             </Button>
           </section>
         </section>

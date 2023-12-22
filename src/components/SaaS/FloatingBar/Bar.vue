@@ -35,7 +35,7 @@
         v-if="ButtonState.copy"
         class="bg-yellow b-none"
       >
-        Copy
+        复制节点
       </Button>
       <Button
         raised

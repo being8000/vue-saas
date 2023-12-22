@@ -72,18 +72,16 @@ export class AddChildCommand implements Command {
   }
   execute(): boolean {
     // 如果为自定义容器，无法添加子容器
-    if (
-      [ComponentType.CustomComponent, ComponentType.ChildContainer].includes(
-        this.component.type
-      )
-    ) {
-      console.warn("ChildContainer和CustomComponent无法添加子组件");
+    if (this.component.type == ComponentType.CustomComponent) {
+      console.warn("CustomComponent无法添加子容器");
       return false;
-    }
-    if (this.component.type == ComponentType.Root) {
+    } else if (this.component.type == ComponentType.Root) {
       this.addedCom = Container.getRootContainer(this.component);
     } else if ((this.component.type = ComponentType.RootContainer)) {
       this.addedCom = Container.getChildContainer(this.component);
+    } else if ((this.component.type = ComponentType.ChildContainer)) {
+      console.warn("ChildContainer无法添加子容器");
+      return false;
     }
     this.component.addChild(this.addedCom);
     appEvents.notify("appSelect", {

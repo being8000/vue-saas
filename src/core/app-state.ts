@@ -6,7 +6,7 @@ import {
   DeleteCommand,
   ReplaceCommand,
 } from "./command";
-import { Component } from "./components";
+import { Component, ComponentType } from "./components";
 import { appEvents } from "./event-manager";
 
 /**
@@ -58,9 +58,17 @@ class SelectedStateAction extends AppStateAction {
   }
   addVueComponentChild(name: string): void {
     if (saasApp.activedComponent) {
-      saasApp.history.executeCommand(
-        new AddVueComponentCommand(saasApp.activedComponent, name)
-      );
+      const act = saasApp.activedComponent;
+      if (act.type != ComponentType.CustomComponent) {
+        saasApp.history.executeCommand(
+          new AddVueComponentCommand(saasApp.activedComponent, name)
+        );
+      } else {
+        // 如果以及是自定义组件，则只能做替换操作
+        saasApp.history.executeCommand(
+          new ReplaceCommand(saasApp.activedComponent, name)
+        );
+      }
     }
   }
   // 取消选中

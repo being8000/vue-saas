@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div>基础样式</div>
+    <div class="text-3.5 font-bold text-[#333] mb-3">基础样式</div>
     <section>
       <!-- <div class="text-3 font-bold py-2">内间距</div> -->
       <div class=" b-1 b-amber bg-[#f5f5f5] p-2 rounded">

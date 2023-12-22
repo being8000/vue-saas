@@ -1,8 +1,8 @@
 <template>
-  <div class="">
-    <div class="text-3.5 font-bold text-[#333]">属性 Props</div>
+  <div>
+    <div class="text-3.5 font-bold text-[#333] mb-3">属性 Props</div>
     <template v-if="instance.parent && instance.parent.vueComponent?.propsComponent">
-      <div style="border:1px solid #">
+      <div class="b-1 b-amber bg-[#f5f5f5] p-2 rounded">
         <span class="text-3.5 font-bold"> 父节点属性： {{ instance.parent.vueComponent?.componentName }}</span>
         <component
           :key="instance.parent.uid"
@@ -12,7 +12,7 @@
       </div>
     </template>
     <template v-if="instance.vueComponent?.propsComponent">
-      <div>
+      <div class="b-1 b-amber bg-[#f5f5f5] p-2 rounded mt-5">
         <span class="text-3.5 font-bold"> 当前节点： {{ instance.vueComponent?.componentName }}</span>
         <component
           :key="instance.uid"

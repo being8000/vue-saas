@@ -21,13 +21,14 @@ import { reactive, watch } from 'vue';
 import { PropsFieldType } from '@/core/props-type';
 export interface ImageComponentProps {
   url?: string // 图片URL地址
+  width?: number
 }
 // 父组件传过来的组件值
 const { instance } = defineProps<SComponentProps>()
 // const display = ['flex', 'grid']
 // 此处一一列出来是因为Unocss的on-demand 按需加载css。 
 const image: PropsFieldType = {
-  label: "上传",
+  label: "图片地址",
   key: "image",
   type: "image",
   config: {

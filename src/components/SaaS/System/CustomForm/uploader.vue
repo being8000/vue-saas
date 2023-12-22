@@ -7,7 +7,7 @@
         :accept="config?.accept || 'image/*'"
         :multiple="config?.multiple || false"
       >
-      上传
+      请选择
     </label>
   </div>
 </template>
@@ -44,7 +44,7 @@ const onChange = (event: Event) => {
 
   &>label {
     cursor: pointer;
-    background-color: var(--primary-color);
+    background-color: #f87171;
     color: #ffffff;
     padding: 3px 5px;
     font-size: 12px;

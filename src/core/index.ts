@@ -1,13 +1,17 @@
-import { Component, PlainNode, SaaSComponent } from "./components";
-import { Container } from "./container";
-import { CommandHistory } from "./history";
 import { AppStateAction, defaultAction } from "./app-state";
+import {
+  Component,
+  PlainNode,
+  SaaSComponent,
+  SaasFakeComponent,
+} from "./components";
+import { CommandHistory } from "./history";
 
 /**
  * 该类是SaaS应用的主类，实现各个功能的载体。返回应用程序实例
  */
 export class SaaSApplication {
-  component: Component = Container.getRoot();
+  component: Component = new SaasFakeComponent();
   selections: Component[] = []; // 存储选中的组件列表，为后续使用
   action: AppStateAction = defaultAction;
   activedComponent?: Component;

@@ -4,7 +4,7 @@
 
 import { triggerRef } from "vue";
 import { saasApp } from ".";
-import { Component, ComponentType, SaaSComponent } from "./components";
+import { Component, ComponentType, SaasFakeComponent } from "./components";
 import { Container } from "./container";
 import { appEvents } from "./event-manager";
 import { saasVueComponents } from "./register-component";
@@ -62,7 +62,7 @@ export class ReplaceCommand implements Command {
 
 export class AddChildCommand implements Command {
   component: Component;
-  addedCom: Component = new SaaSComponent({});
+  addedCom: Component = new SaasFakeComponent();
   constructor(com: Component) {
     this.component = com;
   }
@@ -96,7 +96,7 @@ export class AddChildCommand implements Command {
  */
 export class AddVueComponentCommand implements Command {
   component: Component;
-  addedCom: Component = new SaaSComponent({});
+  addedCom: Component = new SaasFakeComponent();
   name: string; // 新增的自定义组件名字
   constructor(com: Component, name: string) {
     this.component = com;
@@ -122,7 +122,7 @@ export class AddVueComponentCommand implements Command {
 
 export class CopyCommand implements Command {
   component: Component;
-  copyDom: Component = new SaaSComponent({});
+  copyDom: Component = new SaasFakeComponent();
   constructor(com: Component) {
     this.component = com;
   }

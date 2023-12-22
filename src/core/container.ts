@@ -19,17 +19,6 @@ export const Container = {
   initRootNode() {
     return this.rootNode([]);
   },
-  getRoot() {
-    const rootContainer = new SaaSComponent({
-      level: 1,
-      type: ComponentType.Root,
-      tag: "Root",
-      uid: 0,
-      pid: 0,
-      parent: undefined,
-    });
-    return rootContainer;
-  },
   getRootContainer(root: Component) {
     const rootContainer = new SaaSComponent({
       level: root.level + 1,

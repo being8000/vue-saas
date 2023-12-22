@@ -35,6 +35,7 @@ export type ComponentAttribute = {
   style?: CSSProperties;
   initData?: object;
 };
+
 export interface Component {
   type: ComponentType; //组件类型
   uid: number; // 组件ID
@@ -49,7 +50,7 @@ export interface Component {
   onFocusin?: boolean; // 是否有子元素被选中
   parent: Component;
   $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
-  clone(deep?: boolean): Component;
+  clone(): Component;
   removeChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
   updateAttr(attr: ComponentAttribute): void;
@@ -63,7 +64,43 @@ export const autoIncreaseID = (function () {
     return id;
   };
 })();
-
+export class SaasFakeComponent implements Component {
+  type: Component["type"] = ComponentType.Root;
+  uid: Component["uid"] = -1;
+  pid: Component["uid"] = -1;
+  tag: Component["tag"] = "";
+  vueComponent?: Component["vueComponent"];
+  level: Component["level"] = -1;
+  index: Component["index"] = -1;
+  attrs?: Component["attrs"];
+  children: Component[] = [];
+  selected?: Component["selected"];
+  onFocusin?: Component["onFocusin"];
+  parent: Component;
+  $ref: ShallowRef<any> = shallowRef();
+  constructor(com?: Partial<Component>);
+  constructor(com: Component) {
+    this.parent = com;
+  }
+  clone(): Component {
+    throw new Error("Method not implemented.");
+  }
+  removeChild(): Component[] | undefined {
+    throw new Error("Method not implemented.");
+  }
+  addChild(): Component[] | undefined {
+    throw new Error("Method not implemented.");
+  }
+  updateAttr(): void {
+    throw new Error("Method not implemented.");
+  }
+  syncChildren(): void {
+    throw new Error("Method not implemented.");
+  }
+  toggleSelect(): void {
+    throw new Error("Method not implemented.");
+  }
+}
 /**
  * 参照创建行模式中的 组合模式
  */
@@ -81,9 +118,9 @@ export class SaaSComponent implements Component {
   onFocusin?: Component["onFocusin"];
   parent: Component;
   $ref: ShallowRef<Component> = shallowRef(this); // 绑定Vue组件中动态响应的变量，用于促发更新
-  constructor(com: Partial<Component>, deep?: boolean);
-  constructor(com: Component, deep?: boolean) {
-    this.uid = deep ? com?.uid || 1 : autoIncreaseID();
+  constructor(com: Partial<Component>);
+  constructor(com: Component) {
+    this.uid = autoIncreaseID();
     this.pid = com.pid || 0;
     this.level = com.level || 1;
     this.type = Container.getComponentType(com.tag);
@@ -134,8 +171,8 @@ export class SaaSComponent implements Component {
     this.$ref.value.attrs = this.attrs;
     triggerRef(this.$ref);
   }
-  clone(deep: boolean = false): Component {
-    return new SaaSComponent(this, deep);
+  clone(): Component {
+    return new SaaSComponent(this);
   }
   toggleSelect(): void {
     this.selected = !this.selected;

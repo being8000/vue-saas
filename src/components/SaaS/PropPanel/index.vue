@@ -79,4 +79,5 @@ appEvents.subscribe("appCancelSelect", appCancelSelect)
   100% {
     transform: translate(0px, 0px);
   }
-}</style>
+}
+</style>

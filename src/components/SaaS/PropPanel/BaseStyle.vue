@@ -99,15 +99,11 @@
  */
 // TODO 新增margin. padding, background, flex
 // TODO 新增子容器的
-import PropsField from '@/components/SaaS/System/PropsField.vue'
+import PropsField from '@/components/SaaS/System/PropsField.vue';
 import { saasApp } from '@/core';
-import { SComponentProps } from '@/core/components';
-import { appEvents } from '@/core/event-manager';
-import { AppEventParameters } from '@/core/event-types';
 import { PropsFieldType } from '@/core/props-type';
 import { CSSProperties, ref, toRaw, watch } from 'vue';
 // 父组件传过来的组件值
-const { instance } = defineProps<SComponentProps>()
 
 
 type Style = Pick<CSSProperties, "backgroundColor" | "paddingLeft" | "paddingRight" | "paddingBottom" | "paddingTop" | "marginLeft" | "marginRight" | "marginBottom" | "marginTop">

@@ -61,7 +61,7 @@
  */
 import ComponentSelector from '../System/ComponentSelector.vue'
 import { saasApp } from '@/core';
-import { Component, SaaSComponent, ComponentType } from '@/core/components';
+import { Component, ComponentType, SaasFakeComponent } from '@/core/components';
 import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import Button from 'primevue/button';
@@ -72,7 +72,7 @@ const data = shallowRef<{
   selectedCom: Component
 }>({
   visible: false,
-  selectedCom: new SaaSComponent({})
+  selectedCom: new SaasFakeComponent({})
 })
 
 const customComponents = [

@@ -6,6 +6,22 @@
     <!-- <CssGrid /> -->
     <SelectorPanel />
     <PropPanel />
+    <div class="fixed left-0 p-3">
+      <h2 class="text-[var(--primary-color)]">功能描述</h2>
+      <li>新增根容器</li>
+      <li>根容器可新增子容器或者自定义组件</li>
+      <li>子容器可以新增自定义组件，但是只能新增一个，<br>重新选择其他组件默认会变成替换操作</li>
+      <li>可自定义组件基础样式</li>
+      <li>可灵活开发新组件，并且可灵活配置属性编辑面板</li>
+      <ul>
+        <h4 class="text-[var(--primary-color)]">组件的基本功能</h4>
+        <li>新增</li>
+        <li>复制</li>
+        <li>删除</li>
+        <li>撤回</li>
+        <li>替换</li>
+      </ul>
+    </div>
     <section class="max-w-2xl m-auto mt-2 b-r b-l b-balck b-2 shadow-inset layers render-container">
       <RenderItem
         ref="vDom"

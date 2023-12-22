@@ -1,7 +1,7 @@
 <template>
   <div class="w-full text-center grid grid-cols-3 p-1 pl-3 sticky top-0 bg-white shadow-lg z-10">
     <div class="grow text-left flex items-center">
-      <h3 class="m-0 pl">模拟商城装修系统</h3>
+      <h3 class="m-0 pl">高性能商城装修系统</h3>
     </div>
     <div class="m-auto grow-0 space-x-1 text-center">
 

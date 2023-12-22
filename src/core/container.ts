@@ -17,7 +17,17 @@ export const Container = {
   },
   // 获取空的根node树， 用于创建新的一个页面编辑器的时候
   initRootNode() {
-    return this.rootNode([]);
+    return this.rootNode([
+      // {
+      //   tag: "RootContainer",
+      //   children: new Array(2000).fill(0).map(() => {
+      //     return {
+      //       tag: "ChildContainer",
+      //       children: [],
+      //     };
+      //   }),
+      // },
+    ]);
   },
   getRootContainer(root: Component) {
     const rootContainer = new SaaSComponent({

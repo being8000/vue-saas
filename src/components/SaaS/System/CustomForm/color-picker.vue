@@ -6,6 +6,11 @@
       @hide="hidePalette"
       inputId="cp-hex"
       format="hex"
+      :pt="{
+        input: {
+          style: 'height:15px;width:15px'
+        }
+      }"
     />
     <input
       v-model="value"
@@ -47,11 +52,19 @@ const hidePalette = () => {
   align-items: center;
 
   input {
-    width: 60px;
+    max-width: 80px;
     display: inline-block;
     margin-left: 5px;
-    border-color: #555;
+    border: 1px solid #c8cccf;
     border-radius: 3px;
+
+    &:focus {
+      border-color: var(--primary-color);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 }
 </style>

@@ -16,7 +16,7 @@
         @change="emits('update:modelValue', value)"
       />
     </template>
-    <template v-if="props.type == 'slider'">
+    <template v-else-if="props.type == 'slider'">
       <CusSlider
         :key="props.key"
         :config="(props.config as Slider)"
@@ -24,30 +24,39 @@
         @change="emits('update:modelValue', value)"
       />
     </template>
-    <template v-if="props.type == 'color'">
+    <template v-else-if="props.type == 'color'">
       <CusColorPicker
         :key="props.key"
         v-model="value"
         @change="emits('update:modelValue', value)"
       />
     </template>
-    <template v-if="props.type == 'image'">
+    <template v-else-if="props.type == 'image'">
       <CusUploader
         :key="props.key"
         v-model="value"
         @change="emits('update:modelValue', value)"
       />
     </template>
+    <template v-else-if="props.type == 'number'">
+      <CusNumberIput
+        :key="props.key"
+        v-model="value"
+        @change="emits('update:modelValue', value)"
+        :config="(props.config as CusNumer)"
+      />
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { LabelValue, Slider } from '@/core/props-type';
+import { CusNumer, LabelValue, Slider } from '@/core/props-type';
 import { PropsFieldType } from '@/core/props-type';
 import CusRadioButton from './CustomForm/radio-button.vue'
 import CusSlider from './CustomForm/slider.vue'
 import CusColorPicker from './CustomForm/color-picker.vue'
 import CusUploader from './CustomForm/uploader.vue'
+import CusNumberIput from './CustomForm/number-input.vue'
 import { ref } from 'vue';
 
 const props = defineProps<PropsFieldType & {

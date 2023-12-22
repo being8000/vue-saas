@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { Slider } from '@/core/props-type';
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 
 const props = defineProps<{
   modelValue: any,
@@ -24,7 +24,7 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
 const defaultValue = !!props.modelValue ? (props.modelValue + '').replace((props.config.unit) + '', '') : 0
-const value = ref(defaultValue)
+const value = shallowRef(defaultValue)
 const onChange = () => {
   emits('update:modelValue', value.value + (props.config.unit || 'px'))
   emits('change', value.value + (props.config.unit || 'px'))

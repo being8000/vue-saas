@@ -1,37 +1,95 @@
 <template>
   <div class="container">
-    <div class="text-3.5 font-bold text-[#333] mb-3">基础样式</div>
-    <section>
+    <div class="text-3.5 font-bold text-[#000] mb-3">基础样式</div>
+    <div class="text-3 font-bold text-[#333]">间距（Padding）</div>
+    <section class="grid grid-cols-2">
       <!-- <div class="text-3 font-bold py-2">内间距</div> -->
       <PropsField
-        v-bind="padding"
-        v-model="style.padding"
+        v-bind="{
+          ...padding,
+          label: '左间距',
+        }"
+        v-model="style.paddingLeft"
         inline
       />
-
-      <!-- <div class="text-3 font-bold py-2">外边距</div> -->
       <PropsField
         v-bind="{
-          ...margin,
-          label: `外边距`,
-          key: `marginBottom`
+          ...padding,
+          label: '右间距',
         }"
-        :key="margin.key"
-        v-model="style.margin"
+        v-model="style.paddingRight"
         inline
       />
-
       <PropsField
         v-bind="{
-          label: `背景色`,
-          key: `color`,
-          type: `color`,
+          ...padding,
+          label: '上间距',
         }"
-        :key="margin.key"
-        v-model="style.backgroundColor"
+        v-model="style.paddingTop"
+        inline
+      />
+      <PropsField
+        v-bind="{
+          ...padding,
+          label: '下间距',
+        }"
+        v-model="style.paddingBottom"
         inline
       />
     </section>
+    <div class="text-3 font-bold text-[#333]">边距（Margin）</div>
+    <section class="grid grid-cols-2">
+      <PropsField
+        v-bind="{
+          ...margin,
+          label: `左边距`,
+          key: `marginBottom`
+        }"
+        :key="margin.key"
+        v-model="style.marginLeft"
+        inline
+      />
+      <PropsField
+        v-bind="{
+          ...margin,
+          label: `右边距`,
+          key: `marginBottom`
+        }"
+        :key="margin.key"
+        v-model="style.marginRight"
+        inline
+      />
+      <PropsField
+        v-bind="{
+          ...margin,
+          label: `上边距`,
+          key: `marginBottom`
+        }"
+        :key="margin.key"
+        v-model="style.marginTop"
+        inline
+      />
+      <PropsField
+        v-bind="{
+          ...margin,
+          label: `下边距`,
+          key: `marginBottom`
+        }"
+        :key="margin.key"
+        v-model="style.marginBottom"
+        inline
+      />
+    </section>
+    <PropsField
+      v-bind="{
+        label: `背景色`,
+        key: `color`,
+        type: `color`,
+      }"
+      :key="margin.key"
+      v-model="style.backgroundColor"
+      inline
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -51,16 +109,16 @@ import { CSSProperties, reactive, watch } from 'vue';
 const { instance } = defineProps<SComponentProps>()
 
 
-type Style = Pick<CSSProperties, "margin" | "padding" | "backgroundColor">
+type Style = Pick<CSSProperties, "backgroundColor" | "paddingLeft" | "paddingRight" | "paddingBottom" | "paddingTop" | "marginLeft" | "marginRight" | "marginBottom" | "marginTop">
 const style = reactive<Style>({
-  // paddingLeft: 0,
-  // paddingRight: 0,
-  // paddingBottom: 0,
-  // paddingTop: 0,
-  // marginLeft: 0,
-  // marginRight: 0,
-  // marginBottom: 0,
-  // marginTop: 0,
+  paddingLeft: 0,
+  paddingRight: 0,
+  paddingBottom: 0,
+  paddingTop: 0,
+  marginLeft: 0,
+  marginRight: 0,
+  marginBottom: 0,
+  marginTop: 0,
 })
 // const transformToPx = (): CSSProperties => {
 //   const st = JSON.parse(JSON.stringify(style))
@@ -78,19 +136,19 @@ const style = reactive<Style>({
 const config = {
   min: -5,
   max: 5,
-  step: 0.01,
-  unit: 'vw'
+  unit: 'px',
+  width: '50px'
 }
 const padding: PropsFieldType = {
   label: "内间距",
   key: "display",
-  type: "slider",
+  type: "number",
   config,
 };
 const margin: PropsFieldType = {
   label: "上边距",
   key: "display",
-  type: "slider",
+  type: "number",
   config,
 };
 let inst = instance

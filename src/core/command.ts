@@ -53,6 +53,9 @@ export class ReplaceCommand implements Command {
     this.component.type = ComponentType.CustomComponent;
     this.component.$ref.value = this.component;
     triggerRef(this.component.$ref);
+    if (saasApp.activedComponent?.type != ComponentType.CustomComponent) {
+      saasApp.action.toggleSelect(this.component);
+    }
     appEvents.notify("appSelect", {
       component: this.component,
     });
@@ -116,6 +119,7 @@ export class AddVueComponentCommand implements Command {
     this.addedCom.vueComponent = vueComponent;
     this.component.addChild(this.addedCom);
     this.component.syncChildren();
+    saasApp.action.toggleSelect(this.addedCom);
     return true;
   }
 }

@@ -62,6 +62,7 @@ class SelectedStateAction extends AppStateAction {
   addVueComponentChild(name: string): void {
     if (saasApp.activedComponent) {
       const act = saasApp.activedComponent;
+
       if (act.type == ComponentType.Root) {
         saasApp.history.executeCommand(new AddVueComponentCommand(act, name));
       } else if (act.type == ComponentType.RootContainer) {
@@ -88,14 +89,17 @@ class SelectedStateAction extends AppStateAction {
       com = saasApp.component;
     }
     saasApp.activedComponent?.toggleSelect();
-    // 通知其他面板
-    appEvents.notify("appCancelSelect", {
-      component: com,
-    });
     // 如果 选中的组件和已经激活的组件是同一个 就取消选中不执行一下操作
-    if (saasApp.activedComponent?.uid == com?.uid) {
+    if (
+      saasApp.activedComponent?.uid == com?.uid &&
+      saasApp.activedComponent.tag == com.tag
+    ) {
       saasApp.activedComponent = undefined;
       saasApp.action = defaultAction;
+      // 通知其他面板
+      appEvents.notify("appCancelSelect", {
+        component: com,
+      });
     } else {
       super.toggleSelect(com);
     }

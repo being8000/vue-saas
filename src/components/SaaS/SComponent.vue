@@ -82,7 +82,6 @@ onBeforeUnmount(() => {
 })
 // 组件重新渲染时候出发
 onUpdated(() => {
-  console.log(123)
   // 需要手动触发拖拽组件中的更新
   if (instance.level == 1) {
     drag.value && drag.value.$forceUpdate()

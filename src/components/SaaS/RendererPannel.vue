@@ -15,11 +15,25 @@
       <li>可灵活开发新组件，并且可灵活配置属性编辑面板</li>
       <ul>
         <h4 class="text-[var(--primary-color)]">组件的基本功能</h4>
-        <li>新增</li>
-        <li>复制</li>
-        <li>删除</li>
-        <li>撤回</li>
-        <li>替换</li>
+        <div class="flex space-x-6">
+          <li>新增</li>
+          <li>复制</li>
+          <li>删除</li>
+          <li>撤回</li>
+          <li>替换</li>
+          <li>父级容器拖拽</li>
+        </div>
+      </ul>
+      <ul>
+        <h4 class="text-[var(--primary-color)]">后续功能</h4>
+        <div class="">
+          <li>模拟商场组件完善</li>
+          <li>商场预览</li>
+          <li>商品组件</li>
+          <li>活动组件</li>
+          <li>促销组件</li>
+          <li>商场模板导入，保存功能</li>
+        </div>
       </ul>
     </div>
     <section class="max-w-2xl m-auto mt-2 b-r b-l b-balck b-2 shadow-inset layers render-container">

@@ -36,28 +36,31 @@
         </div>
       </ul>
     </div>
-    <section class="max-w-2xl m-auto mt-2 b-r b-l b-balck b-2 shadow-inset layers render-container">
-      <RenderItem
-        ref="vDom"
-        :instance="$ref"
-      />
+    <section class="flex m-auto mt-5 b-r b-l b-balck b-2 shadow-inset layers render-container">
+
+      <PhoneScreen>
+        <RenderItem :instance="instance" />
+      </PhoneScreen>
+      <div class="ml-3 tree w-200px">
+        <ComponentsTree :instance="instance" />
+      </div>
     </section>
     <!-- <FloatingBar /> -->
   </div>
 </template>
 <script setup lang="ts">
 // import CssGrid from '@/components/CssGrid.vue'
+import PhoneScreen from '@/components/Phone/iphone14.vue'
+import ComponentsTree from '@/components/ComponentsTree.vue'
 import { Container } from '@/core/container';
 import { saasApp } from '@/core/index';
-import { onMounted, onRenderTracked, onUpdated, shallowRef } from 'vue';
+import { onMounted, onRenderTracked, onUpdated } from 'vue';
 import FloatingBar from './FloatingBar/Bar.vue';
 import RenderItem from './SComponent.vue';
 import SelectorPanel from './SelectorPanel/index.vue';
 import PropPanel from './PropPanel/index.vue';
 
 const instance = saasApp.mount(Container.initRootNode())
-const $ref = shallowRef(instance)
-instance.$ref = $ref
 
 // saasApp.action.toggleSelect(children.value)
 
@@ -73,6 +76,7 @@ onRenderTracked(() => {
 
 <style lang="scss">
 @import './render.scss';
+@import './tree.scss';
 
 
 .saas-item:hover::after {
@@ -99,12 +103,12 @@ onRenderTracked(() => {
 // }
 
 .render-container {
-  min-height: 100vh;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+  width: max-content;
 
 
   .L1 {
-    min-height: 100vh;
+    min-height: 100%;
   }
 
   .tag {
@@ -143,7 +147,8 @@ onRenderTracked(() => {
   }
 
   .saas-item.selected {
-    transform: translateX(1px);
+    z-index: 10;
+    transform: translateX(0px);
     box-shadow: #7254f3 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   }
 

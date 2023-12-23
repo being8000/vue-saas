@@ -50,12 +50,14 @@ export interface Component {
   onFocusin?: boolean; // 是否有子元素被选中
   parent: Component;
   $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
+  interEvent?: (com: Component) => void;
   clone(): Component;
   removeChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
   updateAttr(attr: ComponentAttribute): void;
   syncChildren(): void;
   toggleSelect(): void;
+  onUpdate(): void;
 }
 export const autoIncreaseID = (function () {
   let id = 0;
@@ -91,15 +93,10 @@ export class SaasFakeComponent implements Component {
   addChild(): Component[] | undefined {
     throw new Error("Method not implemented.");
   }
-  updateAttr(): void {
-    throw new Error("Method not implemented.");
-  }
-  syncChildren(): void {
-    throw new Error("Method not implemented.");
-  }
-  toggleSelect(): void {
-    throw new Error("Method not implemented.");
-  }
+  updateAttr(): void {}
+  syncChildren(): void {}
+  toggleSelect(): void {}
+  onUpdate(): void {}
 }
 /**
  * 参照创建行模式中的 组合模式
@@ -117,7 +114,8 @@ export class SaaSComponent implements Component {
   selected?: Component["selected"];
   onFocusin?: Component["onFocusin"];
   parent: Component;
-  $ref: ShallowRef<Component> = shallowRef(this); // 绑定Vue组件中动态响应的变量，用于促发更新
+  interEvent?: (com: Component) => void;
+  $ref: ShallowRef<Component> = shallowRef(this);
   constructor(com: Partial<Component>);
   constructor(com: Component) {
     this.uid = autoIncreaseID();
@@ -142,7 +140,9 @@ export class SaaSComponent implements Component {
       });
     }
   }
-
+  onUpdate(): void {
+    this.interEvent && this.interEvent(this);
+  }
   removeChild(c: Component): Component[] | undefined {
     c.parent.children.splice(c.index, 1);
     c.parent.syncChildren();
@@ -164,12 +164,14 @@ export class SaaSComponent implements Component {
     });
     this.$ref.value.children = this.children;
     triggerRef(this.$ref);
+    this.onUpdate();
   }
   updateAttr(attr: ComponentAttribute): void {
     // 这里需要Json.stringify 来 深拷贝，要不然会影响到上一个组件
     this.attrs = JSON.parse(JSON.stringify({ ...this.attrs, ...attr }));
     this.$ref.value.attrs = this.attrs;
     triggerRef(this.$ref);
+    this.onUpdate();
   }
   clone(): Component {
     return new SaaSComponent(this);
@@ -178,5 +180,6 @@ export class SaaSComponent implements Component {
     this.selected = !this.selected;
     this.$ref.value.selected = this.selected;
     triggerRef(this.$ref);
+    this.onUpdate();
   }
 }

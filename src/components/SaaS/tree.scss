@@ -1,0 +1,71 @@
+.tree summary{
+  outline: 0;
+  padding-left: 20px;
+  list-style: none;
+  display: inline-block;
+  position: relative;
+  background: repeating-linear-gradient( 90deg, #999 0 1px,transparent 0px 2px) 0px 50%/20px 1px no-repeat;
+  /* background: linear-gradient(#999,#999) 0px 50%/20px 1px no-repeat; */
+}
+.tree details:last-child{
+  background-size: 1px 23px;
+}
+.tree>details:not(:last-child)>details:last-child{
+  background-size: 1px 100%;
+}
+.tree details{
+  padding-left: 30px;
+  background: repeating-linear-gradient( #999 0 1px,transparent 0px 2px) 30px 0px/1px 100% no-repeat;
+  /* background: linear-gradient(#999, #999) 40px 0px/1px 100% no-repeat; */
+}
+.tree>details{
+  background: none;
+  padding-left: 0;
+}
+.tree>details>summary{
+  background: none
+}
+.tree summary{
+  display: flex;
+  align-items: center;
+  height: 30px;
+  font-size: 12px;
+  line-height: 30px;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+}
+// .tree summary::after{
+//   content: '';
+//   position: absolute;
+//   left: 10px;
+//   right: 10px;
+//   height: 38px;
+//   background: var(--primary-color);
+//   border-radius: 8px;
+//   z-index: -1;
+//   opacity: 0;
+//   width: 100%;
+//   transition: .2s;
+// }
+// .tree summary:hover::after{
+//   opacity: 1;
+// }
+.tree summary.selected{
+  color: #fff;
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+.tree summary:not(:only-child)::before{
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 0;
+  flex-shrink: 0;
+  margin-right: 8px;
+  border: 1px solid rgb(67, 9, 105);
+  background: linear-gradient(#999, #999) 50%/1px 10px no-repeat,linear-gradient(#999, #999)  50%/10px 1px no-repeat;
+}
+.tree details[open]>summary::before{
+  background: linear-gradient(#999, #999) 50%/10px 1px no-repeat;
+}

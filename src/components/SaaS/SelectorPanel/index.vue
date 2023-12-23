@@ -59,14 +59,14 @@
  * L2 可以添加自定义组件以及子容器
  * L3 无法继续添加，可以替换当前层级为自定义组件
  */
-import ComponentSelector from '../System/ComponentSelector.vue'
+import { useSubscribe } from '@/composables/useSubscribe';
 import { saasApp } from '@/core';
 import { Component, ComponentType, SaasFakeComponent } from '@/core/components';
-import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import Button from 'primevue/button';
 import Sidebar from 'primevue/sidebar';
 import { computed, shallowRef, triggerRef } from 'vue';
+import ComponentSelector from '../System/ComponentSelector.vue';
 const data = shallowRef<{
   visible: boolean,
   selectedCom: Component
@@ -98,8 +98,9 @@ const appCancelSelect = (param: AppEventParameters) => {
   data.value.visible = false
   triggerRef(data)
 }
-appEvents.subscribe("appSelect", subSelect)
-appEvents.subscribe("appCancelSelect", appCancelSelect)
+
+useSubscribe("appSelect", subSelect)
+useSubscribe("appCancelSelect", appCancelSelect)
 </script>
 
 <style lang="scss" scoped>

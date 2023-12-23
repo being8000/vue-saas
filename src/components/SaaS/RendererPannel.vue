@@ -75,15 +75,13 @@ onRenderTracked(() => {
 @import './render.scss';
 
 
-.saas-item::after {
+.saas-item:hover::after {
   width: calc(100% + 0px);
   height: calc(100% + 0px);
   position: absolute;
-  top: -1px;
-  left: -1px;
-  margin: 0 -1px -1px 0;
-  border: 1px dashed darkgray;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  top: 0px;
+  left: 0px;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 0px 1px;
   content: "";
   pointer-events: none;
   z-index: 1;

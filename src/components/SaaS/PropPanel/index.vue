@@ -32,8 +32,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useSubscribe } from '@/composables/useSubscribe';
 import { Component, SaaSComponent } from '@/core/components';
-import { appEvents } from '@/core/event-manager';
 import { AppEventParameters } from '@/core/event-types';
 import Sidebar from 'primevue/sidebar';
 import { shallowRef, triggerRef } from 'vue';
@@ -58,8 +58,8 @@ const appCancelSelect = (params: AppEventParameters) => {
 
   triggerRef(data)
 }
-appEvents.subscribe("appSelect", appSelect)
-appEvents.subscribe("appCancelSelect", appCancelSelect)
+useSubscribe("appSelect", appSelect)
+useSubscribe("appCancelSelect", appCancelSelect)
 </script>
 
 <style lang="scss" scoped>

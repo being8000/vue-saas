@@ -2,10 +2,8 @@ import {
   ChildContainer,
   Root,
   RootContainer,
-  RootContainerProps,
-  ChildContainerProps,
 } from "@/components/SaaS/Components/index";
-import { Component as VueComponent } from "vue";
+import { Component as VueComponent, defineAsyncComponent } from "vue";
 export interface ComponentItem {
   component: VueComponent;
   propsComponent?: VueComponent; // 属性控制组件，用于编辑组件属性值
@@ -20,7 +18,9 @@ class SaaSVueComponents {
     ChildContainer: {
       component: ChildContainer,
       componentName: "子节点容器",
-      propsComponent: ChildContainerProps,
+      propsComponent: defineAsyncComponent(
+        () => import("@/components/SaaS/Components/ChildContainerProps.vue")
+      ),
     },
     Root: {
       component: Root,
@@ -29,7 +29,9 @@ class SaaSVueComponents {
     RootContainer: {
       component: RootContainer,
       componentName: "根节点容器",
-      propsComponent: RootContainerProps,
+      propsComponent: defineAsyncComponent(
+        () => import("@/components/SaaS/Components/RootContainerProps.vue")
+      ),
     },
   };
   constructor() {}

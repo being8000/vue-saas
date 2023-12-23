@@ -27,12 +27,12 @@
       <ul>
         <h4 class="text-[var(--primary-color)]">后续功能</h4>
         <div class="">
-          <li>模拟商场组件完善</li>
-          <li>商场预览</li>
+          <li>模拟商城组件完善</li>
+          <li>商城预览</li>
           <li>商品组件</li>
           <li>活动组件</li>
           <li>促销组件</li>
-          <li>商场模板导入，保存功能</li>
+          <li>商城模板导入，保存功能</li>
         </div>
       </ul>
     </div>

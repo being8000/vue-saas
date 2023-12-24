@@ -38,7 +38,7 @@
     </div>
     <section class="flex m-auto mt-5 b-r b-l b-balck b-2 shadow-inset layers render-container">
 
-      <PhoneScreen>
+      <PhoneScreen class="phone-contaner">
         <RenderItem :instance="instance" />
       </PhoneScreen>
       <div class="ml-3 tree w-200px">
@@ -106,6 +106,10 @@ onRenderTracked(() => {
 
   width: max-content;
 
+  .phone-contaner {
+    position: sticky;
+    top: 100px;
+  }
 
   .L1 {
     min-height: 100%;

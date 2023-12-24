@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@iconify-json/logos': ^1.1.40
+  '@iconify-json/mdi': ^1.1.63
   '@types/node': ^20.10.1
   '@unocss/preset-icons': ^0.57.7
   '@unocss/transformer-compile-class': ^0.57.7
@@ -27,6 +28,7 @@ dependencies:
 
 devDependencies:
   '@iconify-json/logos': 1.1.41
+  '@iconify-json/mdi': 1.1.63
   '@unocss/preset-icons': 0.57.7
   '@unocss/transformer-compile-class': 0.57.7
   '@unocss/transformer-directives': 0.57.7
@@ -581,6 +583,12 @@ packages:
 
   /@iconify-json/logos/1.1.41:
     resolution: {integrity: sha512-nq69aemSNSxsPh6hDx6QHQBZca6vQzTg6fUXdo996IQe41TNueyJrQXjdhaZr0jaqGEforuSPGLB16SMSZ+T2A==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/mdi/1.1.63:
+    resolution: {integrity: sha512-b07dRM5LYdwJqd/lm+1+JDNDNSWHvpZ7ujb73oJxx3lmK1J0giDS0BSc4yia0hixNV0Z2q/4GyxAu/A8XqDnbg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true

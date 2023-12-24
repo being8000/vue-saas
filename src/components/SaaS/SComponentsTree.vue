@@ -1,11 +1,22 @@
 <template>
-  <details class="w-[150px] item">
-    <summary :class="[`l${refIns.level}`, {
-      selected: refIns.selected
-    }]">
+  <details
+    class="w-[150px] item"
+    open
+  >
+    <summary
+      :class="[`l${refIns.level}`, {
+        selected: refIns.selected
+      }]"
+      :id="`saas-tree-${refIns.uid}`"
+    >
+
       <span @click.prevent.stop="onSelect">
-        {{ refIns.tag }}
+        {{ refIns.vueComponent?.componentName }}[{{ refIns.uid }}]
       </span>
+      <div class="icons">
+        <div class="i-mdi-arrow-collapse-vertical  " />
+        <div class="i-mdi-arrow-expand-vertical  " />
+      </div>
     </summary>
     <template
       v-for="item in refIns.children"

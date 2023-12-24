@@ -3,6 +3,7 @@
     :is="$ref.vueComponent?.component"
     v-bind="$ref.attrs"
     :instance="$ref"
+    :id="`saas-component-${$ref.uid}`"
     @click.stop.prevent="onClick"
     :class="['saas-item', `L${$ref.level}`, {
       last: $ref.children.length <= 0,
@@ -67,7 +68,6 @@ if (instance.level == 1) {
     if (typeof drag.value?.$forceUpdate == 'function') {
       drag.value?.$forceUpdate()
     }
-    console.log(123)
     triggerRef($ref)
   })
 } else {

@@ -28,9 +28,17 @@ export abstract class AppStateAction {
       com = saasApp.component;
     }
     com.toggleSelect();
+
     // 设置为选中状态
     saasApp.action = selectedAction;
     saasApp.activedComponent = com;
+    console.log(document.querySelector(`saas-component-${com.uid}`));
+    document
+      .querySelector(`#saas-component-${com.uid}`)
+      ?.scrollIntoView({ behavior: "smooth" });
+    document
+      .querySelector(`#saas-tree-${com.uid}`)
+      ?.scrollIntoView({ behavior: "smooth" });
     appEvents.notify("appSelect", {
       component: com,
     });

@@ -3,8 +3,8 @@
     class="root-container"
     :class="Object.values(props.instance.attrs?.initData || {})"
   >
-    <div class="tag">{{ props.instance.tag }} {{ props.instance.index }} - {{ props.instance.pid }}- {{ props.instance.uid
-    }}</div>
+    <div class="tag"> {{ props.instance.vueComponent?.componentName }}[{{ props.instance.uid
+    }}]</div>
     <slot>
       <EmptyBox :instance="instance" />
     </slot>

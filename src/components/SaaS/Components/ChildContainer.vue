@@ -1,7 +1,7 @@
 <template>
   <div class="child-container">
-    <div class="tag">{{ props.instance.tag }} {{ props.instance.index }} - {{ props.instance.pid }}- {{ props.instance.uid
-    }}</div>
+    <div class="tag"> {{ props.instance.vueComponent?.componentName }}[{{ props.instance.uid
+    }}]</div>
     <slot>
       <EmptyBox :instance="instance" />
     </slot>

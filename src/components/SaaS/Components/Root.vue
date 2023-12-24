@@ -1,6 +1,7 @@
 <template>
   <div class="root-container">
-    <div class="tag">{{ instance.tag }} {{ instance.index }} - {{ instance.uid }}</div>
+    <div class="tag"> {{ instance.vueComponent?.componentName }}[{{ instance.uid
+    }}]</div>
     <slot>
       <EmptyBox :instance="instance" />
     </slot>
@@ -16,7 +17,6 @@ const { instance } = defineProps<SComponentProps>()
 .root-container {
   min-width: 100%;
   text-align: center;
-  height: 100%;
   position: relative;
 
 }

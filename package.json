@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.40",
+    "@iconify-json/mdi": "^1.1.63",
     "@unocss/preset-icons": "^0.57.7",
     "@unocss/transformer-compile-class": "^0.57.7",
     "@unocss/transformer-directives": "^0.57.7",

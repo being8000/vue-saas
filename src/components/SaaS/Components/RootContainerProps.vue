@@ -1,5 +1,9 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    @mouseenter="instance.toggleHovering"
+    @mouseleave="instance.toggleHovering"
+  >
     <PropsField
       v-bind="display"
       :key="display.key"
@@ -151,5 +155,4 @@ watch(form, () => {
   height: 100%;
   position: relative;
 
-}
-</style>
+}</style>

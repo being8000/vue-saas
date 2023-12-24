@@ -17,8 +17,8 @@
         {{ refIns.vueComponent?.componentName }}[{{ refIns.uid }}]
       </span>
       <div class="icons">
-        <div class="i-mdi-arrow-collapse-vertical  " />
-        <div class="i-mdi-arrow-expand-vertical  " />
+        <div class="i-mdi-arrow-right-drop-circle collapse " />
+        <div class="i-mdi-arrow-down-drop-circle  expand" />
       </div>
     </summary>
     <template

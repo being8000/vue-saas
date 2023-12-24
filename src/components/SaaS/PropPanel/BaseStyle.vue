@@ -1,7 +1,12 @@
 <template>
-  <div class="container">
+  <PropsEditor
+    :instance="instance"
+    :style-data="style"
+  >
     <div class="text-3.5 font-bold text-[#000] mb-3">基础样式</div>
     <div class="text-3 font-bold text-[#333]">间距（Padding）</div>
+
+
     <section class="grid grid-cols-2">
       <!-- <div class="text-3 font-bold py-2">内间距</div> -->
       <PropsField
@@ -90,7 +95,7 @@
       v-model="style.backgroundColor"
       inline
     />
-  </div>
+  </PropsEditor>
 </template>
 <script lang="ts" setup>
 /**
@@ -99,12 +104,12 @@
  */
 // TODO 新增margin. padding, background, flex
 // TODO 新增子容器的
+import PropsEditor from '@/components/SaaS/System/PropsEditor.vue';
 import PropsField from '@/components/SaaS/System/PropsField.vue';
-import { saasApp } from '@/core';
-import { PropsFieldType } from '@/core/props-type';
 import { SComponentProps } from "@/core/components";
+import { PropsFieldType } from '@/core/props-type';
+import { CSSProperties, ref } from 'vue';
 const { instance } = defineProps<SComponentProps>()
-import { CSSProperties, ref, toRaw, watch } from 'vue';
 // 父组件传过来的组件值
 
 
@@ -142,20 +147,9 @@ const margin: PropsFieldType = {
   config,
 };
 
-watch(style.value, () => {
-  saasApp.activedComponent?.updateAttr({ style: toRaw(style).value })
-})
 // const attrs = useAttrs()
 
 
 </script>
 
-<style lang="scss" scoped>
-.root-container {
-  min-width: 100%;
-  text-align: center;
-  height: 100%;
-  position: relative;
-
-}
-</style>
+<style lang="scss" scoped></style>

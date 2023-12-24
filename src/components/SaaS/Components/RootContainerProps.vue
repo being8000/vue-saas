@@ -1,8 +1,7 @@
 <template>
-  <div
-    class="container"
-    @mouseenter="instance.toggleHovering"
-    @mouseleave="instance.toggleHovering"
+  <PropsEditor
+    :instance="instance"
+    :class-data="form"
   >
     <PropsField
       v-bind="display"
@@ -22,7 +21,7 @@
       v-model="form.gap"
       inline
     />
-  </div>
+  </PropsEditor>
 </template>
 <script lang="ts" setup>
 /**
@@ -31,10 +30,11 @@
  */
 // TODO 新增margin. padding, background, flex
 // TODO 新增子容器的
-import PropsField from '@/components/SaaS/System/PropsField.vue'
+import PropsEditor from '@/components/SaaS/System/PropsEditor.vue';
+import PropsField from '@/components/SaaS/System/PropsField.vue';
 import { SComponentProps } from '@/core/components';
-import { reactive, watch } from 'vue';
 import { PropsFieldType } from '@/core/props-type';
+import { reactive } from 'vue';
 interface Form {
   dispaly?: 'flex' | 'grid'
   cols?: string,
@@ -140,9 +140,9 @@ const form = reactive<Form>({
   gap: 'gap-0',
   ...instance.attrs?.initData
 })
-watch(form, () => {
-  instance.updateAttr({ class: Object.values(form), initData: form })
-})
+// watch(form, () => {
+//   instance.updateAttr({ class: Object.values(form), initData: form })
+// })
 // const attrs = useAttrs()
 
 
@@ -155,4 +155,5 @@ watch(form, () => {
   height: 100%;
   position: relative;
 
-}</style>
+}
+</style>

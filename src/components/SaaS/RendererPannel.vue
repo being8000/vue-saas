@@ -42,7 +42,7 @@
         <RenderItem :instance="instance" />
       </PhoneScreen>
       <div class="ml-3 tree w-200px">
-        <ComponentsTree :instance="instance" />
+        <SComponentsTree :instance="instance" />
       </div>
     </section>
     <!-- <FloatingBar /> -->
@@ -51,7 +51,7 @@
 <script setup lang="ts">
 // import CssGrid from '@/components/CssGrid.vue'
 import PhoneScreen from '@/components/Phone/iphone14.vue'
-import ComponentsTree from '@/components/ComponentsTree.vue'
+import SComponentsTree from './SComponentsTree.vue'
 import { Container } from '@/core/container';
 import { saasApp } from '@/core/index';
 import { onMounted, onRenderTracked, onUpdated } from 'vue';

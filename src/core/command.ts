@@ -2,7 +2,6 @@
  * 参照设计模式中行为模式的命令模式，试图通过结合命令模式来实现历史记录，撤回等功能
  */
 
-import { triggerRef } from "vue";
 import { saasApp } from ".";
 import { Component, ComponentType, SaasFakeComponent } from "./components";
 import { Container } from "./container";
@@ -40,8 +39,7 @@ export class ReplaceCommand implements Command {
     const vueComponent = saasVueComponents.find(this.oldName);
     this.component.vueComponent = vueComponent;
     this.component.type = Container.getComponentType(this.oldName);
-    this.component.$ref.value = this.component;
-    triggerRef(this.component.$ref);
+    this.component.update();
     appEvents.notify("appSelect", {
       component: this.component,
     });
@@ -51,8 +49,7 @@ export class ReplaceCommand implements Command {
     this.component.tag = this.replacedName;
     this.component.vueComponent = vueComponent;
     this.component.type = ComponentType.CustomComponent;
-    this.component.$ref.value = this.component;
-    triggerRef(this.component.$ref);
+    this.component.update();
     if (saasApp.activedComponent?.type != ComponentType.CustomComponent) {
       saasApp.action.toggleSelect(this.component);
     }

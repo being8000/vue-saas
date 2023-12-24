@@ -61,16 +61,31 @@ const dragOption = computed(() => {
 // Vue功能逻辑代码
 const drag = ref()
 const $ref = shallowRef(instance)
-instance.$ref = $ref
+if (instance.level == 1) {
+  instance.onUpdated((com) => {
+    $ref.value = com
+    if (typeof drag.value?.$forceUpdate == 'function') {
+      drag.value?.$forceUpdate()
+    }
+    console.log(123)
+    triggerRef($ref)
+  })
+} else {
+  instance.onUpdated((com) => {
+    $ref.value = com
+    triggerRef($ref)
+  })
 
+}
 
 const resort = () => {
   instance.children.map((el, index) => {
     el.index = index;
     // 重新绑定父节点
   });
-  $ref.value.children = instance.children
-  triggerRef($ref)
+  instance.update()
+
+  // triggerRef($ref)
 }
 
 const onClick = () => {
@@ -82,10 +97,7 @@ onBeforeUnmount(() => {
 })
 // 组件重新渲染时候出发
 onUpdated(() => {
-  // 需要手动触发拖拽组件中的更新
-  if (instance.level == 1) {
-    drag.value && drag.value.$forceUpdate()
-  }
+
 })
 
 </script>

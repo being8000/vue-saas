@@ -1,5 +1,6 @@
-import { CSSProperties, shallowRef, ShallowRef, triggerRef } from "vue";
+import { CSSProperties } from "vue";
 import { Container } from "./container";
+import { EeventManager } from "./event-manager";
 import { ComponentItem, saasVueComponents } from "./register-component";
 export enum ComponentType {
   Root = "Root", // 根节点， 只允许新增 RootContainer 层级为L1
@@ -49,15 +50,14 @@ export interface Component {
   selected?: boolean; // 是否被选中
   onFocusin?: boolean; // 是否有子元素被选中
   parent: Component;
-  $ref: ShallowRef<Component>; // 绑定Vue组件中动态响应的变量，用于促发更新
-  interEvent?: (com: Component) => void;
+  onUpdated: (fn: (com: Component) => void) => void;
   clone(): Component;
   removeChild(c: Component): Component[] | undefined;
   addChild(c: Component): Component[] | undefined;
   updateAttr(attr: ComponentAttribute): void;
   syncChildren(): void;
   toggleSelect(): void;
-  onUpdate(): void;
+  update(): void;
 }
 export const autoIncreaseID = (function () {
   let id = 0;
@@ -79,7 +79,6 @@ export class SaasFakeComponent implements Component {
   selected?: Component["selected"];
   onFocusin?: Component["onFocusin"];
   parent: Component;
-  $ref: ShallowRef<any> = shallowRef();
   constructor(com?: Partial<Component>);
   constructor(com: Component) {
     this.parent = com;
@@ -96,7 +95,8 @@ export class SaasFakeComponent implements Component {
   updateAttr(): void {}
   syncChildren(): void {}
   toggleSelect(): void {}
-  onUpdate(): void {}
+  update(): void {}
+  onUpdated(): void {}
 }
 /**
  * 参照创建行模式中的 组合模式
@@ -110,12 +110,11 @@ export class SaaSComponent implements Component {
   level: Component["level"];
   index: Component["index"];
   attrs?: Component["attrs"];
+  events: EeventManager = new EeventManager();
   children: Component[];
   selected?: Component["selected"];
   onFocusin?: Component["onFocusin"];
   parent: Component;
-  interEvent?: (com: Component) => void;
-  $ref: ShallowRef<Component> = shallowRef(this);
   constructor(com: Partial<Component>);
   constructor(com: Component) {
     this.uid = autoIncreaseID();
@@ -140,8 +139,12 @@ export class SaaSComponent implements Component {
       });
     }
   }
-  onUpdate(): void {
-    this.interEvent && this.interEvent(this);
+  onUpdated(fn: (com: Component) => void) {
+    this.events.unsubscribe("componentUpdate", fn);
+    this.events.subscribe("componentUpdate", fn);
+  }
+  update(): void {
+    this.events.notify("componentUpdate", this);
   }
   removeChild(c: Component): Component[] | undefined {
     c.parent.children.splice(c.index, 1);
@@ -162,24 +165,18 @@ export class SaaSComponent implements Component {
     this.children.forEach((el, index) => {
       el.index = index;
     });
-    this.$ref.value.children = this.children;
-    triggerRef(this.$ref);
-    this.onUpdate();
+    this.update();
   }
   updateAttr(attr: ComponentAttribute): void {
     // 这里需要Json.stringify 来 深拷贝，要不然会影响到上一个组件
     this.attrs = JSON.parse(JSON.stringify({ ...this.attrs, ...attr }));
-    this.$ref.value.attrs = this.attrs;
-    triggerRef(this.$ref);
-    this.onUpdate();
+    this.update();
   }
   clone(): Component {
     return new SaaSComponent(this);
   }
   toggleSelect(): void {
     this.selected = !this.selected;
-    this.$ref.value.selected = this.selected;
-    triggerRef(this.$ref);
-    this.onUpdate();
+    this.update();
   }
 }

@@ -5,7 +5,7 @@
 
 import { EventKey, EventMap, Listener } from "./event-types";
 
-class EeventManager {
+export class EeventManager {
   listeners: Listener<EventKey>[] = [];
   constructor() {}
 
@@ -29,7 +29,7 @@ class EeventManager {
     this.listeners
       .filter((el) => el.type == eventType)
       .forEach((lis) => {
-        lis.callback(data);
+        lis.callback(data as any);
       });
   }
 }

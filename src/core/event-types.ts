@@ -19,6 +19,7 @@ export interface EventMap {
   appSelect: SelectEvent;
   appCancelSelect: CancelSelectEvent;
   appLock: LockEvent;
+  componentUpdate: (newComponent: Component) => void;
 }
 
 // export type EventConfig<Events extends EventMap> = {

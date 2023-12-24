@@ -32,13 +32,14 @@ export abstract class AppStateAction {
     // 设置为选中状态
     saasApp.action = selectedAction;
     saasApp.activedComponent = com;
-    console.log(document.querySelector(`saas-component-${com.uid}`));
-    document
-      .querySelector(`#saas-component-${com.uid}`)
-      ?.scrollIntoView({ behavior: "smooth" });
-    document
-      .querySelector(`#saas-tree-${com.uid}`)
-      ?.scrollIntoView({ behavior: "smooth" });
+    document.querySelector(`#saas-component-${com.uid}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    document.querySelector(`#saas-tree-${com.uid}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
     appEvents.notify("appSelect", {
       component: com,
     });

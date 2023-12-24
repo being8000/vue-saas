@@ -26,11 +26,6 @@
 .tree>details:not(:last-child)>details:last-child{
   background-size: 1px 100%;
 }
-.tree summary:not(:only-child){
-  .icons{
-    display: inline-block;
-  }
-}
 .tree details{
   padding-left: 30px;
   background: repeating-linear-gradient( #999 0 1px,transparent 0px 2px) 30px 0px/1px 100% no-repeat;
@@ -57,6 +52,13 @@
 .tree>details>summary{
   background: none
 }
+.tree details{
+  &:has(summary.selected){
+    &>summary{
+      color: var(--primary-color);
+    }
+  }
+}
 .tree summary{
   display: flex;
   align-items: center;
@@ -65,14 +67,18 @@
   line-height: 30px;
   color: rgba(0, 0, 0, 0.85);
   cursor: pointer;
-}
-.tree summary.hovering{
-  color: var(--primary-color);
-  border-radius: 3px;
-}
 
-.tree summary.selected{
-  color: #fff;
-  background: var(--primary-color);
-  border-radius: 3px;
+  &.hovering{
+    color: var(--primary-color);
+  }
+  &.selected{
+    color: #fff!important;
+    background: var(--primary-color);
+    border-radius: 3px;
+  }
+  &:not(:only-child){
+    .icons{
+      display: inline-block;
+    }
+  }
 }

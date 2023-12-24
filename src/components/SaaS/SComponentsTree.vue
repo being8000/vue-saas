@@ -8,6 +8,8 @@
         selected: refIns.selected
       }]"
       :id="`saas-tree-${refIns.uid}`"
+      @mouseenter="instance.toggleHovering"
+      @mouseleave="instance.toggleHovering"
     >
 
       <span @click.prevent.stop="onSelect">

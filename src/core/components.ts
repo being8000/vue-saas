@@ -48,7 +48,7 @@ export interface Component {
   attrs?: ComponentAttribute; // 组件属性
   children: Component[]; // 子组件
   selected?: boolean; // 是否被选中
-  onFocusin?: boolean; // 是否有子元素被选中
+  hovering?: boolean; // 是否有子元素被选中
   parent: Component;
   onUpdated: (fn: (com: Component) => void) => void;
   clone(): Component;
@@ -57,6 +57,7 @@ export interface Component {
   updateAttr(attr: ComponentAttribute): void;
   syncChildren(): void;
   toggleSelect(): void;
+  toggleHovering(): void;
   update(): void;
 }
 export const autoIncreaseID = (function () {
@@ -77,7 +78,7 @@ export class SaasFakeComponent implements Component {
   attrs?: Component["attrs"];
   children: Component[] = [];
   selected?: Component["selected"];
-  onFocusin?: Component["onFocusin"];
+  hovering?: Component["hovering"];
   parent: Component;
   constructor(com?: Partial<Component>);
   constructor(com: Component) {
@@ -95,6 +96,7 @@ export class SaasFakeComponent implements Component {
   updateAttr(): void {}
   syncChildren(): void {}
   toggleSelect(): void {}
+  toggleHovering(): void {}
   update(): void {}
   onUpdated(): void {}
 }
@@ -113,7 +115,7 @@ export class SaaSComponent implements Component {
   events: EeventManager = new EeventManager();
   children: Component[];
   selected?: Component["selected"];
-  onFocusin?: Component["onFocusin"];
+  hovering?: Component["hovering"];
   parent: Component;
   constructor(com: Partial<Component>);
   constructor(com: Component) {
@@ -126,7 +128,7 @@ export class SaaSComponent implements Component {
     this.attrs = com.attrs || {};
     this.children = []; // 需要设置为空，否则会污染子元素
     this.selected = false;
-    this.onFocusin = false;
+    this.hovering = false;
     this.index = com.index || 0;
     this.parent = com.parent;
     // 以上属性需要从重赋值，否则克隆的时候可能会被污染到
@@ -177,6 +179,10 @@ export class SaaSComponent implements Component {
   }
   toggleSelect(): void {
     this.selected = !this.selected;
+    this.update();
+  }
+  toggleHovering(): void {
+    this.hovering = !this.hovering;
     this.update();
   }
 }

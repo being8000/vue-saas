@@ -7,7 +7,8 @@
     @click.stop.prevent="onClick"
     :class="['saas-item', `L${$ref.level}`, {
       last: $ref.children.length <= 0,
-      selected: $ref.selected
+      selected: $ref.selected,
+      hovering: $ref.hovering
     }]"
   >
 

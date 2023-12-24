@@ -66,6 +66,10 @@
   color: rgba(0, 0, 0, 0.85);
   cursor: pointer;
 }
+.tree summary.hovering{
+  color: var(--primary-color);
+  border-radius: 3px;
+}
 
 .tree summary.selected{
   color: #fff;

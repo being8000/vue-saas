@@ -5,7 +5,8 @@
   >
     <summary
       :class="[`l${refIns.level}`, {
-        selected: refIns.selected
+        selected: refIns.selected,
+        hovering: refIns.hovering
       }]"
       :id="`saas-tree-${refIns.uid}`"
       @mouseenter="instance.toggleHovering"

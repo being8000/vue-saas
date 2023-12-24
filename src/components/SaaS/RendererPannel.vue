@@ -166,9 +166,13 @@ onRenderTracked(() => {
     .saas-item.hovering {
       border: 1px solid var(--primary-color);
 
-      &:not(:has(.saas-item))::after {
+      & .saas-item::after {
         opacity: 0;
       }
+
+      // &:not(:has(.saas-item))::after {
+      //   opacity: 0;
+      // }
     }
   }
 

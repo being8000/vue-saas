@@ -170,9 +170,9 @@ onRenderTracked(() => {
         opacity: 0;
       }
 
-      // &:not(:has(.saas-item))::after {
-      //   opacity: 0;
-      // }
+      &:not(:has(.saas-item))::after {
+        opacity: 0;
+      }
     }
   }
 

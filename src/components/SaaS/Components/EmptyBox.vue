@@ -1,18 +1,11 @@
 <template>
   <div class="empty-box ">
-    <IconSquare
-      style="width:30px"
-      class="mt-2"
-    />
-    <!-- <div class="text">
-      {{ text }}
-    </div> -->
+    <i class="i-mdi-archive-plus-outline"></i>
   </div>
 </template>
 <script lang="ts" setup>
 // import { ComponentType, SComponentProps } from '@/core/components';
 // import { computed } from 'vue';
-import IconSquare from '../icons/add-square.vue'
 // const props = defineProps<SComponentProps>()
 
 // const text = computed(() => {

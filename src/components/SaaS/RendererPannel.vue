@@ -148,11 +148,31 @@ onRenderTracked(() => {
   .saas-item {
     position: relative;
     box-sizing: border-box;
+    transition: all .3s;
   }
 
-  .saas-item.hovering {
-    box-shadow: #facc15 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  &:has(.saas-item.hovering) {
+    .saas-item:not(:has(.saas-item))::after {
+      content: "";
+      background-color: white;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+
+    .saas-item.hovering {
+      border: 1px solid var(--primary-color);
+
+      &:not(:has(.saas-item))::after {
+        opacity: 0;
+      }
+    }
   }
+
+
 
   .saas-item.selected {
     z-index: 10;

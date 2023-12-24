@@ -38,7 +38,6 @@ export const Container = {
       pid: root.uid,
       attrs: {
         initData: {
-          cols: "grid-cols-2",
           dispaly: "grid",
         },
       },

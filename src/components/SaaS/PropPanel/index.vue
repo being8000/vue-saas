@@ -21,7 +21,7 @@
     >
       <BaseStyle
         :instance="data.selectedCom"
-        :key="data.selectedCom.tag"
+        :key="data.selectedCom.uid"
       />
       <ComponentProps
         :instance="data.selectedCom"

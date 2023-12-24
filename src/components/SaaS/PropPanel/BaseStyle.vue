@@ -102,21 +102,14 @@
 import PropsField from '@/components/SaaS/System/PropsField.vue';
 import { saasApp } from '@/core';
 import { PropsFieldType } from '@/core/props-type';
+import { SComponentProps } from "@/core/components";
+const { instance } = defineProps<SComponentProps>()
 import { CSSProperties, ref, toRaw, watch } from 'vue';
 // 父组件传过来的组件值
 
 
 type Style = Pick<CSSProperties, "backgroundColor" | "paddingLeft" | "paddingRight" | "paddingBottom" | "paddingTop" | "marginLeft" | "marginRight" | "marginBottom" | "marginTop">
-const style = ref<Style>({
-  paddingLeft: 0,
-  paddingRight: 0,
-  paddingBottom: 0,
-  paddingTop: 0,
-  marginLeft: 0,
-  marginRight: 0,
-  marginBottom: 0,
-  marginTop: 0,
-})
+const style = ref<Style>(instance.attrs?.style || {})
 // const transformToPx = (): CSSProperties => {
 //   const st = JSON.parse(JSON.stringify(style))
 //   Object.keys(st).forEach(el => {

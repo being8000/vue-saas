@@ -31,7 +31,6 @@ const value = computed({
   },
   set(value) {
     emits('update:modelValue', value + (props.config.unit || 'px'))
-    console.log(value)
   }
 })
 const onChange = () => {

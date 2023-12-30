@@ -19,7 +19,7 @@ export interface ImageConfig {
   accept?: string; // 请参考官方文旦设置对应值
   multiple?: boolean; // 是否可以多选，默认单文件
 }
-export type FiledTypeMap = {
+export type FieldTypeConfigMap = {
   text: string;
   number: number;
   radio: LabelValue[];
@@ -28,11 +28,11 @@ export type FiledTypeMap = {
   slider: Slider;
   image: ImageConfig;
 };
-export type FieldType = keyof FiledTypeMap;
+export type FieldType = keyof FieldTypeConfigMap;
 export interface FormFieldType<K extends FieldType> {
   label: string;
   key: string;
   type: K;
-  config?: FiledTypeMap[K];
+  config?: FieldTypeConfigMap[K];
 }
 export type PropsFieldType = FormFieldType<FieldType>;

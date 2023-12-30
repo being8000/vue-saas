@@ -12,8 +12,7 @@
  * 注册动态组件模板， RootContainerProps
  * 
  */
-// TODO 新增margin. padding, background, flex
-// TODO 新增子容器的
+
 import { SComponentProps } from '@/core/components';
 import { CSSProperties, watch } from 'vue';
 // 父组件传过来的组件值

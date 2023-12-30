@@ -33,7 +33,6 @@ const onChange = (event: Event) => {
     emits('update:modelValue', blobSrc)
     emits('change', blobSrc)
   }
-
 }
 </script>
 

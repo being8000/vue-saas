@@ -6,7 +6,7 @@
       :max="config.max"
       v-model="value"
       :step="config.step"
-      @input="onChange"
+      @change="onChange"
       class="slider"
     >
     <span>{{ value }} {{ config.unit || 'px' }}</span>
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { Slider } from '@/core/props-type';
-import { shallowRef } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   modelValue: any,
@@ -23,10 +23,16 @@ const props = defineProps<{
   key?: string | undefined
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
-const defaultValue = !!props.modelValue ? (props.modelValue + '').replace((props.config.unit) + '', '') : 0
-const value = shallowRef(defaultValue)
+const value = computed({
+  get() {
+    return !!props.modelValue ? (props.modelValue + '').replace((props.config.unit) + '', '') : 0
+  },
+  set(value) {
+    emits('update:modelValue', value + (props.config.unit || 'px'))
+
+  }
+})
 const onChange = () => {
-  emits('update:modelValue', value.value + (props.config.unit || 'px'))
   emits('change', value.value + (props.config.unit || 'px'))
 }
 </script>

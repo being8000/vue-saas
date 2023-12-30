@@ -32,7 +32,7 @@ export class ShorcutsEvent {
       this.emittedEvents[keys] = this.events[keys];
       this.events[keys](e);
       this.remove(keys);
-      // 阻止出发系统原生shortcut快捷事件
+      // 阻止触发系统原生shortcut快捷事件
       e.stopPropagation();
       e.preventDefault();
     }

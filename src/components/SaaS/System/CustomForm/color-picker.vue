@@ -15,14 +15,14 @@
     <input
       v-model="value"
       maxlength="6"
-      @input="onChange"
+      @change="onChange"
       class="slider"
     >
   </div>
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { computed, shallowRef } from 'vue';
 import ColorPicker from 'primevue/colorpicker';
 const props = defineProps<{
   modelValue: any,
@@ -30,19 +30,19 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
 const defaultValue = !!props.modelValue ? (props.modelValue + '').replace('#', '') : ""
-const value = shallowRef(defaultValue)
-const pickedColor = shallowRef(defaultValue)
-const onChange = () => {
-  if (value.value.length <= 6) {
-    return
+const value = computed({
+  get() {
+    return !!props.modelValue ? (props.modelValue + '').replace('#', '') : ""
+  },
+  set(value) {
+    emits('update:modelValue', '#' + value)
+    emits('change', '#' + value)
   }
-  emits('update:modelValue', '#' + value.value)
-  emits('change', '#' + value.value)
-}
+})
+const pickedColor = shallowRef(defaultValue)
+
 const hidePalette = () => {
   value.value = pickedColor.value
-  emits('update:modelValue', '#' + value.value)
-  emits('change', '#' + value.value)
 }
 </script>
 

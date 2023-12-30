@@ -3,7 +3,7 @@
     <input
       v-model="value"
       maxlength="2"
-      @input="onChange"
+      @change="onChange"
       class="slider"
       oninput="value=value.match(/\d*\.?\d*/g,'')[0]"
       :style="{
@@ -18,18 +18,24 @@
 
 <script lang="ts" setup>
 import { CusNumer } from '@/core/props-type';
-import { shallowRef } from 'vue';
+import { computed } from 'vue';
 const props = defineProps<{
   modelValue: any,
   key?: string | undefined
   config: CusNumer
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
-const defaultValue = !!props.modelValue ? (props.modelValue + '').replace((props.config.unit) + '', '') : 0
-const value = shallowRef(defaultValue)
+const value = computed({
+  get() {
+    return !!props.modelValue ? (props.modelValue + '').replace((props.config.unit) + '', '') : 0
+  },
+  set(value) {
+    emits('update:modelValue', value + (props.config.unit || 'px'))
+    console.log(value)
+  }
+})
 const onChange = () => {
-  emits('update:modelValue', value.value + (props.config.unit || 'px'))
-  emits('change', value.value + (props.config.unit || 'px'))
+  emits('change', value + (props.config.unit || 'px'))
 }
 </script>
 

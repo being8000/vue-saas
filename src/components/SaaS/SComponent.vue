@@ -14,7 +14,6 @@
 
     <!-- ParentContainer组件拖拽功能 -->
     <template v-if="$ref.level == 1 && instance.children.length > 0">
-      <!-- 这里面有个属性key，使用shadowRef之后，如果是数组有时候需要给组件绑定这个Key，否则就算是调用trigerRef也无法触发渲染 -->
       <draggable
         tag="div"
         ref="drag"

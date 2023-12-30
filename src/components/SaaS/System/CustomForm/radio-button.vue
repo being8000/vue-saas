@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { LabelValue } from '@/core/props-type';
-import { ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   modelValue: any,
@@ -27,11 +27,15 @@ const props = defineProps<{
   key: string | undefined,
 }>()
 const emits = defineEmits(['update:modelValue', "change"])
-const value = ref(props.modelValue)
-const onChange = () => {
-  emits('update:modelValue', value)
-  emits('change', value)
-}
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emits('update:modelValue', value)
+    emits('change', value)
+  }
+})
 </script>
 
 <style lang="scss" scoped>

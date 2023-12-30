@@ -86,7 +86,7 @@ class SelectedStateAction extends AppStateAction {
           saasApp.history.executeCommand(new AddVueComponentCommand(act, name));
         }
       } else {
-        // 如果以及是自定义组件，则只能做替换操作
+        // 如果已经是自定义组件，则只能做替换操作
         saasApp.history.executeCommand(new ReplaceCommand(act, name));
       }
     }
@@ -98,7 +98,7 @@ class SelectedStateAction extends AppStateAction {
       com = saasApp.component;
     }
     saasApp.activedComponent?.toggleSelect();
-    // 如果 选中的组件和已经激活的组件是同一个 就取消选中不执行一下操作
+    // 如果 选中的组件和已经激活的组件是同一个 就取消选中不执行后续操作
     if (
       saasApp.activedComponent?.uid == com?.uid &&
       saasApp.activedComponent.tag == com.tag

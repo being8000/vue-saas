@@ -1,4 +1,4 @@
-import { CSSProperties } from "vue";
+import { CSSProperties, mergeProps } from "vue";
 import { Container } from "./container";
 import { EeventManager } from "./event-manager";
 import { ComponentItem, saasVueComponents } from "./register-component";
@@ -170,8 +170,7 @@ export class SaaSComponent implements Component {
     this.update();
   }
   updateAttr(attr: ComponentAttribute): void {
-    // 这里需要Json.stringify 来 深拷贝，要不然会影响到上一个组件
-    this.attrs = JSON.parse(JSON.stringify({ ...this.attrs, ...attr }));
+    this.attrs = mergeProps(this.attrs || {}, attr);
     this.update();
   }
   clone(): Component {

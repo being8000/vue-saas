@@ -15,11 +15,17 @@
 <script lang="ts" setup>
 import { ImageConfig } from '@/core/props-type';
 // import { shallowRef, ref } from 'vue';
-defineProps<{
+withDefaults(defineProps<{
   modelValue: any,
-  key?: string | undefined,
-  config?: ImageConfig
-}>()
+  config: ImageConfig
+}>(), {
+  config: () => {
+    return {
+      accept: '*',
+      multiple: false,
+    }
+  }
+})
 const emits = defineEmits(['update:modelValue', "change"])
 // const file = shallowRef(props.modelValue)
 const onChange = (event: Event) => {

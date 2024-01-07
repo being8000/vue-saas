@@ -8,6 +8,7 @@ import Contenteditable from "@/views/contenteditable.vue";
 // Each route should map to a component.
 // We'll talk about nested routes later.
 const routes = [
+  { path: "/", redirect: "/saas" },
   { path: "/saas", component: SaaSRenderer },
   { path: "/contenteditable", component: Contenteditable },
 ];

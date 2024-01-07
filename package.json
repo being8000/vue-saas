@@ -13,6 +13,7 @@
     "primevue": "^3.42.0",
     "unplugin-icons": "^0.18.0",
     "vue": "^3.3.8",
+    "vue-router": "4",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {

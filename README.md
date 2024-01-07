@@ -1,8 +1,11 @@
 # 低代码，高性能自定义装修商城系统
 
-> [外网点击预览](https://vue-sass-iwzh.vercel.app/)
+> [外网点击预览](https://vue-sass-iwzh.vercel.app/saas)
 
 > 境内地址暂未配置
+
+
+## TODO 2024/01/05 尝试实现新功能，模仿Gitpage 和 lark 文档的形式来管理组件 
 ## 主要功能
 
 - 容器的添加，修改，删除，以及复制

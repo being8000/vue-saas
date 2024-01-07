@@ -2,7 +2,6 @@
 import { onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated } from 'vue';
 // import SaaSRenderer from '@/components/SaaSRenderer.vue'
 import './style.css'
-import SaaSRenderer from '@/components/SaaS/RendererPannel.vue';
 
 
 
@@ -45,9 +44,7 @@ onServerPrefetch(() => {
 </script>
 
 <template>
-  <div class=" text-black">
-    <SaaSRenderer />
-  </div>
+  <router-view></router-view>
 </template>
 
 <style scoped>

@@ -10,7 +10,7 @@ import Contenteditable from "@/views/contenteditable.vue";
 const routes = [
   { path: "/", redirect: "/saas" },
   { path: "/saas", component: SaaSRenderer },
-  { path: "/contenteditable", component: Contenteditable },
+  { path: "/slate", component: Contenteditable },
 ];
 
 // 3. Create the router instance and pass the `routes` option

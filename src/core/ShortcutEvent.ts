@@ -1,6 +1,6 @@
 type CombindKey = string | `Control+${string}` | `Control+Shift+${string}`;
 type EventFunction = (e: KeyboardEvent) => void;
-export class ShorcutsEvent {
+export class ShortcutEvent {
   // 存储系统用户已按下的按键
   private keys: Set<string> = new Set();
   // 存储用户注册快捷键事件
@@ -8,23 +8,26 @@ export class ShorcutsEvent {
   // 用于零时存储已触发的shortcut事件, 防止重复触发, 事件会在按键松开的时候从新绑定到 events 对象中
   // TODO 这个功能 获取可以使用防抖函数优化。
   emittedEvents: Record<CombindKey, EventFunction> = {};
-
+  isDisabled: boolean = false;
   constructor() {}
 
   // 通过回调方法 将主实例传值给系统方法。
-  private keydownEvent(that: ShorcutsEvent) {
+  private keydownEvent(that: ShortcutEvent) {
     return (e: KeyboardEvent) => {
       that.keydown(e, that);
     };
   }
 
-  private keyupEvent(that: ShorcutsEvent) {
+  private keyupEvent(that: ShortcutEvent) {
     return (e: KeyboardEvent) => {
       that.keyup(e);
     };
   }
 
-  private keydown(e: KeyboardEvent, that: ShorcutsEvent) {
+  private keydown(e: KeyboardEvent, that: ShortcutEvent) {
+    if (that.isDisabled) {
+      return;
+    }
     that.keys.add(e.key);
     const keys = [...this.keys].join("+");
     const eventsList = Object.keys(this.events);
@@ -52,12 +55,12 @@ export class ShorcutsEvent {
     window.removeEventListener("keyup", this.keyupEvent(this));
     window.addEventListener("keydown", this.keydownEvent(this));
     window.addEventListener("keyup", this.keyupEvent(this));
+    this.isDisabled = false;
   }
 
   // 关闭快捷键事件，使用场景 当用户没有聚焦主编辑器 应该禁用快捷键，避免影响到其他功能。
   disable() {
-    window.removeEventListener("keydown", this.keydownEvent(this));
-    window.removeEventListener("keyup", this.keyupEvent(this));
+    this.isDisabled = true;
   }
 
   addEvent(key: CombindKey, event: EventFunction) {

@@ -1,0 +1,84 @@
+
+/* @jsxImportSource vue */
+import String from './string'
+
+import { PLACEHOLDER_SYMBOL, RenderLeafProps } from '../slate-vue-shared'
+import { providedByEditable } from '../types';
+import {fragment as Fragment} from './fragment';
+import { VNode, Component, PropType, defineComponent } from 'vue';
+import { BaseText, Text } from 'slate';
+
+/**
+ * Individual leaves in a text node with unique formatting.
+ */
+
+const Leaf = defineComponent<{
+  text?: Text,
+  leaf: BaseText
+}>({
+  inject: ['renderLeaf'],
+  // components: {
+  //   String,
+  //   Fragment: Fragment
+  // },
+  // For types
+  data(): Pick<providedByEditable, 'renderLeaf'> {
+    return {}
+  },
+  render(h): VNode {
+    const { renderLeaf = DefaultLeaf, text, leaf} = this;
+    let children =  (
+      <String text={text} editor={this.$editor} leaf={leaf}/>
+      );
+    if ((leaf as any)[PLACEHOLDER_SYMBOL]) {
+      children = (
+        <Fragment>
+          <span
+            contenteditable={false}
+            style={{
+              pointerEvents: 'none',
+              display: 'inline-block',
+              verticalAlign: 'text-top',
+              width: '0',
+              maxWidth: '100%',
+              whiteSpace: 'nowrap',
+              opacity: '0.333',
+            }}
+          >
+            {(leaf as any).placeholder}
+          </span>
+          {children}
+        </Fragment>
+      )
+    }
+
+    const attributes: {
+     'data-slate-leaf': Boolean
+    } = {
+     'data-slate-leaf': true,
+    };
+    const renderChildren = renderLeaf({
+      children,
+      attributes,
+      leaf,
+      text
+    })
+    return h(renderChildren)
+  }
+});
+
+/**
+ * The default custom leaf renderer.
+ */
+
+const DefaultLeaf = (props: RenderLeafProps): Component => {
+  return defineComponent({
+    render() {
+      const { attributes, children } = props
+      // {...{attrs: attributes}}
+      return <span data-slate-leaf={attributes['data-slate-leaf']} >{children}</span>
+    }
+  })
+}
+
+export default Leaf
